@@ -1,5 +1,7 @@
 # MockedE2EDemo - Build independent apk/app without Metro 
 
+> **Note** Complete the [Specmatic stub server setup (required for WebView flows)](./README-Specmatic-Stub-Setup.md)
+
 ## Build & Run (Fresh Clone)
 
 This repo contains a React Native app that can be built **independently/offline** (without starting Metro manually) using the provided scripts for **Android** and **iOS**.

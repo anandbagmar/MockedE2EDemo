@@ -4,6 +4,8 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
+> **Note** Complete the [Specmatic stub server setup (required for WebView flows)](./README-Specmatic-Stub-Setup.md)
+
 ### Refer to [independent build](./README-IndependentBuild.md) instructions if you only want to build the apk/app
 
 ## Step 1: Start Metro
