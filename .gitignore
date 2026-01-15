@@ -1,10 +1,105 @@
-# OSX
-#
+###############################################################################
+# OS / Editor
+###############################################################################
 .DS_Store
+*.swp
+*.swo
+*.tmp
+*.temp
+*.orig
+*.log
 
-# Xcode
-#
+###############################################################################
+# Node / JS
+###############################################################################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing / Coverage
+coverage/
+
+# Bundle artifact
+*.jsbundle
+
+###############################################################################
+# React Native / Metro / Watchman
+###############################################################################
+# Metro cache / health check
+.metro-cache/
+.metro-health-check*
+
+# Watchman
+.watchman-cookie
+
+# React Native
+.react-native/
+
+###############################################################################
+# Yarn (Berry) - keep the cache out, keep the important folders in
+###############################################################################
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Yarn PnP
+.pnp.*
+.yarnrc.yml
+
+###############################################################################
+# Android / Gradle / IntelliJ / Android Studio
+###############################################################################
+# Gradle
+.gradle/
+**/.gradle/
+
+# Build outputs
 build/
+**/build/
+**/android/build/
+**/android/app/build/
+
+# Local Android config
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# NDK / CMake
+.cxx/
+**/.cxx/
+
+# Kotlin/Native
+.kotlin/
+
+# Heap dumps
+*.hprof
+
+# Signing keys (never commit)
+*.keystore
+*.jks
+*.p12
+*.p8
+!debug.keystore
+
+###############################################################################
+# iOS / Xcode / CocoaPods / SwiftPM
+###############################################################################
+# Xcode build
+DerivedData/
+build/
+**/ios/build/
+
+# Xcode user data
+xcuserdata/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -13,63 +108,53 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata
 *.xccheckout
+*.xcscmblueprint
 *.moved-aside
-DerivedData
-*.hmap
-*.ipa
 *.xcuserstate
 **/.xcode.env.local
 
-# Android/IntelliJ
-#
-build/
-.idea
-.gradle
-local.properties
-*.iml
-*.hprof
-.cxx/
-*.keystore
-!debug.keystore
-.kotlin/
+# iOS archives
+*.ipa
+*.dSYM
+*.hmap
 
-# node.js
-#
-node_modules/
-npm-debug.log
-yarn-error.log
+# CocoaPods
+Pods/
 
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
+# Swift Package Manager
+.swiftpm/
+.build/
 
+###############################################################################
+# Ruby / Bundler (fastlane/cocoapods tooling)
+###############################################################################
+vendor/bundle/
+
+###############################################################################
+# Fastlane
+###############################################################################
 **/fastlane/report.xml
 **/fastlane/Preview.html
-**/fastlane/screenshots
-**/fastlane/test_output
+**/fastlane/screenshots/
+**/fastlane/test_output/
 
-# Bundle artifact
-*.jsbundle
+###############################################################################
+# Secrets / Environment files
+###############################################################################
+.env
+.env.*
+*.env
 
-# Ruby / CocoaPods
-**/Pods/
-/vendor/bundle/
+###############################################################################
+# Firebase (ignore by default to avoid secrets in repo)
+# If your team commits these, remove these two lines.
+###############################################################################
+**/google-services.json
+**/GoogleService-Info.plist
 
-# Temporary files created by Metro to check the health of the file watcher
-.metro-health-check*
-
-# testing
-/coverage
-
-# Yarn
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+###############################################################################
+# Misc (optional, but safe)
+###############################################################################
+# macOS Finder thumbnails
+Icon?

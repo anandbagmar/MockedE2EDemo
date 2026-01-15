@@ -38,11 +38,9 @@ class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
     self.bundleURL()
   }
 
-  override func bundleURL() -> URL? {
-#if DEBUG
-    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-#else
-    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-#endif
-  }
+    override func bundleURL() -> URL? {
+      // Always load embedded bundle, even in Debug.
+      // This makes Debug independent (no Metro required).
+      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+    }
 }

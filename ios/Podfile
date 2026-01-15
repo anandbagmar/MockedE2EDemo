@@ -24,11 +24,30 @@ target 'SpecmaticAndroidE2EDemo' do
   )
 
   post_install do |installer|
+    installer.pods_project.targets.each do |t|
+      t.build_configurations.each do |config|
+        config.build_settings['CLANG_WARN_DOCUMENTATION_DEPRECATED_SYNC'] = 'NO'
+      end
+    end
     react_native_post_install(
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    installer.pods_project.targets.each do |t|
+        t.build_configurations.each do |config|
+          # Reduce noisy warnings from Pods / RN libraries
+          config.build_settings['CLANG_WARN_DOCUMENTATION_DEPRECATED_SYNC'] = 'NO'
+
+          # Suppress common third-party noise
+          existing = config.build_settings['OTHER_CFLAGS'] || ['$(inherited)']
+          existing = [existing] if existing.is_a?(String)
+          config.build_settings['OTHER_CFLAGS'] = existing + [
+            '-Wno-nonnull',
+            '-Wno-deprecated-declarations'
+          ]
+        end
+    end
   end
 end
