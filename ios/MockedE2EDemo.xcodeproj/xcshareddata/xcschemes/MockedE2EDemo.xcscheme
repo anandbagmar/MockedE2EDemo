@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "SpecmaticAndroidE2EDemo.app"
-               BlueprintName = "SpecmaticAndroidE2EDemo"
-               ReferencedContainer = "container:SpecmaticAndroidE2EDemo.xcodeproj">
+               BuildableName = "MockedE2EDemo.app"
+               BlueprintName = "MockedE2EDemo"
+               ReferencedContainer = "container:MockedE2EDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "SpecmaticAndroidE2EDemoTests.xctest"
-               BlueprintName = "SpecmaticAndroidE2EDemoTests"
-               ReferencedContainer = "container:SpecmaticAndroidE2EDemo.xcodeproj">
+               BuildableName = "MockedE2EDemoTests.xctest"
+               BlueprintName = "MockedE2EDemoTests"
+               ReferencedContainer = "container:MockedE2EDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SpecmaticAndroidE2EDemo.app"
-            BlueprintName = "SpecmaticAndroidE2EDemo"
-            ReferencedContainer = "container:SpecmaticAndroidE2EDemo.xcodeproj">
+            BuildableName = "MockedE2EDemo.app"
+            BlueprintName = "MockedE2EDemo"
+            ReferencedContainer = "container:MockedE2EDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SpecmaticAndroidE2EDemo.app"
-            BlueprintName = "SpecmaticAndroidE2EDemo"
-            ReferencedContainer = "container:SpecmaticAndroidE2EDemo.xcodeproj">
+            BuildableName = "MockedE2EDemo.app"
+            BlueprintName = "MockedE2EDemo"
+            ReferencedContainer = "container:MockedE2EDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

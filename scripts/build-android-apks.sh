@@ -8,8 +8,8 @@ ASSETS_DIR="android/app/src/main/assets"
 RES_DIR="android/app/src/main/res"
 
 # Desired final APK names
-DEBUG_APK="android/app/build/outputs/apk/debug/SpecmaticAndroidE2EDemo-debug.apk"
-RELEASE_APK="android/app/build/outputs/apk/release/SpecmaticAndroidE2EDemo-release.apk"
+DEBUG_APK="android/app/build/outputs/apk/debug/MockedE2EDemo-debug.apk"
+RELEASE_APK="android/app/build/outputs/apk/release/MockedE2EDemo-release.apk"
 
 # Actual Gradle outputs (default)
 GRADLE_DEBUG_APK="android/app/build/outputs/apk/debug/app-debug.apk"
@@ -47,6 +47,7 @@ rename_apk() {
 
   mkdir -p "$(dirname "$DEST")"
   cp -f "$SRC" "$DEST"
+  rm "$SRC"
   echo "==> Renamed APK: $DEST"
 }
 

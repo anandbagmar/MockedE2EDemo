@@ -120616,8 +120616,8 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
 },862,[369],"assets/images/jio-logo.jpg");
 __d(function(global, require, _importDefaultUnused, _importAllUnused, module, exports, _dependencyMapUnused) {
   module.exports = {
-  "name": "SpecmaticAndroidE2EDemo",
-  "displayName": "SpecmaticAndroidE2EDemo"
+  "name": "MockedE2EDemo",
+  "displayName": "Mocked E2E Demo"
 }
 ;
 },863,[],"app.json");

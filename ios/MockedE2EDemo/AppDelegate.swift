@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
 
     factory.startReactNative(
-      withModuleName: "SpecmaticAndroidE2EDemo",
+      withModuleName: "MockedE2EDemo",
       in: window,
       launchOptions: launchOptions
     )
