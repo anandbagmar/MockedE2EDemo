@@ -171,6 +171,7 @@ function RechargeScreen({navigation, route}: any) {
         injectedJavaScript={injectedJS}
         javaScriptEnabled
         domStorageEnabled
+        webviewDebuggingEnabled={true}
         onLoadStart={() => log('WebView load start')}
         onLoadEnd={() => log('WebView load end')}
         onError={(e) => log('WebView error', e.nativeEvent)}
