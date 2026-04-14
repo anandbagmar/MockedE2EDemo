@@ -1,0 +1,97 @@
+plugins {
+    id 'java'
+}
+
+group   = 'io.specmatic'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Appium Java Client
+    implementation 'io.appium:java-client:9.2.3'
+
+    // Selenium (pin to avoid transitive conflicts)
+    implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
+
+    // Applitools Eyes for Appium
+    implementation 'com.applitools:eyes-appium-java5:5.77.0'
+
+    // TestNG
+    testImplementation 'org.testng:testng:7.10.2'
+}
+
+// ── Helper: forward env vars + -D system props into every Test JVM ─────────
+
+def envVarsToForward = [
+        'APPLITOOLS_API_KEY',
+        'IS_NML',
+        'IS_EYES_ENABLED',
+        'USE_ALTERNATE_FLOW',
+        'LOG_DIR',
+        'IOS_DEVICE_NAME',
+        'IOS_PLATFORM_VERSION',
+        'dist.dir',
+]
+
+// Apply common config to every task of type Test (test, runAndroid, runIos)
+tasks.withType(Test).configureEach {
+    useTestNG()
+
+    testLogging {
+        events          'passed', 'skipped', 'failed'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+        showStackTraces = true
+    }
+
+    // Pass all -D flags through (e.g. -DUSE_ALTERNATE_FLOW=true)
+    systemProperties System.properties
+
+    // Forward selected environment variables as system properties
+    envVarsToForward.each { key ->
+        def val = System.getenv(key)
+        if (val) systemProperty key, val
+    }
+}
+
+// ── Platform tasks ─────────────────────────────────────────────────────────
+
+/**
+ * Run Android Appium tests only.
+ *
+ *   ./gradlew runAndroid
+ *   ./gradlew runAndroid -DUSE_ALTERNATE_FLOW=true
+ *   IS_NML=true APPLITOOLS_API_KEY=xxx ./gradlew runAndroid
+ */
+tasks.register('runAndroid', Test) {
+    description = 'Run Appium visual tests for Android (Community Meeting Planner)'
+    group       = 'verification'
+    include     '**/android/**'
+}
+
+/**
+ * Run iOS Appium tests only.
+ *
+ *   ./gradlew runIos
+ *   ./gradlew runIos -DUSE_ALTERNATE_FLOW=true
+ *   IS_NML=true APPLITOOLS_API_KEY=xxx ./gradlew runIos
+ */
+tasks.register('runIos', Test) {
+    description = 'Run Appium visual tests for iOS (Community Meeting Planner)'
+    group       = 'verification'
+    include     '**/ios/**'
+}
+
+// Default `test` task runs both platforms
+test {
+    description = 'Run Appium visual tests for Android + iOS (Community Meeting Planner)'
+    include '**/android/**', '**/ios/**'
+}

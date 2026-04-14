@@ -1,0 +1,6 @@
+# Gradle build output
+build/
+.gradle/
+
+# Maven leftovers (replaced by Gradle)
+target/

@@ -1,166 +1,254 @@
 #!/usr/bin/env bash
+# build-android-apks.sh – Build Android APKs (offline / no Metro required).
+#
+# Usage:
+#   scripts/build-android-apks.sh <variant[,variant…]>
+#
+# Variants (comma-separated, no spaces):
+#   debug          Offline debug APK
+#   release        Offline release APK
+#   debug-nml      Debug APK + Applitools NML instrumentation
+#   release-nml    Release APK + Applitools NML instrumentation
+#   all            All four variants
+#
+# NML builds download applitoolsify automatically to libs/ on first use.
+# Download source: https://sdksstorage.blob.core.windows.net/mobile/android/nml/release/
+#
+# All outputs are written to dist/.
+
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+# ── Shared helpers ────────────────────────────────────────────────────────────
+# shellcheck source=scripts/lib/logging.sh
+source "${PROJECT_ROOT}/scripts/lib/logging.sh"
+# shellcheck source=scripts/lib/icons-common.sh
+source "${PROJECT_ROOT}/scripts/lib/icons-common.sh"
+# shellcheck source=scripts/lib/nml-common.sh
+source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
+
+# ── Constants ─────────────────────────────────────────────────────────────────
+APP_NAME="App Automation Playground"
 ASSETS_DIR="android/app/src/main/assets"
 RES_DIR="android/app/src/main/res"
+DIST_DIR="${PROJECT_ROOT}/dist"
 
-# Desired final APK names
-DEBUG_APK="android/app/build/outputs/apk/debug/MockedE2EDemo-debug.apk"
-RELEASE_APK="android/app/build/outputs/apk/release/MockedE2EDemo-release.apk"
-
-# Actual Gradle outputs (default)
 GRADLE_DEBUG_APK="android/app/build/outputs/apk/debug/app-debug.apk"
 GRADLE_RELEASE_APK="android/app/build/outputs/apk/release/app-release.apk"
 
-ensure_assets_dir() {
-  mkdir -p "$ASSETS_DIR"
+DIST_DEBUG_APK="${DIST_DIR}/${APP_NAME}-debug.apk"
+DIST_RELEASE_APK="${DIST_DIR}/${APP_NAME}-release.apk"
+DIST_DEBUG_NML_APK="${DIST_DIR}/${APP_NAME}-debug-nml.apk"
+DIST_RELEASE_NML_APK="${DIST_DIR}/${APP_NAME}-release-nml.apk"
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+ensure_dirs() {
+  step "Creating output directories"
+  mkdir -p "$ASSETS_DIR" "$DIST_DIR"
+  info "Assets : ${ASSETS_DIR}"
+  info "Dist   : ${DIST_DIR}"
+  ok "Directories ready"
 }
 
 bundle_js() {
-  local DEV_FLAG="$1"   # true/false
+  local DEV_FLAG="$1"
   local ENTRY_FILE="index.js"
-  if [[ -f "index.ts" ]]; then ENTRY_FILE="index.ts"; fi
-  if [[ -f "index.tsx" ]]; then ENTRY_FILE="index.tsx"; fi
+  [[ -f "index.ts"  ]] && ENTRY_FILE="index.ts"
+  [[ -f "index.tsx" ]] && ENTRY_FILE="index.tsx"
 
-  echo "==> Bundling JS (dev=${DEV_FLAG}) using entry file: ${ENTRY_FILE}"
+  step "Bundling JavaScript"
+  info "Entry  : ${ENTRY_FILE}"
+  info "Dev    : ${DEV_FLAG}"
+  info "Output : ${ASSETS_DIR}/index.android.bundle"
+
   npx react-native bundle \
     --platform android \
     --dev "${DEV_FLAG}" \
     --entry-file "${ENTRY_FILE}" \
     --bundle-output "${ASSETS_DIR}/index.android.bundle" \
     --assets-dest "${RES_DIR}"
+
+  ok "JavaScript bundle written to ${ASSETS_DIR}/index.android.bundle"
 }
 
-rename_apk() {
+run_gradle() {
+  local TASK="$1"
+  step "Running Gradle task: ${TASK}"
+  info "Working dir: android/"
+  pushd android >/dev/null
+  ./gradlew "${TASK}"
+  popd >/dev/null
+  ok "Gradle ${TASK} complete"
+}
+
+copy_to_dist() {
   local SRC="$1"
   local DEST="$2"
 
+  step "Copying APK to dist/"
+  info "From : ${SRC}"
+  info "To   : ${DEST}"
+
   if [[ ! -f "$SRC" ]]; then
-    echo "❌ Expected APK not found: $SRC"
-    echo "   Listing output folder:"
-    ls -la "$(dirname "$SRC")" || true
-    exit 1
+    info "Directory contents:"
+    ls -la "$(dirname "$SRC")" >&2 || true
+    fail "Expected APK not found: ${SRC}"
   fi
 
-  mkdir -p "$(dirname "$DEST")"
   cp -f "$SRC" "$DEST"
-  rm "$SRC"
-  echo "==> Renamed APK: $DEST"
+  ok "APK ready: $(basename "$DEST")  ($(du -sh "$DEST" | cut -f1))"
 }
 
-build_debug_offline() {
-  echo "==> Building OFFLINE DEBUG APK (includes JS bundle; no Metro needed)"
-  ensure_assets_dir
-  bundle_js true
+write_dist_metadata() {
+  step "Writing dist metadata"
+  local VERSION
+  VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.1")
+  local BUILD_DATE
+  BUILD_DATE=$(date -u "+%Y-%m-%d %H:%M UTC")
 
-  pushd android >/dev/null
-  ./gradlew :app:assembleDebug
-  popd >/dev/null
+  info "Version    : ${VERSION}"
+  info "Build date : ${BUILD_DATE}"
 
-  rename_apk "$GRADLE_DEBUG_APK" "$DEBUG_APK"
-  echo "==> DEBUG APK (final): ${DEBUG_APK}"
-}
+  cat > "${DIST_DIR}/version.txt" <<EOF
+Version:    ${VERSION}
+Build date: ${BUILD_DATE}
+Platform:   Android
+App:        ${APP_NAME}
+EOF
 
-build_release_offline() {
-  echo "==> Building OFFLINE RELEASE APK (includes JS bundle; no Metro needed)"
-  ensure_assets_dir
-  bundle_js false
+  if [[ ! -f "${DIST_DIR}/CHANGELOG.md" ]]; then
+    cat > "${DIST_DIR}/CHANGELOG.md" <<EOF
+# Changelog – ${APP_NAME} (Android)
 
-  pushd android >/dev/null
-  ./gradlew :app:assembleRelease
-  popd >/dev/null
-
-  rename_apk "$GRADLE_RELEASE_APK" "$RELEASE_APK"
-  echo "==> RELEASE APK (final): ${RELEASE_APK}"
-}
-
-build_all_offline() {
-  echo "==> Building OFFLINE DEBUG + RELEASE (single clean; no Metro needed)"
-  ensure_assets_dir
-
-  # Clean once
-  pushd android >/dev/null
-  ./gradlew clean
-  popd >/dev/null
-
-  # Build debug (dev bundle)
-  bundle_js true
-  pushd android >/dev/null
-  ./gradlew :app:assembleDebug
-  popd >/dev/null
-  rename_apk "$GRADLE_DEBUG_APK" "$DEBUG_APK"
-  echo "==> DEBUG APK (final): ${DEBUG_APK}"
-
-  # Build release (prod bundle)
-  bundle_js false
-  pushd android >/dev/null
-  ./gradlew :app:assembleRelease
-  popd >/dev/null
-  rename_apk "$GRADLE_RELEASE_APK" "$RELEASE_APK"
-  echo "==> RELEASE APK (final): ${RELEASE_APK}"
-}
-
-install_debug() {
-  echo "==> Installing DEBUG APK on connected device/emulator"
-  if [[ ! -f "$DEBUG_APK" ]]; then
-    echo "⚠️  Renamed debug APK not found. Building first..."
-    build_debug_offline
+## ${VERSION} – ${BUILD_DATE}
+- Initial build
+EOF
   fi
-  adb install -r "$DEBUG_APK"
+
+  ok "dist/version.txt updated"
 }
 
-install_release() {
-  echo "==> Installing RELEASE APK on connected device/emulator"
-  if [[ ! -f "$RELEASE_APK" ]]; then
-    echo "⚠️  Renamed release APK not found. Building first..."
-    build_release_offline
-  fi
-  adb install -r "$RELEASE_APK"
+# ── Build variants ────────────────────────────────────────────────────────────
+
+build_debug() {
+  banner "Android  │  debug"
+  ensure_dirs
+  bundle_js true
+  run_gradle :app:assembleDebug
+  copy_to_dist "$GRADLE_DEBUG_APK" "$DIST_DEBUG_APK"
 }
+
+build_release() {
+  banner "Android  │  release"
+  ensure_dirs
+  bundle_js false
+  run_gradle :app:assembleRelease
+  copy_to_dist "$GRADLE_RELEASE_APK" "$DIST_RELEASE_APK"
+}
+
+build_debug_nml() {
+  banner "Android  │  debug-nml"
+  ensure_dirs
+  bundle_js true
+  run_gradle :app:assembleDebug
+  copy_to_dist "$GRADLE_DEBUG_APK" "$DIST_DEBUG_APK"
+  ensure_applitoolsify "android"
+  apply_nml_android "$DIST_DEBUG_APK" "$DIST_DEBUG_NML_APK"
+}
+
+build_release_nml() {
+  banner "Android  │  release-nml"
+  ensure_dirs
+  bundle_js false
+  run_gradle :app:assembleRelease
+  copy_to_dist "$GRADLE_RELEASE_APK" "$DIST_RELEASE_APK"
+  ensure_applitoolsify "android"
+  apply_nml_android "$DIST_RELEASE_APK" "$DIST_RELEASE_NML_APK"
+}
+
+build_all() {
+  banner "Android  │  all variants"
+  ensure_dirs
+
+  step "Pre-downloading NML binary (shared across all variants)"
+  ensure_applitoolsify "android"
+
+  step "Cleaning previous Gradle build"
+  run_gradle clean
+
+  build_debug
+  build_release
+  apply_nml_android "$DIST_DEBUG_APK"   "$DIST_DEBUG_NML_APK"
+  apply_nml_android "$DIST_RELEASE_APK" "$DIST_RELEASE_NML_APK"
+}
+
+# ── Usage ─────────────────────────────────────────────────────────────────────
 
 usage() {
   cat <<EOF
-Usage:
-  scripts/build-android-apks.sh debug        # offline debug APK (renamed)
-  scripts/build-android-apks.sh release      # offline release APK (renamed)
-  scripts/build-android-apks.sh all          # build both (single clean; renamed)
-  scripts/build-android-apks.sh debug+install
-  scripts/build-android-apks.sh release+install
+Usage: scripts/build-android-apks.sh <variant[,variant…]>
 
-Outputs:
-  $DEBUG_APK
-  $RELEASE_APK
+Variants (comma-separated, no spaces):
+  debug          Offline debug APK  → dist/${APP_NAME}-debug.apk
+  release        Offline release APK→ dist/${APP_NAME}-release.apk
+  debug-nml      Debug + NML        → dist/${APP_NAME}-debug-nml.apk
+  release-nml    Release + NML      → dist/${APP_NAME}-release-nml.apk
+  all            Build all four variants
 
-Notes:
-- These APKs run WITHOUT Metro.
-- Re-run after App.tsx changes to rebuild the embedded JS bundle.
+Examples:
+  scripts/build-android-apks.sh debug
+  scripts/build-android-apks.sh debug,release
+  scripts/build-android-apks.sh debug,debug-nml
+  scripts/build-android-apks.sh release,release-nml
+  scripts/build-android-apks.sh all
+
+NML builds download applitoolsify automatically to libs/ on first use.
 EOF
 }
 
-cmd="${1:-}"
-case "$cmd" in
-  debug)
-    build_debug_offline
-    ;;
-  release)
-    build_release_offline
-    ;;
-  all)
-    build_all_offline
-    ;;
-  debug+install)
-    build_debug_offline
-    install_debug
-    ;;
-  release+install)
-    build_release_offline
-    install_release
-    ;;
-  *)
-    usage
-    exit 1
-    ;;
-esac
+# ── Per-variant dispatcher ────────────────────────────────────────────────────
+
+run_variant() {
+  local v="$1"
+  case "$v" in
+    debug)       build_debug ;;
+    release)     build_release ;;
+    debug-nml)   build_debug_nml ;;
+    release-nml) build_release_nml ;;
+    all)         build_all ;;
+    *)
+      fail "Unknown variant: '${v}'. Valid: debug | release | debug-nml | release-nml | all"
+      ;;
+  esac
+}
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+
+input="${1:-}"
+[[ -z "$input" ]] && { usage; exit 1; }
+
+# Auto-generate app icons if source image is present and stale
+ensure_icons
+
+IFS=',' read -ra VARIANTS <<< "$input"
+
+step "Build plan: Android  │  ${input}"
+info "Variants to build: ${VARIANTS[*]}"
+info "Project root      : ${PROJECT_ROOT}"
+info "Dist dir          : ${DIST_DIR}"
+echo ""
+
+for v in "${VARIANTS[@]}"; do
+  v="${v//[[:space:]]/}"
+  run_variant "$v"
+done
+
+write_dist_metadata
+
+banner "Android build complete"
+step "Artifacts in ${DIST_DIR}/"
+ls -lh "${DIST_DIR}/"
+echo ""
