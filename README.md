@@ -1,101 +1,99 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# App Automation Playground
 
-# Getting Started
+A React Native app demonstrating end-to-end mobile testing with [Specmatic](https://specmatic.io) API mocking and [Applitools](https://applitools.com) visual testing.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-> **Note** Complete the [Specmatic stub server setup (required for WebView flows)](./README-Specmatic-Stub-Setup.md)
+## Quick links
 
-### Refer to [independent build](./README-IndependentBuild.md) instructions if you only want to build the apk/app
+| I want to… | Go to |
+|------------|-------|
+| Build the APK / .app and run Appium tests | **[Build & Test Guide](./README-IndependentBuild.md)** |
+| Set up the Specmatic mock server | [Specmatic Stub Setup](./README-Specmatic-Stub-Setup.md) |
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Repository structure
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+```
+├── android/                    React Native Android project
+├── ios/                        React Native iOS project
+├── App.tsx                     Main app component
+│
+├── assets/
+│   └── images/
+│       └── app-icon-source.png ← place your icon here (≥ 1024×1024 px)
+│
+├── scripts/
+│   ├── build-android-apks.sh   Build Android APKs (debug/release/debug-nml/release-nml/all)
+│   ├── build-ios-app.sh        Build iOS .app bundles
+│   ├── build-all.sh            Build both platforms in one command
+│   ├── generate-icons.sh       Resize icon source into all Android/iOS sizes
+│   └── lib/
+│       ├── icons-common.sh     Auto icon-generation logic (sourced by build scripts)
+│       └── nml-common.sh       Applitools NML download & instrumentation logic
+│
+├── dist/                       All built artifacts land here
+│   ├── *.apk / *.app.zip
+│   ├── version.txt
+│   └── CHANGELOG.md
+│
+├── appium-tests/               Appium + Applitools visual test project (Gradle/Java)
+│   ├── build.gradle
+│   ├── gradlew
+│   └── src/test/java/io/specmatic/tests/
+│       ├── BaseTest.java
+│       ├── android/CommunityMeetingPlannerAndroidTest.java
+│       └── ios/CommunityMeetingPlannerIOSTest.java
+│
+└── libs/                       Auto-downloaded tool binaries (git-ignored)
+    └── applitoolsify-*         Applitools NML instrumentation binary
+```
 
-```sh
-# Using npm
+---
+
+## Build in 3 commands
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Build (replace 'debug' with any variant — see Build & Test Guide)
+./scripts/build-android-apks.sh debug
+./scripts/build-ios-app.sh debug
+
+# 3. Run Appium visual tests
+cd appium-tests && ./gradlew runAndroid
+```
+
+See the **[Build & Test Guide](./README-IndependentBuild.md)** for all variants, NML builds, iOS setup, and test configuration.
+
+---
+
+## Development workflow (with Metro)
+
+Use this when actively developing the app UI.
+
+### Start Metro
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+### Run on Android
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
+### Run on iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
+```bash
+# First time only
 bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
 bundle exec pod install
-```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+> After any JS/TS change, re-run the build script to update the embedded bundle in the APK/app used for Appium testing.

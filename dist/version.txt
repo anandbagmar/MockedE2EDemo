@@ -1,0 +1,3 @@
+Version:    0.0.1
+Build date: (run a build script to populate)
+App:        App Automation Playground

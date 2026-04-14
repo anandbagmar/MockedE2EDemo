@@ -158,3 +158,17 @@ vendor/bundle/
 ###############################################################################
 # macOS Finder thumbnails
 Icon?
+
+*.class
+target/
+
+# dist/ — track metadata, ignore built binaries
+dist/*.apk
+dist/*.zip
+dist/*.ipa
+
+# Applitools applitoolsify binaries (auto-downloaded by build scripts)
+libs/applitoolsify-*
+
+# Icon generation marker (auto-created by build scripts)
+.icon-generated
