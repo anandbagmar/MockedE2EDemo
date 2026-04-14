@@ -2,76 +2,59 @@
 # build-all.sh – Master build script for App Automation Playground (Android + iOS).
 #
 # Usage:
-#   scripts/build-all.sh [platform] [variant]
+#   scripts/build-all.sh [platform] [variant[,variant…]]
 #
-#   platform  : android | ios | all         (default: all)
-#   variant   : debug | release | debug-nml | release-nml | all  (default: all)
+#   platform  : android | ios | all                              (default: all)
+#   variant   : debug | release | debug-nml | release-nml | all (default: all)
+#               comma-separate multiple variants, no spaces
 #
 # Examples:
-#   scripts/build-all.sh                        # build everything
-#   scripts/build-all.sh android debug          # Android debug only
-#   scripts/build-all.sh ios release            # iOS release only
-#   scripts/build-all.sh android debug-nml      # Android debug + NML
-#   scripts/build-all.sh all all                # same as no args
-#
-# Environment variables for NML builds:
-#   NML_JAR             Path to Applitools NML setup jar
-#   APPLITOOLS_API_KEY  Applitools API key
+#   scripts/build-all.sh                          # all platforms, all variants
+#   scripts/build-all.sh android debug            # Android debug only
+#   scripts/build-all.sh ios release              # iOS release only
+#   scripts/build-all.sh android debug,debug-nml  # Android debug + debug-nml
+#   scripts/build-all.sh all debug,release        # both platforms, debug + release
+#   scripts/build-all.sh all release,release-nml  # both platforms, release + NML
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 PLATFORM="${1:-all}"
-VARIANT="${2:-all}"
+VARIANT_ARG="${2:-all}"
+
+# ─── helpers ─────────────────────────────────────────────────────────────────
 
 run_android() {
-  local VARIANT="$1"
+  local VARIANTS="$1"
   echo ""
   echo "══════════════════════════════════════"
-  echo " Android  ›  ${VARIANT}"
+  echo " Android  ›  ${VARIANTS}"
   echo "══════════════════════════════════════"
-  bash "${SCRIPT_DIR}/build-android-apks.sh" "${VARIANT}"
+  bash "${SCRIPT_DIR}/build-android-apks.sh" "${VARIANTS}"
 }
 
 run_ios() {
-  local VARIANT="$1"
+  local VARIANTS="$1"
   echo ""
   echo "══════════════════════════════════════"
-  echo " iOS  ›  ${VARIANT}"
+  echo " iOS  ›  ${VARIANTS}"
   echo "══════════════════════════════════════"
-  bash "${SCRIPT_DIR}/build-ios-app.sh" "${VARIANT}"
+  bash "${SCRIPT_DIR}/build-ios-app.sh" "${VARIANTS}"
 }
 
-VALID_VARIANTS=(debug release debug-nml release-nml all)
-
-is_valid_variant() {
-  local v="$1"
-  for vv in "${VALID_VARIANTS[@]}"; do [[ "$vv" == "$v" ]] && return 0; done
-  return 1
-}
-
-if ! is_valid_variant "$VARIANT"; then
-  echo "❌ Unknown variant: ${VARIANT}"
-  echo "   Valid variants: ${VALID_VARIANTS[*]}"
-  exit 1
-fi
+# ─── dispatch ────────────────────────────────────────────────────────────────
 
 case "$PLATFORM" in
   android)
-    run_android "$VARIANT"
+    run_android "$VARIANT_ARG"
     ;;
   ios)
-    run_ios "$VARIANT"
+    run_ios "$VARIANT_ARG"
     ;;
   all)
-    if [[ "$VARIANT" == "all" ]]; then
-      run_android all
-      run_ios     all
-    else
-      run_android "$VARIANT"
-      run_ios     "$VARIANT"
-    fi
+    run_android "$VARIANT_ARG"
+    run_ios     "$VARIANT_ARG"
     ;;
   *)
     echo "❌ Unknown platform: ${PLATFORM}"

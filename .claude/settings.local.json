@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x /Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/scripts/build-android-apks.sh /Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/scripts/build-ios-app.sh /Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/scripts/build-all.sh /Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/scripts/generate-icons.sh)",
+      "WebSearch",
+      "WebFetch(domain:applitools.com)"
+    ]
+  }
+}

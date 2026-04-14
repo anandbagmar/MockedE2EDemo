@@ -124,6 +124,11 @@ All build scripts live in `scripts/`. They:
 ./scripts/build-android-apks.sh debug-nml
 ./scripts/build-android-apks.sh release-nml
 
+# Multiple variants (comma-separated, no spaces)
+./scripts/build-android-apks.sh debug,release
+./scripts/build-android-apks.sh debug,debug-nml
+./scripts/build-android-apks.sh release,release-nml
+
 # All variants at once
 ./scripts/build-android-apks.sh all
 ```
@@ -150,6 +155,11 @@ dist/
 ./scripts/build-ios-app.sh release
 ./scripts/build-ios-app.sh debug-nml
 ./scripts/build-ios-app.sh release-nml
+
+# Multiple variants (comma-separated, no spaces)
+./scripts/build-ios-app.sh debug,release
+./scripts/build-ios-app.sh debug,debug-nml
+./scripts/build-ios-app.sh release,release-nml
 
 # All variants at once
 ./scripts/build-ios-app.sh all
@@ -181,12 +191,17 @@ dist/
 ./scripts/build-all.sh all debug
 ./scripts/build-all.sh all release-nml
 
-# One platform, one variant
+# All platforms, multiple variants (comma-separated)
+./scripts/build-all.sh all debug,debug-nml
+./scripts/build-all.sh all release,release-nml
+
+# One platform, one or more variants
 ./scripts/build-all.sh android debug
-./scripts/build-all.sh ios release
+./scripts/build-all.sh ios release,release-nml
+./scripts/build-all.sh android debug,release
 ```
 
-**Syntax**: `./scripts/build-all.sh [platform] [variant]`  
+**Syntax**: `./scripts/build-all.sh [platform] [variant[,variant…]]`  
 Defaults: `platform=all`, `variant=all`
 
 ---

@@ -1637,7 +1637,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
   var _excluded = ["ref", "animating", "color", "hidesWhenStopped", "onLayout", "size", "style"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/ActivityIndicator/ActivityIndicator.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/ActivityIndicator/ActivityIndicator.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var PlatformActivityIndicator = _Platform.default.OS === 'android' ? _$$_REQUIRE(_dependencyMap[7], "../ProgressBarAndroid/ProgressBarAndroid").default : _$$_REQUIRE(_dependencyMap[8], "./ActivityIndicatorViewNativeComponent").default;
   var GRAY = '#999999';
@@ -6078,7 +6078,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/View/View.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/View/View.js";
   var _excluded = ["accessibilityState", "accessibilityValue", "aria-busy", "aria-checked", "aria-disabled", "aria-expanded", "aria-hidden", "aria-label", "aria-labelledby", "aria-live", "aria-selected", "aria-valuemax", "aria-valuemin", "aria-valuenow", "aria-valuetext", "id", "tabIndex"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var View = React.forwardRef(View_withRef);
@@ -24172,7 +24172,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _LogBoxLog = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[9], "./LogBoxLog"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[10], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/Data/LogBoxData.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/Data/LogBoxData.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -53507,7 +53507,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[9], "react"));
   _$$_REQUIRE(_dependencyMap[10], "../Utilities/BackHandler");
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/ReactNative/renderApplication.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/ReactNative/renderApplication.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function renderApplication(RootComponent, initialProps, rootTag, WrapperComponent, rootViewStyle, fabric, scopedPerformanceLogger, isLogBox, debugName, displayMode, useOffscreen) {
     (0, _invariant.default)(rootTag, 'Expect to have a valid rootTag, instead got ', rootTag);
@@ -53605,7 +53605,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[10], "react/jsx-runtime");
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/ReactNative/AppContainer-dev.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/ReactNative/AppContainer-dev.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var useEffect = React.useEffect,
     useState = React.useState,
@@ -53741,7 +53741,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _StyleSheet = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4], "../StyleSheet/StyleSheet"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Debugging/DebuggingOverlay.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Debugging/DebuggingOverlay.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var useRef = React.useRef,
     useImperativeHandle = React.useImperativeHandle;
@@ -54565,7 +54565,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _LogBoxNotification = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6], "./UI/LogBoxNotification"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/LogBoxNotificationContainer.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/LogBoxNotificationContainer.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _LogBoxNotificationContainer(props) {
     var logs = props.logs;
@@ -54692,7 +54692,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[10], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotification.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotification.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxNotification(props) {
     var totalLogCount = props.totalLogCount,
@@ -54768,7 +54768,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxButton.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxButton.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxButton(props) {
     var _useState = (0, _react.useState)(false),
@@ -54816,7 +54816,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
   var _excluded = ["onBlur", "onFocus"];
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Touchable/TouchableWithoutFeedback.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Touchable/TouchableWithoutFeedback.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var PASSTHROUGH_PROPS = ['accessibilityActions', 'accessibilityElementsHidden', 'accessibilityHint', 'accessibilityLanguage', 'accessibilityIgnoresInvertColors', 'accessibilityLabel', 'accessibilityLiveRegion', 'accessibilityRole', 'accessibilityValue', 'aria-valuemax', 'aria-valuemin', 'aria-valuenow', 'aria-valuetext', 'accessibilityViewIsModal', 'aria-modal', 'hitSlop', 'importantForAccessibility', 'nativeID', 'onAccessibilityAction', 'onBlur', 'onFocus', 'onLayout', 'testID'];
   function TouchableWithoutFeedback(props) {
@@ -55671,7 +55671,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _normalizeColor = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "../StyleSheet/normalizeColor"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[3], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Pressability/PressabilityDebug.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Pressability/PressabilityDebug.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function PressabilityDebugView(props) {
     if (__DEV__) {
@@ -55787,7 +55787,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[4], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotificationCountBadge.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotificationCountBadge.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxNotificationCountBadge(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_View.default, {
@@ -55858,7 +55858,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _excluded = ["ref", "accessible", "accessibilityLabel", "accessibilityState", "allowFontScaling", "aria-busy", "aria-checked", "aria-disabled", "aria-expanded", "aria-hidden", "aria-label", "aria-selected", "children", "ellipsizeMode", "disabled", "id", "nativeID", "numberOfLines", "onLongPress", "onPress", "onPressIn", "onPressOut", "onResponderGrant", "onResponderMove", "onResponderRelease", "onResponderTerminate", "onResponderTerminationRequest", "onStartShouldSetResponder", "pressRetentionOffset", "selectable", "selectionColor", "suppressHighlighting", "style"],
     _excluded2 = ["ref", "accessible", "accessibilityElementsHidden", "importantForAccessibility", "accessibilityLabel", "accessibilityState", "allowFontScaling", "aria-busy", "aria-checked", "aria-disabled", "aria-expanded", "aria-hidden", "aria-label", "aria-selected", "children", "ellipsizeMode", "disabled", "id", "nativeID", "numberOfLines", "onLongPress", "onPress", "onPressIn", "onPressOut", "onResponderGrant", "onResponderMove", "onResponderRelease", "onResponderTerminate", "onResponderTerminationRequest", "onStartShouldSetResponder", "pressRetentionOffset", "selectable", "selectionColor", "suppressHighlighting", "style"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Text/Text.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Text/Text.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var _TextImpl;
   if (ReactNativeFeatureFlags.reduceDefaultPropsInText()) {
@@ -56496,7 +56496,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotificationDismissButton.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotificationDismissButton.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxNotificationDismissButton(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_View.default, {
@@ -56569,7 +56569,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _excluded = ["ref", "alt", "accessible", "aria-labelledby", "aria-busy", "aria-checked", "aria-disabled", "aria-expanded", "aria-hidden", "aria-label", "aria-selected", "accessibilityLabel", "accessibilityLabelledBy", "accessibilityState", "defaultSource", "loadingIndicatorSource", "children", "source", "src", "style", "crossOrigin", "referrerPolicy", "srcSet", "onLoadStart", "onLoad", "onLoadEnd", "onError", "width", "height", "resizeMode"],
     _excluded2 = ["ref"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Image/Image.android.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Image/Image.android.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var _requestId = 1;
   function generateRequestId() {
@@ -57323,7 +57323,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotificationMessage.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxNotificationMessage.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxNotificationMessage(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_View.default, {
@@ -57372,7 +57372,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3], "../../Text/Text"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[4], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxMessage.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxMessage.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function getLinkRanges(string) {
     var regex = /https?:\/\/[^\s$.?#].[^\s]*/gi;
@@ -57645,7 +57645,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _SafeAreaView_INTERNAL_DO_NOT_USE = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "../../../components/safeareaview/SafeAreaView_INTERNAL_DO_NOT_USE"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[3], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/Inspector.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/Inspector.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var useState = React.useState;
   function Inspector(_ref) {
@@ -57829,7 +57829,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   exports.default = void 0;
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/InspectorOverlay.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/InspectorOverlay.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function InspectorOverlay(_ref) {
     var inspected = _ref.inspected,
@@ -57880,7 +57880,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   exports.default = void 0;
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/ElementBox.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/ElementBox.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function ElementBox(_ref) {
     var frame = _ref.frame,
@@ -58137,7 +58137,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   exports.default = void 0;
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/BorderBox.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/BorderBox.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function BorderBox(_ref) {
     var children = _ref.children,
@@ -58175,7 +58175,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _SafeAreaView = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6], "../../../../../Libraries/Components/SafeAreaView/SafeAreaView"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/InspectorPanel.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/InspectorPanel.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -58390,7 +58390,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[28], "react/jsx-runtime");
   var _excluded = ["experimental_endDraggingSensitivityMultiplier", "maintainVisibleContentPosition"],
     _excluded2 = ["ref"];
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -62937,7 +62937,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Animated/createAnimatedComponent.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Animated/createAnimatedComponent.js";
   var _excluded = ["ref"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function createAnimatedComponent(Component) {
@@ -64284,7 +64284,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/ScrollView/ScrollViewStickyHeader.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/ScrollView/ScrollViewStickyHeader.js";
   var _excluded = ["ref"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var ScrollViewStickyHeader = function ScrollViewStickyHeader(_ref) {
@@ -64665,7 +64665,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[11], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[12], "react/jsx-runtime");
   var _excluded = ["numColumns", "columnWrapperStyle", "removeClippedSubviews", "strictMode"];
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Lists/FlatList.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Lists/FlatList.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -65155,7 +65155,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _reactNative = _$$_REQUIRE(_dependencyMap[20], "react-native");
   var ReactNativeFeatureFlags = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[21], "react-native/src/private/featureflags/ReactNativeFeatureFlags"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[22], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/@react-native/virtualized-lists/Lists/VirtualizedList.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/@react-native/virtualized-lists/Lists/VirtualizedList.js";
   var _excluded = ["onContentSizeChange"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
@@ -67249,7 +67249,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _react;
   var _reactNative = _$$_REQUIRE(_dependencyMap[8], "react-native");
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/@react-native/virtualized-lists/Lists/VirtualizedListCellRenderer.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/@react-native/virtualized-lists/Lists/VirtualizedListCellRenderer.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -67413,7 +67413,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/@react-native/virtualized-lists/Lists/VirtualizedListContext.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/@react-native/virtualized-lists/Lists/VirtualizedListContext.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var VirtualizedListContext = exports.VirtualizedListContext = (0, _react.createContext)(null);
   if (__DEV__) {
@@ -67623,7 +67623,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
   var _excluded = ["ItemSeparatorComponent", "SectionSeparatorComponent", "renderItem", "renderSectionFooter", "renderSectionHeader", "sections", "stickySectionHeadersEnabled"];
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/@react-native/virtualized-lists/Lists/VirtualizedSectionList.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/@react-native/virtualized-lists/Lists/VirtualizedSectionList.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -68084,7 +68084,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[12], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[13], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Animated/components/AnimatedScrollView.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Animated/components/AnimatedScrollView.js";
   var _excluded = ["ref"],
     _excluded2 = ["ref"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
@@ -68161,7 +68161,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _PullToRefreshViewNativeComponent = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[8], "./PullToRefreshViewNativeComponent"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[9], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[10], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/RefreshControl/RefreshControl.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/RefreshControl/RefreshControl.js";
   var _excluded = ["enabled", "colors", "progressBackgroundColor", "size"],
     _excluded2 = ["tintColor", "titleColor", "title"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
@@ -68406,7 +68406,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _virtualizedLists = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[8], "@react-native/virtualized-lists"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[9], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[10], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Lists/SectionList.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Lists/SectionList.js";
   var _excluded = ["stickySectionHeadersEnabled"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
@@ -68821,7 +68821,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _inherits2 = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5], "@babel/runtime/helpers/inherits"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/ElementProperties.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/ElementProperties.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -68953,7 +68953,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[11], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[12], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Touchable/TouchableHighlight.js",
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Touchable/TouchableHighlight.js",
     _this3 = this;
   var _excluded = ["onBlur", "onFocus"],
     _excluded2 = ["ref"];
@@ -69190,7 +69190,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   exports.default = void 0;
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/StyleInspector.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/StyleInspector.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function StyleInspector(_ref) {
     var _this = this;
@@ -69251,7 +69251,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   exports.default = void 0;
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/BoxInspector.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/BoxInspector.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var blank = {
     top: 0,
@@ -69366,7 +69366,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _inherits2 = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5], "@babel/runtime/helpers/inherits"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/perfmonitor/PerformanceOverlay.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/perfmonitor/PerformanceOverlay.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -69442,7 +69442,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _ScrollView = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6], "../../../../../Libraries/Components/ScrollView/ScrollView"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/NetworkOverlay.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/NetworkOverlay.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -70237,7 +70237,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _ElementBox = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5], "./ElementBox"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/ReactDevToolsOverlay.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/devsupport/devmenu/elementinspector/ReactDevToolsOverlay.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var useEffect = React.useEffect,
     useState = React.useState,
@@ -70360,7 +70360,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[3], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/ReactNative/AppContainer-prod.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/ReactNative/AppContainer-prod.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var AppContainer = function AppContainer(_ref) {
     var children = _ref.children,
@@ -70556,7 +70556,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _LogBoxInspector = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[9], "./UI/LogBoxInspector"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[10], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/LogBoxInspectorContainer.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/LogBoxInspectorContainer.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -70627,7 +70627,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[10], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspector.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspector.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxInspector(props) {
     var logs = props.logs,
@@ -70700,7 +70700,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[10], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorBody.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorBody.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var headerTitleMap = {
     warn: 'Console Warning',
@@ -70794,7 +70794,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[11], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[12], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[13], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorCodeFrame.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorCodeFrame.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function CodeFrameDisplay(_ref) {
     var codeFrame = _ref.codeFrame;
@@ -70974,7 +70974,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _Text = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3], "../../Text/Text"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[4], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/AnsiHighlight.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/AnsiHighlight.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var COLORS = {
     'ansi-black': 'rgb(27, 27, 27)',
@@ -71721,7 +71721,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[4], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorSection.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorSection.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxInspectorSection(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_View.default, {
@@ -71775,7 +71775,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorMessageHeader.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorMessageHeader.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var SHOW_MORE_MESSAGE_LENGTH = 300;
   function LogBoxInspectorMessageHeader(props) {
@@ -71893,7 +71893,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[10], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[11], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorReactFrames.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorReactFrames.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var BEFORE_SLASH_RE = /^(.*)[\\/]/;
   function getPrettyFileName(path) {
@@ -72073,7 +72073,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[11], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[12], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorStackFrames.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorStackFrames.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function getCollapseMessage(stackFrames, collapsed) {
     if (stackFrames.length === 0) {
@@ -72254,7 +72254,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[8], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorSourceMapStatus.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorSourceMapStatus.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxInspectorSourceMapStatus(props) {
     var _useState = (0, _react.useState)({
@@ -72403,7 +72403,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorStackFrame.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorStackFrame.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxInspectorStackFrame(props) {
     var frame = props.frame,
@@ -72499,7 +72499,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorFooter.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorFooter.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxInspectorFooter(props) {
     if (props.level === 'syntax') {
@@ -72570,7 +72570,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorFooterButton.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorFooterButton.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function LogBoxInspectorFooterButton(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_SafeAreaView.default, {
@@ -72624,7 +72624,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[8], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorHeader.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorHeader.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var LogBoxInspectorHeaderSafeArea = _Platform.default.OS === 'android' ? _View.default : _SafeAreaView.default;
   function LogBoxInspectorHeader(props) {
@@ -72724,7 +72724,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var LogBoxStyle = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[4], "./LogBoxStyle"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[5], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorHeaderButton.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/LogBox/UI/LogBoxInspectorHeaderButton.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var backgroundForLevel = function backgroundForLevel(level) {
     return {
@@ -96849,7 +96849,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _objectWithoutProperties2 = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1], "@babel/runtime/helpers/objectWithoutProperties"));
   var _ProgressBarAndroidNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "./ProgressBarAndroidNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[3], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/ProgressBarAndroid/ProgressBarAndroid.android.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/ProgressBarAndroid/ProgressBarAndroid.android.js";
   var _excluded = ["ref", "styleAttr", "indeterminate", "animating"];
   var React = _$$_REQUIRE(_dependencyMap[4], "react");
   var ProgressBarAndroid = function ProgressBarAndroid(_ref) {
@@ -96990,7 +96990,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[10], "react/jsx-runtime");
   var _excluded = ["ref"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Button.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Button.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var NativeTouchable = _Platform.default.OS === 'android' ? _TouchableNativeFeedback.default : _TouchableOpacity.default;
   var Button = function Button(_ref) {
@@ -97146,7 +97146,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[13], "react/jsx-runtime");
   var _excluded = ["onBlur", "onFocus"];
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Touchable/TouchableNativeFeedback.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Touchable/TouchableNativeFeedback.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -97372,7 +97372,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _Platform = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[11], "../../Utilities/Platform"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[12], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[13], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Touchable/TouchableOpacity.js",
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Touchable/TouchableOpacity.js",
     _this3 = this;
   var _excluded = ["onBlur", "onFocus"],
     _excluded2 = ["ref"];
@@ -97585,7 +97585,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[13], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[14], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/DrawerAndroid/DrawerLayoutAndroid.android.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/DrawerAndroid/DrawerLayoutAndroid.android.js";
   var _excluded = ["drawerBackgroundColor", "onDrawerStateChanged", "renderNavigationView", "onDrawerOpen", "onDrawerClose"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
@@ -98212,7 +98212,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _Image = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[10], "./Image"));
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[11], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[12], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Image/ImageBackground.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Image/ImageBackground.js";
   var _excluded = ["children", "style", "imageStyle", "imageRef", "importantForAccessibility"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
@@ -98284,7 +98284,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[6], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/TextInput/InputAccessoryView.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/TextInput/InputAccessoryView.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var InputAccessoryView = function InputAccessoryView(props) {
     var _useWindowDimensions = (0, _useWindowDimensions2.default)(),
@@ -98420,7 +98420,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[14], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[15], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Keyboard/KeyboardAvoidingView.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Keyboard/KeyboardAvoidingView.js";
   var _excluded = ["behavior", "children", "contentContainerStyle", "enabled", "keyboardVerticalOffset", "style", "onLayout"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
@@ -98918,7 +98918,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[3], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
   var _global,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/LayoutConformance/LayoutConformance.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/LayoutConformance/LayoutConformance.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var isFabricUIManagerInstalled = ((_global = global) == null ? void 0 : _global.nativeFabricUIManager) != null;
   function LayoutConformance(props) {
@@ -98977,7 +98977,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[12], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[13], "react/jsx-runtime");
   var _excluded = ["ref"];
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Modal/Modal.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Modal/Modal.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2.default)(o), (0, _possibleConstructorReturn2.default)(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2.default)(t).constructor) : o.apply(t, e)); }
   function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -99268,7 +99268,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Pressable/Pressable.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Pressable/Pressable.js";
   var _excluded = ["ref"],
     _excluded2 = ["accessible", "accessibilityState", "aria-live", "android_disableSound", "android_ripple", "aria-busy", "aria-checked", "aria-disabled", "aria-expanded", "aria-label", "aria-selected", "blockNativeResponder", "cancelable", "children", "delayHoverIn", "delayHoverOut", "delayLongPress", "disabled", "focusable", "hitSlop", "onBlur", "onFocus", "onHoverIn", "onHoverOut", "onLongPress", "onPress", "onPressIn", "onPressMove", "onPressOut", "pressRetentionOffset", "style", "testOnly_pressed", "unstable_pressDelay"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
@@ -99494,7 +99494,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[8], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Switch/Switch.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Switch/Switch.js";
   var _excluded = ["ref"],
     _excluded2 = ["disabled", "ios_backgroundColor", "onChange", "onValueChange", "style", "thumbColor", "trackColor", "value"],
     _excluded3 = ["onTintColor", "tintColor"];
@@ -99779,7 +99779,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[13], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[14], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/TextInput/TextInput.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/TextInput/TextInput.js";
   var _excluded = ["aria-busy", "aria-checked", "aria-disabled", "aria-expanded", "aria-selected", "accessibilityState", "id", "tabIndex", "selection", "selectionColor", "selectionHandleColor", "cursorColor"],
     _excluded2 = ["onBlur", "onFocus"],
     _excluded3 = ["ref", "allowFontScaling", "rejectResponderTermination", "underlineColorAndroid", "autoComplete", "textContentType", "readOnly", "editable", "enterKeyHint", "returnKeyType", "inputMode", "showSoftInputOnFocus", "keyboardType"];
@@ -100307,7 +100307,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
   var _this2 = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/Libraries/Components/Touchable/Touchable.js";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/Libraries/Components/Touchable/Touchable.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var extractSingleTouch = function extractSingleTouch(nativeEvent) {
     var touches = nativeEvent.touches;
@@ -100856,7 +100856,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[7], "react"));
   var React = _react;
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[8], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native/src/private/components/virtualview/VirtualView.js";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native/src/private/components/virtualview/VirtualView.js";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var VirtualViewNativeComponent = ReactNativeFeatureFlags.enableVirtualViewExperimental() ? _VirtualViewExperimentalNativeComponent.default : _VirtualViewNativeComponent.default;
   var NotHidden = null;
@@ -102265,7 +102265,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _reactNative = _$$_REQUIRE(_dependencyMap[3], "react-native");
   var _reactNativeWebview = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4], "react-native-webview"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/App.tsx"; // Suppress RN warning banner in Debug builds (safe across RN versions)
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/App.tsx"; // Suppress RN warning banner in Debug builds (safe across RN versions)
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   if (__DEV__) {
     // Old RN versions
@@ -102412,6 +102412,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         injectedJavaScript: injectedJS,
         javaScriptEnabled: true,
         domStorageEnabled: true,
+        webviewDebuggingEnabled: true,
         onLoadStart: function onLoadStart() {
           return log('WebView load start');
         },
@@ -102537,7 +102538,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     _excluded3 = ["messagingModuleName"];
   var _require$registerCall,
     _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-webview/src/WebView.android.tsx";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-webview/src/WebView.android.tsx";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var resolveAssetSource = _reactNative.Image.resolveAssetSource;
   var directEventEmitter = new _EventEmitter.default();
@@ -103054,7 +103055,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _WebView = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[6], "./WebView.styles"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[7], "react/jsx-runtime");
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-webview/src/WebViewShared.tsx";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-webview/src/WebViewShared.tsx";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var defaultOriginWhitelist = exports.defaultOriginWhitelist = ['http://*', 'https://*'];
   var extractOrigin = function extractOrigin(url) {
@@ -112763,7 +112764,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var React = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[3], "react"));
   var _reactNative = _$$_REQUIRE(_dependencyMap[4], "react-native");
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-safe-area-context/src/SafeAreaContext.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-safe-area-context/src/SafeAreaContext.tsx";
   var _excluded = ["children", "initialMetrics", "initialSafeAreaInsets", "style"],
     _excluded2 = ["onChange", "style", "children"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
@@ -112952,7 +112953,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
   var _excluded = ["edges"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-safe-area-context/src/SafeAreaView.tsx";
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-safe-area-context/src/SafeAreaView.tsx";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var defaultEdges = {
     top: 'additive',
@@ -117481,7 +117482,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     _excluded2 = ["style"],
     _excluded3 = ["style"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/ScreenStackHeaderConfig.tsx"; // Native components
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/ScreenStackHeaderConfig.tsx"; // Native components
   var ScreenStackHeaderSubview = exports.ScreenStackHeaderSubview = _ScreenStackHeaderSubviewNativeComponent.default;
   var ScreenStackHeaderConfig = exports.ScreenStackHeaderConfig = _react.default.forwardRef(function (props, ref) {
     var headerLeftBarButtonItems = props.headerLeftBarButtonItems,
@@ -118044,7 +118045,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _ModalScreenNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[7], "../fabric/ModalScreenNativeComponent"));
   var _flags = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[8], "../flags"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/Screen.tsx",
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/Screen.tsx",
     _this = this;
   var _excluded = ["enabled", "freezeOnBlur", "shouldFreeze"],
     _excluded2 = ["active", "activityState", "children", "isNativeStack", "fullScreenSwipeEnabled", "gestureResponseDistance", "scrollEdgeEffects", "onGestureCancel", "style"],
@@ -118275,7 +118276,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _slicedToArray2 = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1], "@babel/runtime/helpers/slicedToArray"));
   var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[3], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/helpers/DelayedFreeze.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/helpers/DelayedFreeze.tsx";
   // This component allows one more render before freezing the screen.
   // Allows activityState to reach the native side and useIsFocused to work correctly.
   function DelayedFreeze(_ref) {
@@ -118308,7 +118309,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   exports.Freeze = Freeze;
   var _react = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[0], "react"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[1], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-freeze/src/index.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-freeze/src/index.tsx";
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var infiniteThenable = {
     then: function then() {}
@@ -118675,7 +118676,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _reactNative = _$$_REQUIRE(_dependencyMap[3], "react-native");
   var _SearchBarNativeComponent = _interopRequireWildcard(_$$_REQUIRE(_dependencyMap[4], "../fabric/SearchBarNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/SearchBar.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/SearchBar.tsx";
   var _excluded = ["obscureBackground", "hideNavigationBar", "onFocus", "onBlur", "onSearchButtonPress", "onCancelButtonPress", "onChangeText"]; // Native components
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   var NativeSearchBar = _SearchBarNativeComponent.default;
@@ -118875,7 +118876,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _ScreenContainerNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4], "../fabric/ScreenContainerNativeComponent"));
   var _ScreenNavigationContainerNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5], "../fabric/ScreenNavigationContainerNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/ScreenContainer.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/ScreenContainer.tsx";
   var _excluded = ["enabled", "hasTwoStates"]; // Native components
   function ScreenContainer(props) {
     var _props$enabled = props.enabled,
@@ -118940,7 +118941,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _warnOnce = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3], "warn-once"));
   var _ScreenStackNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[4], "../fabric/ScreenStackNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[5], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/ScreenStack.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/ScreenStack.tsx";
   var _excluded = ["goBackGesture", "screensRefs", "currentScreenId", "transitionAnimation", "screenEdgeGesture", "onFinishTransitioning", "children"]; // Native components
   var assertGHProvider = function assertGHProvider(ScreenGestureDetector, goBackGesture) {
     var isGestureDetectorProviderNotDetected = ScreenGestureDetector.name !== 'GHWrapper' && goBackGesture !== undefined;
@@ -119073,7 +119074,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _ScreenStack = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[7], "./ScreenStack"));
   var _SafeAreaView = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[8], "./safe-area/SafeAreaView"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/ScreenStackItem.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/ScreenStackItem.tsx";
   var _excluded = ["children", "headerConfig", "activityState", "shouldFreeze", "stackPresentation", "sheetAllowedDetents", "contentStyle", "style", "screenId", "onHeaderHeightChange", "unstable_sheetFooter"],
     _excluded2 = ["backgroundColor"];
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
@@ -119255,7 +119256,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _excluded = ["contentStyle", "style"],
     _excluded2 = ["contentStyle", "stackPresentation", "style"];
   var _this = this,
-    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/DebugContainer.tsx"; // @ts-expect-error importing private component
+    _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/DebugContainer.tsx"; // @ts-expect-error importing private component
   function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
   /**
    * This view must *not* be flattened.
@@ -119300,7 +119301,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1], "react"));
   var _ScreenContentWrapperNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "../fabric/ScreenContentWrapperNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[3], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/ScreenContentWrapper.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/ScreenContentWrapper.tsx";
   function ScreenContentWrapper(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_ScreenContentWrapperNativeComponent.default, Object.assign({
       collapsable: false
@@ -119337,7 +119338,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _SafeAreaViewNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "../../fabric/safe-area/SafeAreaViewNativeComponent"));
   var _reactNative = _$$_REQUIRE(_dependencyMap[3], "react-native");
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/safe-area/SafeAreaView.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/safe-area/SafeAreaView.tsx";
   function SafeAreaView(props) {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_SafeAreaViewNativeComponent.default, Object.assign({}, props, {
       style: [styles.flex, props.style],
@@ -119389,7 +119390,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _react = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[1], "react"));
   var _ScreenFooterNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "../fabric/ScreenFooterNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[3], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/ScreenFooter.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/ScreenFooter.tsx";
   /**
    * Unstable API
    */
@@ -119430,7 +119431,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _reactNative = _$$_REQUIRE(_dependencyMap[2], "react-native");
   var _FullWindowOverlayNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3], "../fabric/FullWindowOverlayNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/FullWindowOverlay.tsx"; // Native components
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/FullWindowOverlay.tsx"; // Native components
   var NativeFullWindowOverlay = _FullWindowOverlayNativeComponent.default;
   function FullWindowOverlay(props) {
     var _useWindowDimensions = (0, _reactNative.useWindowDimensions)(),
@@ -119507,7 +119508,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _BottomTabsAccessory = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[7], "./BottomTabsAccessory"));
   var _BottomTabsAccessoryContent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[8], "./BottomTabsAccessoryContent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[9], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabs.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabs.tsx";
   var _excluded = ["onNativeFocusChange", "experimentalControlNavigationStateInJS", "bottomAccessory"];
   /**
    * EXPERIMENTAL API, MIGHT CHANGE W/O ANY NOTICE
@@ -119650,7 +119651,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _BottomTabsAccessoryNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[2], "../../fabric/bottom-tabs/BottomTabsAccessoryNativeComponent"));
   var _reactNative = _$$_REQUIRE(_dependencyMap[3], "react-native");
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabsAccessory.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabsAccessory.tsx";
   /**
    * EXPERIMENTAL API, MIGHT CHANGE W/O ANY NOTICE
    */
@@ -119695,7 +119696,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _reactNative = _$$_REQUIRE(_dependencyMap[2], "react-native");
   var _BottomTabsAccessoryContentNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[3], "../../fabric/bottom-tabs/BottomTabsAccessoryContentNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[4], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabsAccessoryContent.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabsAccessoryContent.tsx";
   /**
    * EXPERIMENTAL API, MIGHT CHANGE W/O ANY NOTICE
    */
@@ -119756,7 +119757,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var _reactNative = _$$_REQUIRE(_dependencyMap[4], "react-native");
   var _BottomTabsScreenNativeComponent = _interopRequireDefault(_$$_REQUIRE(_dependencyMap[5], "../../fabric/bottom-tabs/BottomTabsScreenNativeComponent"));
   var _jsxRuntime = _$$_REQUIRE(_dependencyMap[6], "react/jsx-runtime");
-  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/SpecmaticAndroidE2EDemo/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabsScreen.tsx";
+  var _jsxFileName = "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/.claude/worktrees/magical-carson/node_modules/react-native-screens/src/components/bottom-tabs/BottomTabsScreen.tsx";
   var _excluded = ["onWillAppear", "onDidAppear", "onWillDisappear", "onDidDisappear", "isFocused", "freezeContents", "icon", "selectedIcon", "standardAppearance", "scrollEdgeAppearance", "scrollEdgeEffects", "experimental_userInterfaceStyle"];
   /**
    * EXPERIMENTAL API, MIGHT CHANGE W/O ANY NOTICE

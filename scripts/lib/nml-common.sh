@@ -31,7 +31,7 @@ _nml_os() {
   case "$(uname -s)" in
     Darwin) echo "macos" ;;
     Linux)  echo "Linux" ;;
-    *)      echo "❌ Unsupported OS: $(uname -s)" >&2; return 1 ;;
+    *)      fail "Unsupported OS: $(uname -s)" ;;
   esac
 }
 
@@ -39,12 +39,12 @@ _nml_arch() {
   case "$(uname -m)" in
     arm64|aarch64) echo "arm64"  ;;
     x86_64)        echo "x86_64" ;;
-    *)             echo "❌ Unsupported arch: $(uname -m)" >&2; return 1 ;;
+    *)             fail "Unsupported architecture: $(uname -m)" ;;
   esac
 }
 
 _nml_binary_name() {
-  local PLATFORM="$1"   # android | ios
+  local PLATFORM="$1"
   echo "applitoolsify-${PLATFORM}-$(_nml_os)-$(_nml_arch)"
 }
 
@@ -60,48 +60,50 @@ _nml_download_url() {
 
 # ── Download + permission setup ───────────────────────────────────────────────
 
-# ensure_applitoolsify PLATFORM
-#   Downloads the correct applitoolsify binary to libs/ if not already present.
-#   Sets (and exports) the global APPLITOOLSIFY_BIN variable.
 ensure_applitoolsify() {
   local PLATFORM="$1"
   local BINARY_NAME
   BINARY_NAME="$(_nml_binary_name "$PLATFORM")"
 
   local LIBS_DIR="${PROJECT_ROOT}/libs"
-  mkdir -p "$LIBS_DIR"
   local DEST="${LIBS_DIR}/${BINARY_NAME}"
 
+  step "Ensuring applitoolsify binary (${PLATFORM})"
+  info "Binary : ${BINARY_NAME}"
+  info "OS/arch: $(uname -s) / $(uname -m)"
+
+  mkdir -p "$LIBS_DIR"
+
   if [[ -f "$DEST" ]]; then
-    echo "==> applitoolsify cached: ${DEST}"
+    info "Already cached — skipping download"
+    info "Path   : ${DEST}"
+    ok "applitoolsify ready (cached)"
   else
     local URL
     URL="$(_nml_download_url "$PLATFORM" "$BINARY_NAME")"
 
-    echo "==> Downloading applitoolsify (${PLATFORM}, $(uname -m)) …"
-    echo "    URL : ${URL}"
-    echo "    Dest: ${DEST}"
+    step "Downloading applitoolsify"
+    info "URL  : ${URL}"
+    info "Dest : ${DEST}"
 
     if ! curl -fsSL --retry 3 --retry-delay 2 -o "$DEST" "$URL"; then
-      echo "❌ Download failed. Check your internet connection or the URL above."
-      rm -f "$DEST"
-      exit 1
+      fail "Download failed. Check internet connection or URL above."
     fi
 
-    echo "==> Setting permissions …"
+    step "Setting binary permissions"
     chmod +x "$DEST"
+    info "chmod +x applied"
 
-    # macOS Gatekeeper: remove quarantine and any other extended attributes
-    # that would block execution of an unsigned binary downloaded from the internet.
     if [[ "$(uname -s)" == "Darwin" ]]; then
-      echo "==> Removing macOS quarantine (xattr) …"
-      xattr -d com.apple.quarantine "$DEST" 2>/dev/null || true
-      xattr -c "$DEST" 2>/dev/null || true
+      step "Removing macOS Gatekeeper quarantine (xattr)"
+      xattr -d com.apple.quarantine "$DEST" 2>/dev/null && info "xattr -d com.apple.quarantine: done" || info "xattr -d: attribute not present (safe)"
+      xattr -c "$DEST" 2>/dev/null && info "xattr -c (clear all): done" || info "xattr -c: nothing to clear"
       # xattr -c can strip the execute bit on some macOS versions — restore it
       chmod +x "$DEST"
+      info "chmod +x re-applied after xattr"
     fi
 
-    echo "✅ applitoolsify ready: ${DEST}"
+    ok "applitoolsify downloaded and ready"
   fi
 
   APPLITOOLSIFY_BIN="$DEST"
@@ -112,37 +114,24 @@ ensure_applitoolsify() {
 
 _assert_bin() {
   if [[ -z "${APPLITOOLSIFY_BIN:-}" || ! -f "${APPLITOOLSIFY_BIN}" ]]; then
-    echo "❌ APPLITOOLSIFY_BIN is not set or missing. Call ensure_applitoolsify first."
-    exit 1
+    fail "APPLITOOLSIFY_BIN is not set or file missing. Call ensure_applitoolsify first."
   fi
 }
 
-# apply_nml_android INPUT_APK OUTPUT_APK
-#
-#   Android behaviour: applitoolsify reads INPUT_APK and creates a NEW
-#   instrumented file in the same directory, appending "-nml" before ".apk".
-#
-#   Strategy:
-#     1. Run applitoolsify on the input APK (already in dist/).
-#     2. The tool creates dist/<name>-nml.apk automatically.
-#     3. If the auto-generated path differs from OUTPUT_APK, rename it.
 apply_nml_android() {
-  local INPUT="$1"    # e.g. dist/App Automation Playground-debug.apk
-  local OUTPUT="$2"   # e.g. dist/App Automation Playground-debug-nml.apk
+  local INPUT="$1"
+  local OUTPUT="$2"
   _assert_bin
 
-  if [[ ! -f "$INPUT" ]]; then
-    echo "❌ Input APK not found: $INPUT"
-    exit 1
-  fi
+  step "Applying NML instrumentation (Android)"
+  info "Binary : ${APPLITOOLSIFY_BIN}"
+  info "Input  : ${INPUT}"
+  info "Output : ${OUTPUT}"
 
-  echo "==> Instrumenting (Android) with applitoolsify …"
-  echo "    Binary : ${APPLITOOLSIFY_BIN}"
-  echo "    Input  : ${INPUT}"
+  [[ -f "$INPUT" ]] || fail "Input APK not found: ${INPUT}"
 
   "$APPLITOOLSIFY_BIN" "$INPUT"
 
-  # The tool writes to: <dir>/<stem>-nml.<ext>
   local INPUT_DIR INPUT_BASE STEM AUTO_OUT
   INPUT_DIR="$(dirname "$INPUT")"
   INPUT_BASE="$(basename "$INPUT")"
@@ -150,45 +139,38 @@ apply_nml_android() {
   AUTO_OUT="${INPUT_DIR}/${STEM}-nml.apk"
 
   if [[ ! -f "$AUTO_OUT" ]]; then
-    echo "❌ applitoolsify did not produce expected output: ${AUTO_OUT}"
-    echo "   Contents of $(dirname "$INPUT"):"
-    ls -lh "$INPUT_DIR" || true
-    exit 1
+    info "Expected NML output not found: ${AUTO_OUT}"
+    info "Contents of $(dirname "$INPUT"):"
+    ls -lh "$INPUT_DIR" >&2 || true
+    fail "applitoolsify did not produce the expected output file."
   fi
 
   if [[ "$AUTO_OUT" != "$OUTPUT" ]]; then
     mv -f "$AUTO_OUT" "$OUTPUT"
-    echo "==> Renamed: $(basename "$AUTO_OUT") → $(basename "$OUTPUT")"
+    info "Renamed: $(basename "$AUTO_OUT") → $(basename "$OUTPUT")"
   fi
 
-  echo "✅ NML-instrumented (Android): ${OUTPUT}"
+  ok "NML-instrumented APK ready: $(basename "$OUTPUT")"
 }
 
-# apply_nml_ios INPUT_ZIP OUTPUT_ZIP
-#
-#   iOS behaviour: applitoolsify overwrites the supplied file in-place.
-#
-#   Strategy:
-#     1. Copy INPUT_ZIP → OUTPUT_ZIP.
-#     2. Run applitoolsify on OUTPUT_ZIP; it instruments and overwrites the copy.
 apply_nml_ios() {
-  local INPUT="$1"    # e.g. dist/App Automation Playground-debug.app.zip
-  local OUTPUT="$2"   # e.g. dist/App Automation Playground-debug-nml.app.zip
+  local INPUT="$1"
+  local OUTPUT="$2"
   _assert_bin
 
-  if [[ ! -f "$INPUT" ]]; then
-    echo "❌ Input app not found: $INPUT"
-    exit 1
-  fi
+  step "Applying NML instrumentation (iOS)"
+  info "Binary : ${APPLITOOLSIFY_BIN}"
+  info "Input  : ${INPUT}"
+  info "Output : ${OUTPUT}"
 
-  echo "==> Copying $(basename "$INPUT") → $(basename "$OUTPUT")"
+  [[ -f "$INPUT" ]] || fail "Input app not found: ${INPUT}"
+
+  step "Copying base app to NML output path"
   cp -f "$INPUT" "$OUTPUT"
+  info "Copied: $(basename "$INPUT") → $(basename "$OUTPUT")"
 
-  echo "==> Instrumenting (iOS) with applitoolsify (overwrites in-place) …"
-  echo "    Binary : ${APPLITOOLSIFY_BIN}"
-  echo "    Target : ${OUTPUT}"
-
+  step "Running applitoolsify (overwrites in-place)"
   "$APPLITOOLSIFY_BIN" "$OUTPUT"
 
-  echo "✅ NML-instrumented (iOS): ${OUTPUT}"
+  ok "NML-instrumented app ready: $(basename "$OUTPUT")"
 }
