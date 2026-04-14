@@ -38,7 +38,7 @@ def envVarsToForward = [
         'LOG_DIR',
         'IOS_DEVICE_NAME',
         'IOS_PLATFORM_VERSION',
-        'dist.dir',
+        'builds.dir',
 ]
 
 // Apply common config to every task of type Test (test, runAndroid, runIos)

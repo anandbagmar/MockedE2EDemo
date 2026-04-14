@@ -98,9 +98,9 @@ Icons are **generated automatically** the first time you run any build script (a
 
 All build scripts live in `scripts/`. They:
 - embed the JS bundle in the app (no Metro server required at runtime)
-- copy the finished artifact to `dist/`
+- copy the finished artifact to a timestamped folder under `builds/`
 - auto-generate app icons if the source image is present and stale
-- update `dist/version.txt` and `dist/CHANGELOG.md`
+- update `builds/version.txt` and `builds/CHANGELOG.md`
 
 ### Build variants
 
@@ -113,6 +113,7 @@ All build scripts live in `scripts/`. They:
 | `all` | Builds all four variants |
 
 > **NML builds** automatically download the `applitoolsify` binary on first use and cache it in `libs/`. No manual download is required.
+> `debug-nml` depends on the plain `debug` build, and `release-nml` depends on the plain `release` build. The scripts handle those prerequisites automatically and avoid rebuilding them twice in the same run.
 
 ---
 
@@ -134,16 +135,18 @@ All build scripts live in `scripts/`. They:
 ./scripts/build-android-apks.sh all
 ```
 
-**Output** → `dist/`
+**Output** → `builds/<Mon-YYYY>/<DD-MMM-YYYY>/<HH-MM>/android/`
 
 ```
-dist/
-├── App Automation Playground-debug.apk
-├── App Automation Playground-release.apk
-├── App Automation Playground-debug-nml.apk   # requires NML
-├── App Automation Playground-release-nml.apk # requires NML
-├── version.txt
-└── CHANGELOG.md
+builds/
+└── Apr-2026/14-Apr-2026/16-12/android/
+    ├── App Automation Playground-debug.apk
+    ├── App Automation Playground-release.apk
+    ├── App Automation Playground-debug-nml.apk   # requires NML
+    ├── App Automation Playground-release-nml.apk # requires NML
+    ├── android-instrumentation.log
+    ├── version.txt
+    └── CHANGELOG.md
 ```
 
 ---
@@ -166,16 +169,17 @@ dist/
 ./scripts/build-ios-app.sh all
 ```
 
-**Output** → `dist/`
+**Output** → `builds/<Mon-YYYY>/<DD-MMM-YYYY>/<HH-MM>/ios/`
 
 ```
-dist/
-├── App Automation Playground-debug.app.zip
-├── App Automation Playground-release.app.zip
-├── App Automation Playground-debug-nml.app.zip   # requires NML
-├── App Automation Playground-release-nml.app.zip # requires NML
-├── version.txt
-└── CHANGELOG.md
+builds/
+└── Apr-2026/14-Apr-2026/16-12/ios/
+    ├── App Automation Playground-debug.app.zip
+    ├── App Automation Playground-release.app.zip
+    ├── App Automation Playground-debug-nml.app.zip   # requires NML
+    ├── App Automation Playground-release-nml.app.zip # requires NML
+    ├── version.txt
+    └── CHANGELOG.md
 ```
 
 > iOS apps are zipped because `.app` is a directory. Appium's `app` capability accepts the zip directly.
@@ -209,11 +213,25 @@ Defaults: `platform=all`, `variant=all`
 
 ## Build outputs
 
-After any build, `dist/` contains the artifacts plus metadata:
+After any build, artifacts are written to a timestamped platform folder:
 
 ```
-dist/version.txt    – version, build date, platform
-dist/CHANGELOG.md   – human-readable release notes (edit freely)
+builds/<Mon-YYYY>/<DD-MMM-YYYY>/<HH-MM>/<platform>/
+```
+
+Inside each platform folder:
+
+```
+version.txt    – version, build date, platform
+CHANGELOG.md   – human-readable release notes (edit freely)
+```
+
+Convenience symlinks are also updated on each run:
+
+```
+builds/latest
+builds/latest-android
+builds/latest-ios
 ```
 
 ---
@@ -228,7 +246,7 @@ The Appium test project lives in `appium-tests/` and uses **Gradle + TestNG + Ap
 - UiAutomator2 driver: `appium driver install uiautomator2`
 - XCUITest driver: `appium driver install xcuitest`
 - `APPLITOOLS_API_KEY` environment variable set (for visual checks)
-- The target app built and present in `dist/` (see [Building the app](#building-the-app))
+- The target app built and present in the relevant timestamped folder under `builds/` (see [Building the app](#building-the-app))
 
 ### Run commands
 
@@ -261,7 +279,7 @@ IS_NML=true APPLITOOLS_API_KEY=<your-key> ./gradlew runAndroid
 IS_NML=true APPLITOOLS_API_KEY=<your-key> ./gradlew runIos
 ```
 
-When `IS_NML=true` the test automatically loads `dist/App Automation Playground-debug-nml.apk` (or `.app.zip`) instead of the standard build.
+When `IS_NML=true` the test should load the `-nml` app from the relevant timestamped folder under `builds/`.
 
 ### Disabling visual checks
 
@@ -275,7 +293,7 @@ IS_EYES_ENABLED=false ./gradlew runAndroid
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `APPLITOOLS_API_KEY` | *(required for Eyes)* | Applitools API key |
-| `IS_NML` | `false` | Load NML-instrumented app from `dist/` |
+| `IS_NML` | `false` | Load NML-instrumented app from the selected folder under `builds/` |
 | `IS_EYES_ENABLED` | `true` | Enable/disable Applitools visual checkpoints |
 | `USE_ALTERNATE_FLOW` | `false` | Run alternate user journey |
 | `IOS_DEVICE_NAME` | `iPhone 16` | iOS simulator name |
@@ -323,7 +341,7 @@ The cached binary lives in `libs/`. Delete it to force a re-download:
 rm libs/applitoolsify-*
 ```
 
-### Appium tests: app not found in dist/
+### Appium tests: app not found in builds/
 Build the app first:
 ```bash
 ./scripts/build-android-apks.sh debug   # or debug-nml for NML tests
@@ -333,6 +351,6 @@ Build the app first:
 ### iOS simulator app: unzip manually
 ```bash
 cd /tmp
-unzip ~/path/to/dist/"App Automation Playground-debug.app.zip"
+unzip ~/path/to/builds/latest-ios/"App Automation Playground-debug.app.zip"
 # → App Automation Playground-debug.app/
 ```

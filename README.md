@@ -33,10 +33,10 @@ A React Native app demonstrating end-to-end mobile testing with [Specmatic](http
 │       ├── icons-common.sh     Auto icon-generation logic (sourced by build scripts)
 │       └── nml-common.sh       Applitools NML download & instrumentation logic
 │
-├── dist/                       All built artifacts land here
-│   ├── *.apk / *.app.zip
-│   ├── version.txt
-│   └── CHANGELOG.md
+├── builds/                     Timestamped build outputs land here
+│   └── Apr-2026/14-Apr-2026/16-12/
+│       ├── android/
+│       └── ios/
 │
 ├── appium-tests/               Appium + Applitools visual test project (Gradle/Java)
 │   ├── build.gradle

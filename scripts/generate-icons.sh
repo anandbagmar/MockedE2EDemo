@@ -45,16 +45,17 @@ resize() {
 echo "==> Generating Android icons …"
 ANDROID_RES="android/app/src/main/res"
 
-declare -A ANDROID_SIZES=(
-  [mipmap-mdpi]=48
-  [mipmap-hdpi]=72
-  [mipmap-xhdpi]=96
-  [mipmap-xxhdpi]=144
-  [mipmap-xxxhdpi]=192
+ANDROID_SIZES=(
+  "mipmap-mdpi:48"
+  "mipmap-hdpi:72"
+  "mipmap-xhdpi:96"
+  "mipmap-xxhdpi:144"
+  "mipmap-xxxhdpi:192"
 )
 
-for FOLDER in "${!ANDROID_SIZES[@]}"; do
-  SIZE="${ANDROID_SIZES[$FOLDER]}"
+for ENTRY in "${ANDROID_SIZES[@]}"; do
+  FOLDER="${ENTRY%%:*}"
+  SIZE="${ENTRY##*:}"
   resize "$SIZE" "${ANDROID_RES}/${FOLDER}/ic_launcher.png"
   resize "$SIZE" "${ANDROID_RES}/${FOLDER}/ic_launcher_round.png"
 done
@@ -64,20 +65,21 @@ echo "==> Generating iOS icons …"
 IOS_ICONSET="ios/MockedE2EDemo/Images.xcassets/AppIcon.appiconset"
 
 # Sizes: <filename>:<px>
-declare -A IOS_ICONS=(
-  [AppIcon-20@2x.png]=40
-  [AppIcon-20@3x.png]=60
-  [AppIcon-29@2x.png]=58
-  [AppIcon-29@3x.png]=87
-  [AppIcon-40@2x.png]=80
-  [AppIcon-40@3x.png]=120
-  [AppIcon-60@2x.png]=120
-  [AppIcon-60@3x.png]=180
-  [AppIcon-1024.png]=1024
+IOS_ICONS=(
+  "AppIcon-20@2x.png:40"
+  "AppIcon-20@3x.png:60"
+  "AppIcon-29@2x.png:58"
+  "AppIcon-29@3x.png:87"
+  "AppIcon-40@2x.png:80"
+  "AppIcon-40@3x.png:120"
+  "AppIcon-60@2x.png:120"
+  "AppIcon-60@3x.png:180"
+  "AppIcon-1024.png:1024"
 )
 
-for FILENAME in "${!IOS_ICONS[@]}"; do
-  SIZE="${IOS_ICONS[$FILENAME]}"
+for ENTRY in "${IOS_ICONS[@]}"; do
+  FILENAME="${ENTRY%%:*}"
+  SIZE="${ENTRY##*:}"
   resize "$SIZE" "${IOS_ICONSET}/${FILENAME}"
 done
 

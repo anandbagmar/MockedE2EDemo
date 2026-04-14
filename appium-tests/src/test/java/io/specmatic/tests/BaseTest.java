@@ -1,23 +1,26 @@
 package io.specmatic.tests;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Date;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+
 import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
 import com.applitools.eyes.StdoutLogHandler;
 import com.applitools.eyes.TestResults;
 import com.applitools.eyes.TestResultsStatus;
 import com.applitools.eyes.appium.Eyes;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.Date;
+import io.specmatic.utils.Wait;
 
 /**
  * BaseTest – shared Appium + Applitools setup/teardown for all platform tests.
@@ -37,8 +40,8 @@ public abstract class BaseTest {
                     && !"false".equalsIgnoreCase(System.getProperty("IS_EYES_ENABLED"));
 
     /**
-     * Set to true to load the NML-instrumented app from dist/.
-     * When false the standard (non-NML) app from dist/ is used.
+     * Set to true to load the NML-instrumented app from builds/.
+     * When false the standard (non-NML) app from builds/ is used.
      */
     protected static final boolean IS_NML =
             "true".equalsIgnoreCase(System.getenv("IS_NML"))
@@ -49,11 +52,10 @@ public abstract class BaseTest {
                     ? System.getenv("APPLITOOLS_API_KEY")
                     : System.getProperty("APPLITOOLS_API_KEY", "");
 
-    // Dist folder (relative to project root / appium-tests module)
-    protected static final String DIST_DIR =
-            System.getProperty("dist.dir",
-                    new File(System.getProperty("user.dir")).getParentFile().getAbsolutePath()
-                            + File.separator + "dist");
+    // Builds root (relative to project root / appium-tests module)
+    protected static final String BUILDS_ROOT =
+            new File(System.getProperty("user.dir")).getParentFile().getAbsolutePath()
+                    + File.separator + "builds";
 
     private static final String APP_BASE_NAME = "App Automation Playground";
 
@@ -123,10 +125,21 @@ public abstract class BaseTest {
     // ══════════════════════════════════════════════════════════════════════
 
     private static void startAppiumServer() {
+        // Appium is installed locally in the project root's node_modules/ (not globally).
+        File projectRoot = new File(System.getProperty("user.dir")).getParentFile();
+        File appiumMainScript = new File(projectRoot, "node_modules/appium/build/lib/main.js");
+
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .usingAnyFreePort()
                 .withArgument(GeneralServerFlag.ALLOW_INSECURE, "adb_shell")
                 .withArgument(GeneralServerFlag.RELAXED_SECURITY);
+
+        if (appiumMainScript.exists()) {
+            builder.withAppiumJS(appiumMainScript);
+            System.out.printf("[BaseTest] Using local Appium: %s%n", appiumMainScript.getAbsolutePath());
+        } else {
+            System.out.println("[BaseTest] Local Appium not found — falling back to global installation");
+        }
 
         String logDir = System.getenv("LOG_DIR");
         if (logDir != null) {
@@ -139,20 +152,30 @@ public abstract class BaseTest {
         System.out.printf("[BaseTest] Appium server started: %s%n", APPIUM_SERVER_URL);
     }
 
-    /** Resolve the app path from dist/ based on platform and NML flag. */
+    /** Resolve the app path from the latest platform build folder based on platform and NML flag. */
     protected String resolveAppPath(String platform) {
         // platform: "android" → .apk / "ios" → .app.zip
         String suffix = IS_NML ? "-nml" : "";
         String filename;
+        String buildsDirProperty;
+        String defaultPlatformDir;
         if ("android".equals(platform)) {
             filename = APP_BASE_NAME + "-debug" + suffix + ".apk";
+            buildsDirProperty = "builds.android.dir";
+            defaultPlatformDir = BUILDS_ROOT + File.separator + "latest-android";
         } else {
             filename = APP_BASE_NAME + "-debug" + suffix + ".app.zip";
+            buildsDirProperty = "builds.ios.dir";
+            defaultPlatformDir = BUILDS_ROOT + File.separator + "latest-ios";
         }
-        File appFile = new File(DIST_DIR, filename);
+        String buildsDir = System.getProperty(
+                buildsDirProperty,
+                System.getProperty("builds.dir", defaultPlatformDir)
+        );
+        File appFile = new File(buildsDir, filename);
         if (!appFile.exists()) {
             throw new IllegalStateException(
-                    "App not found in dist/: " + appFile.getAbsolutePath()
+                    "App not found in builds/: " + appFile.getAbsolutePath()
                             + "\nRun scripts/build-android-apks.sh or scripts/build-ios-app.sh first.");
         }
         return appFile.getAbsolutePath();
@@ -169,15 +192,14 @@ public abstract class BaseTest {
         eyes.setIsDisabled(!IS_EYES_ENABLED);
         eyes.setIgnoreCaret(true);
         eyes.setIgnoreDisplacements(true);
-        eyes.setSaveNewTests(false);
+        eyes.setSaveNewTests(true);
         eyes.addProperty("IS_NML", String.valueOf(IS_NML));
         eyes.open(driver, appName, testInfo.getName());
     }
 
     /** Convenience: take a named Eyes checkpoint. */
     protected void checkpoint(String tag) {
-        if (IS_EYES_ENABLED && eyes != null) {
-            eyes.checkWindow(tag);
-        }
+        Wait.waitFor(2);
+        eyes.checkWindow(tag);
     }
 }

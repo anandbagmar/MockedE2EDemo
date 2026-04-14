@@ -14,7 +14,7 @@
 # NML builds download applitoolsify automatically to libs/ on first use.
 # Download source: https://sdksstorage.blob.core.windows.net/mobile/ios/nml/applitoolsify/release/
 #
-# All outputs are written to dist/ as .app.zip archives.
+# All outputs are written to builds/ as .app.zip archives.
 
 set -euo pipefail
 
@@ -26,6 +26,8 @@ cd "$PROJECT_ROOT"
 source "${PROJECT_ROOT}/scripts/lib/logging.sh"
 # shellcheck source=scripts/lib/icons-common.sh
 source "${PROJECT_ROOT}/scripts/lib/icons-common.sh"
+# shellcheck source=scripts/lib/builds-common.sh
+source "${PROJECT_ROOT}/scripts/lib/builds-common.sh"
 # shellcheck source=scripts/lib/nml-common.sh
 source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
 
@@ -33,7 +35,7 @@ source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
 APP_NAME="App Automation Playground"
 IOS_DIR="ios"
 DERIVED_DATA="${IOS_DIR}/build"
-DIST_DIR="${PROJECT_ROOT}/dist"
+DIST_DIR="$(builds_platform_dir "ios")"
 
 WORKSPACE="$(find "${IOS_DIR}" -maxdepth 1 -name "*.xcworkspace" -type d | head -n 1)"
 if [[ -z "${WORKSPACE}" ]]; then
@@ -46,11 +48,16 @@ XCODE_SCHEME="$(basename "${WORKSPACE}" .xcworkspace)"
 DEBUG_SIM_APP="${DERIVED_DATA}/Build/Products/Debug-iphonesimulator/${XCODE_SCHEME}.app"
 RELEASE_SIM_APP="${DERIVED_DATA}/Build/Products/Release-iphonesimulator/${XCODE_SCHEME}.app"
 
-# Final dist paths (zipped .app bundles)
+# Final builds paths (zipped .app bundles)
 DIST_DEBUG_APP="${DIST_DIR}/${APP_NAME}-debug.app.zip"
 DIST_RELEASE_APP="${DIST_DIR}/${APP_NAME}-release.app.zip"
 DIST_DEBUG_NML_APP="${DIST_DIR}/${APP_NAME}-debug-nml.app.zip"
 DIST_RELEASE_NML_APP="${DIST_DIR}/${APP_NAME}-release-nml.app.zip"
+
+BUILT_DEBUG=0
+BUILT_RELEASE=0
+BUILT_DEBUG_NML=0
+BUILT_RELEASE_NML=0
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -127,7 +134,7 @@ zip_app_to_dist() {
   local APP_PATH="$1"
   local DEST_ZIP="$2"
 
-  step "Zipping .app to dist/"
+  step "Zipping .app to builds/"
   info "From : ${APP_PATH}"
   info "To   : ${DEST_ZIP}"
 
@@ -149,7 +156,7 @@ zip_app_to_dist() {
 }
 
 write_dist_metadata() {
-  step "Writing dist metadata"
+  step "Writing builds metadata"
   local VERSION
   VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.1")
   local BUILD_DATE
@@ -174,49 +181,67 @@ EOF
 EOF
   fi
 
-  ok "dist/version.txt updated"
+  ok "builds/version.txt updated"
 }
 
 # ── Build variants ────────────────────────────────────────────────────────────
 
 build_debug() {
+  if [[ "$BUILT_DEBUG" -eq 1 ]]; then
+    info "iOS debug artifact already prepared — skipping rebuild"
+    return 0
+  fi
+
   banner "iOS  │  debug"
   ensure_dirs
   pod_install_if_needed
   run_xcodebuild Debug
   bundle_js true "${DEBUG_SIM_APP}"
   zip_app_to_dist "${DEBUG_SIM_APP}" "${DIST_DEBUG_APP}"
+  BUILT_DEBUG=1
 }
 
 build_release() {
+  if [[ "$BUILT_RELEASE" -eq 1 ]]; then
+    info "iOS release artifact already prepared — skipping rebuild"
+    return 0
+  fi
+
   banner "iOS  │  release"
   ensure_dirs
   pod_install_if_needed
   run_xcodebuild Release
   bundle_js false "${RELEASE_SIM_APP}"
   zip_app_to_dist "${RELEASE_SIM_APP}" "${DIST_RELEASE_APP}"
+  BUILT_RELEASE=1
 }
 
 build_debug_nml() {
+  if [[ "$BUILT_DEBUG_NML" -eq 1 ]]; then
+    info "iOS debug-nml artifact already prepared — skipping re-instrumentation"
+    return 0
+  fi
+
   banner "iOS  │  debug-nml"
-  ensure_dirs
-  pod_install_if_needed
-  run_xcodebuild Debug
-  bundle_js true "${DEBUG_SIM_APP}"
-  zip_app_to_dist "${DEBUG_SIM_APP}" "${DIST_DEBUG_APP}"
+  info "Prerequisite: debug .app.zip must exist before NML instrumentation"
+  build_debug
   ensure_applitoolsify "ios"
   apply_nml_ios "${DIST_DEBUG_APP}" "${DIST_DEBUG_NML_APP}"
+  BUILT_DEBUG_NML=1
 }
 
 build_release_nml() {
+  if [[ "$BUILT_RELEASE_NML" -eq 1 ]]; then
+    info "iOS release-nml artifact already prepared — skipping re-instrumentation"
+    return 0
+  fi
+
   banner "iOS  │  release-nml"
-  ensure_dirs
-  pod_install_if_needed
-  run_xcodebuild Release
-  bundle_js false "${RELEASE_SIM_APP}"
-  zip_app_to_dist "${RELEASE_SIM_APP}" "${DIST_RELEASE_APP}"
+  info "Prerequisite: release .app.zip must exist before NML instrumentation"
+  build_release
   ensure_applitoolsify "ios"
   apply_nml_ios "${DIST_RELEASE_APP}" "${DIST_RELEASE_NML_APP}"
+  BUILT_RELEASE_NML=1
 }
 
 build_all() {
@@ -228,8 +253,8 @@ build_all() {
 
   build_debug
   build_release
-  apply_nml_ios "${DIST_DEBUG_APP}"   "${DIST_DEBUG_NML_APP}"
-  apply_nml_ios "${DIST_RELEASE_APP}" "${DIST_RELEASE_NML_APP}"
+  build_debug_nml
+  build_release_nml
 }
 
 # ── Usage ─────────────────────────────────────────────────────────────────────
@@ -239,10 +264,12 @@ usage() {
 Usage: scripts/build-ios-app.sh <variant[,variant…]>
 
 Variants (comma-separated, no spaces):
-  debug          Debug simulator app   → dist/${APP_NAME}-debug.app.zip
-  release        Release simulator app → dist/${APP_NAME}-release.app.zip
-  debug-nml      Debug + NML           → dist/${APP_NAME}-debug-nml.app.zip
-  release-nml    Release + NML         → dist/${APP_NAME}-release-nml.app.zip
+  debug          Debug simulator app   → builds/${APP_NAME}-debug.app.zip
+  release        Release simulator app → builds/${APP_NAME}-release.app.zip
+  debug-nml      Debug + NML           → builds/${APP_NAME}-debug-nml.app.zip
+                 Requires debug .app.zip first; script handles this automatically
+  release-nml    Release + NML         → builds/${APP_NAME}-release-nml.app.zip
+                 Requires release .app.zip first; script handles this automatically
   all            Build all four variants
 
 Examples:
@@ -287,7 +314,8 @@ info "Variants to build : ${VARIANTS[*]}"
 info "Project root      : ${PROJECT_ROOT}"
 info "Workspace         : ${WORKSPACE}"
 info "Scheme            : ${XCODE_SCHEME}"
-info "Dist dir          : ${DIST_DIR}"
+info "Output dir        : ${DIST_DIR}"
+info "Run root          : ${PROJECT_ROOT}/builds/${BUILD_TIMESTAMP_ROOT}"
 echo ""
 
 for v in "${VARIANTS[@]}"; do

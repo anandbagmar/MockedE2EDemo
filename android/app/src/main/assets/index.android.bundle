@@ -100590,6 +100590,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     }, [navigation]);
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
+      accessibilityLabel: UI.homeScreen,
       testID: UI.homeScreen,
       children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.StatusBar, {
         barStyle: "dark-content",
@@ -100707,6 +100708,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   function RechargeScreen() {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
+      accessibilityLabel: UI.rechargeScreen,
       testID: UI.rechargeScreen,
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.View, {
         accessibilityLabel: UI.rechargeFrame,
@@ -100734,6 +100736,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     var agendaSteps = isAlternate ? ALTERNATE_AGENDA_STEPS : AGENDA_STEPS;
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
+      accessibilityLabel: UI.plannerScreen,
       testID: UI.plannerScreen,
       children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.ScrollView, {
         contentContainerStyle: [styles.scrollContent, isAlternate && styles.scrollContentAlternate],
@@ -100838,6 +100841,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     }), [guestCount, validateGuestCount]);
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
+      accessibilityLabel: UI.guestLookupScreen,
       testID: UI.guestLookupScreen,
       children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.ScrollView, {
         contentContainerStyle: [styles.scrollContent, isAlternate && styles.scrollContentAlternate],
@@ -100952,6 +100956,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     }, []);
     return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
+      accessibilityLabel: UI.webChecklistScreen,
       testID: UI.webChecklistScreen,
       children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.View, {
         style: styles.webScreenTop,
@@ -100998,6 +101003,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     var recapItems = (0, _react.useMemo)(() => ['Native stack navigation across multiple screens', 'Vertical scrolling in the agenda and results experience', 'User input validation with an Ok-dismiss alert dialog', 'Live API rendering from randomuser.me', 'A simple webview interaction built into the flow'], []);
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
+      accessibilityLabel: UI.summaryScreen,
       testID: UI.summaryScreen,
       children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.ScrollView, {
         contentContainerStyle: [styles.scrollContent, isAlternate && styles.scrollContentAlternate],

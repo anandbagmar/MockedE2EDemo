@@ -377,7 +377,7 @@ function HomeScreen({ navigation }: any) {
   );
 
   return (
-    <SafeAreaView style={styles.screen} testID={UI.homeScreen}>
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.homeScreen} testID={UI.homeScreen}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff8e7" />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -499,7 +499,7 @@ function HomeScreen({ navigation }: any) {
 
 function RechargeScreen() {
   return (
-    <SafeAreaView style={styles.screen} testID={UI.rechargeScreen}>
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.rechargeScreen} testID={UI.rechargeScreen}>
       <View
         accessibilityLabel={UI.rechargeFrame}
         style={styles.webviewFrame}
@@ -524,7 +524,7 @@ function PlannerScreen({ navigation, route }: any) {
   const agendaSteps = isAlternate ? ALTERNATE_AGENDA_STEPS : AGENDA_STEPS;
 
   return (
-    <SafeAreaView style={styles.screen} testID={UI.plannerScreen}>
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.plannerScreen} testID={UI.plannerScreen}>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
@@ -670,7 +670,7 @@ function GuestLookupScreen({ navigation, route }: any) {
   }, [guestCount, validateGuestCount]);
 
   return (
-    <SafeAreaView style={styles.screen} testID={UI.guestLookupScreen}>
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.guestLookupScreen} testID={UI.guestLookupScreen}>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
@@ -845,7 +845,7 @@ function WebChecklistScreen({ navigation, route }: any) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.screen} testID={UI.webChecklistScreen}>
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.webChecklistScreen} testID={UI.webChecklistScreen}>
       <View style={styles.webScreenTop} testID={UI.webChecklistTop}>
         <SectionTitle
           eyebrow="Step 3"
@@ -904,7 +904,7 @@ function SummaryScreen({ navigation, route }: any) {
   );
 
   return (
-    <SafeAreaView style={styles.screen} testID={UI.summaryScreen}>
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.summaryScreen} testID={UI.summaryScreen}>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,

@@ -14,7 +14,7 @@
 # NML builds download applitoolsify automatically to libs/ on first use.
 # Download source: https://sdksstorage.blob.core.windows.net/mobile/android/nml/release/
 #
-# All outputs are written to dist/.
+# All outputs are written to builds/.
 
 set -euo pipefail
 
@@ -26,6 +26,8 @@ cd "$PROJECT_ROOT"
 source "${PROJECT_ROOT}/scripts/lib/logging.sh"
 # shellcheck source=scripts/lib/icons-common.sh
 source "${PROJECT_ROOT}/scripts/lib/icons-common.sh"
+# shellcheck source=scripts/lib/builds-common.sh
+source "${PROJECT_ROOT}/scripts/lib/builds-common.sh"
 # shellcheck source=scripts/lib/nml-common.sh
 source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
 
@@ -33,7 +35,7 @@ source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
 APP_NAME="App Automation Playground"
 ASSETS_DIR="android/app/src/main/assets"
 RES_DIR="android/app/src/main/res"
-DIST_DIR="${PROJECT_ROOT}/dist"
+DIST_DIR="$(builds_platform_dir "android")"
 
 GRADLE_DEBUG_APK="android/app/build/outputs/apk/debug/app-debug.apk"
 GRADLE_RELEASE_APK="android/app/build/outputs/apk/release/app-release.apk"
@@ -42,6 +44,11 @@ DIST_DEBUG_APK="${DIST_DIR}/${APP_NAME}-debug.apk"
 DIST_RELEASE_APK="${DIST_DIR}/${APP_NAME}-release.apk"
 DIST_DEBUG_NML_APK="${DIST_DIR}/${APP_NAME}-debug-nml.apk"
 DIST_RELEASE_NML_APK="${DIST_DIR}/${APP_NAME}-release-nml.apk"
+
+BUILT_DEBUG=0
+BUILT_RELEASE=0
+BUILT_DEBUG_NML=0
+BUILT_RELEASE_NML=0
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -88,7 +95,7 @@ copy_to_dist() {
   local SRC="$1"
   local DEST="$2"
 
-  step "Copying APK to dist/"
+  step "Copying APK to builds/"
   info "From : ${SRC}"
   info "To   : ${DEST}"
 
@@ -103,7 +110,7 @@ copy_to_dist() {
 }
 
 write_dist_metadata() {
-  step "Writing dist metadata"
+  step "Writing builds metadata"
   local VERSION
   VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.1")
   local BUILD_DATE
@@ -128,45 +135,65 @@ EOF
 EOF
   fi
 
-  ok "dist/version.txt updated"
+  ok "builds/version.txt updated"
 }
 
 # ── Build variants ────────────────────────────────────────────────────────────
 
 build_debug() {
+  if [[ "$BUILT_DEBUG" -eq 1 ]]; then
+    info "Android debug artifact already prepared — skipping rebuild"
+    return 0
+  fi
+
   banner "Android  │  debug"
   ensure_dirs
   bundle_js true
   run_gradle :app:assembleDebug
   copy_to_dist "$GRADLE_DEBUG_APK" "$DIST_DEBUG_APK"
+  BUILT_DEBUG=1
 }
 
 build_release() {
+  if [[ "$BUILT_RELEASE" -eq 1 ]]; then
+    info "Android release artifact already prepared — skipping rebuild"
+    return 0
+  fi
+
   banner "Android  │  release"
   ensure_dirs
   bundle_js false
   run_gradle :app:assembleRelease
   copy_to_dist "$GRADLE_RELEASE_APK" "$DIST_RELEASE_APK"
+  BUILT_RELEASE=1
 }
 
 build_debug_nml() {
+  if [[ "$BUILT_DEBUG_NML" -eq 1 ]]; then
+    info "Android debug-nml artifact already prepared — skipping re-instrumentation"
+    return 0
+  fi
+
   banner "Android  │  debug-nml"
-  ensure_dirs
-  bundle_js true
-  run_gradle :app:assembleDebug
-  copy_to_dist "$GRADLE_DEBUG_APK" "$DIST_DEBUG_APK"
+  info "Prerequisite: debug APK must exist before NML instrumentation"
+  build_debug
   ensure_applitoolsify "android"
   apply_nml_android "$DIST_DEBUG_APK" "$DIST_DEBUG_NML_APK"
+  BUILT_DEBUG_NML=1
 }
 
 build_release_nml() {
+  if [[ "$BUILT_RELEASE_NML" -eq 1 ]]; then
+    info "Android release-nml artifact already prepared — skipping re-instrumentation"
+    return 0
+  fi
+
   banner "Android  │  release-nml"
-  ensure_dirs
-  bundle_js false
-  run_gradle :app:assembleRelease
-  copy_to_dist "$GRADLE_RELEASE_APK" "$DIST_RELEASE_APK"
+  info "Prerequisite: release APK must exist before NML instrumentation"
+  build_release
   ensure_applitoolsify "android"
   apply_nml_android "$DIST_RELEASE_APK" "$DIST_RELEASE_NML_APK"
+  BUILT_RELEASE_NML=1
 }
 
 build_all() {
@@ -181,8 +208,8 @@ build_all() {
 
   build_debug
   build_release
-  apply_nml_android "$DIST_DEBUG_APK"   "$DIST_DEBUG_NML_APK"
-  apply_nml_android "$DIST_RELEASE_APK" "$DIST_RELEASE_NML_APK"
+  build_debug_nml
+  build_release_nml
 }
 
 # ── Usage ─────────────────────────────────────────────────────────────────────
@@ -192,10 +219,12 @@ usage() {
 Usage: scripts/build-android-apks.sh <variant[,variant…]>
 
 Variants (comma-separated, no spaces):
-  debug          Offline debug APK  → dist/${APP_NAME}-debug.apk
-  release        Offline release APK→ dist/${APP_NAME}-release.apk
-  debug-nml      Debug + NML        → dist/${APP_NAME}-debug-nml.apk
-  release-nml    Release + NML      → dist/${APP_NAME}-release-nml.apk
+  debug          Offline debug APK  → builds/${APP_NAME}-debug.apk
+  release        Offline release APK→ builds/${APP_NAME}-release.apk
+  debug-nml      Debug + NML        → builds/${APP_NAME}-debug-nml.apk
+                 Requires debug APK first; script handles this automatically
+  release-nml    Release + NML      → builds/${APP_NAME}-release-nml.apk
+                 Requires release APK first; script handles this automatically
   all            Build all four variants
 
 Examples:
@@ -238,7 +267,8 @@ IFS=',' read -ra VARIANTS <<< "$input"
 step "Build plan: Android  │  ${input}"
 info "Variants to build: ${VARIANTS[*]}"
 info "Project root      : ${PROJECT_ROOT}"
-info "Dist dir          : ${DIST_DIR}"
+info "Output dir        : ${DIST_DIR}"
+info "Run root          : ${PROJECT_ROOT}/builds/${BUILD_TIMESTAMP_ROOT}"
 echo ""
 
 for v in "${VARIANTS[@]}"; do

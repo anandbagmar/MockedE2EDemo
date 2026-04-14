@@ -4,6 +4,7 @@ import com.applitools.eyes.appium.Eyes;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.remote.SupportsContextSwitching;
 import io.specmatic.tests.BaseTest;
 import io.specmatic.utils.Wait;
 import org.openqa.selenium.WebElement;
@@ -18,88 +19,60 @@ import java.time.Duration;
 /**
  * CommunityMeetingPlannerAndroidTest
  *
- * Traverses the Community Meeting Planner workflow on Android.
+ * Exercises the full Community Meeting Planner workflow on Android:
+ *   Home → flow-selector modal → Planner → GuestLookup (with validation)
+ *     → WebChecklist (inline WebView) → Summary → back to Home
  *
  * Flow selection:
- *   USE_ALTERNATE_FLOW = false  →  Original flow  (standard happy-path)
- *   USE_ALTERNATE_FLOW = true   →  Alternate flow (different attendee / meeting type)
+ *   USE_ALTERNATE_FLOW = false  →  Original flow
+ *   USE_ALTERNATE_FLOW = true   →  Alternate flow
  *
  * Override at runtime:
- *   mvn test -DUSE_ALTERNATE_FLOW=true -Pandroid
- *
- * App source:
- *   Loads from dist/ — run scripts/build-android-apks.sh [debug|release] first.
- *   For NML app run with IS_NML=true or set IS_NML env var.
+ *   ./gradlew test -DUSE_ALTERNATE_FLOW=true -Pandroid
  */
 public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
     private static final String APP_NAME = "Community Meeting Planner (Android)";
 
-    /**
-     * Toggle between the original and alternate user flow.
-     *
-     * Original flow  – schedules a "Team Standup" meeting with 3 attendees (virtual).
-     * Alternate flow – schedules a "Community Workshop" meeting with 5 attendees (in-person).
-     */
     private static final boolean USE_ALTERNATE_FLOW =
             "true".equalsIgnoreCase(System.getenv("USE_ALTERNATE_FLOW"))
                     || "true".equalsIgnoreCase(System.getProperty("USE_ALTERNATE_FLOW"));
 
-    // ── React Native testID / accessibility-label values ──────────────────
-    // (These match the testID constants in App.tsx and the WebView content.)
+    // ── Native layer locators ─────────────────────────────────────────────────
+    // All SafeAreaView screens have accessibilityLabel (= testID) after App.tsx fix.
+    // All PrimaryButton / SecondaryButton elements always have accessibilityLabel = testID.
+    // → AppiumBy.accessibilityId() matches content-desc on Android for all of these.
 
-    // Native layer
-    private static final String HOME_SCREEN          = "home.screen";
-    private static final String HOME_BTN_RECHARGE    = "home.btn.recharge";   // entry into planner
-    private static final String RECHARGE_SCREEN      = "recharge.screen";
-    private static final String RECHARGE_WEBVIEW     = "recharge.webview";
+    private static final String HOME_SCREEN                = "home.screen";
+    private static final String HOME_PLANNER_BTN           = "home.button.planner";
 
-    // ── WebView / web-content IDs ─────────────────────────────────────────
-    // Update these to match your Specmatic mock server's HTML element IDs/xpaths.
+    // Flow-selector modal
+    private static final String PLANNER_ORIGINAL_BTN       = "planner.mode.button.original";
+    private static final String PLANNER_ALTERNATE_BTN      = "planner.mode.button.alternate";
 
-    // Planner home
-    private static final String WEB_PLANNER_TITLE     = "planner-title";
-    private static final String WEB_NEW_MEETING_BTN   = "btn-new-meeting";
+    // Planner screen (native, scrollable)
+    private static final String PLANNER_SCREEN             = "planner.screen";
+    private static final String PLANNER_NEXT_BTN           = "planner.button.next";          // "Next: Load Guest Profiles"
 
-    // Create meeting form
-    private static final String WEB_MEETING_TITLE_INPUT = "input-meeting-title";
-    private static final String WEB_MEETING_DATE_INPUT  = "input-meeting-date";
-    private static final String WEB_MEETING_TIME_INPUT  = "input-meeting-time";
+    // Guest Lookup screen (native, scrollable)
+    private static final String GUEST_LOOKUP_SCREEN        = "guestLookup.screen";
+    private static final String GUEST_LOOKUP_INPUT         = "guestLookup.input.count";      // TextInput – has accessibilityLabel
+    private static final String GUEST_LOOKUP_FETCH_BTN     = "guestLookup.button.fetch";     // "Load Profiles"
+    private static final String GUEST_LOOKUP_RESULTS       = "guestLookup.section.results";  // SectionTitle – has accessibilityLabel; appears only after API load
+    private static final String GUEST_LOOKUP_NEXT_BTN      = "guestLookup.button.next";      // "Next: Open Web Checklist"
 
-    // Attendee fields
-    private static final String WEB_ATTENDEE_1_INPUT  = "input-attendee-1";
-    private static final String WEB_ATTENDEE_2_INPUT  = "input-attendee-2";
-    private static final String WEB_ATTENDEE_3_INPUT  = "input-attendee-3";
-    private static final String WEB_ATTENDEE_4_INPUT  = "input-attendee-4";
-    private static final String WEB_ATTENDEE_5_INPUT  = "input-attendee-5";
+    // Web Checklist screen (native shell + inline WebView)
+    private static final String WEB_CHECKLIST_SCREEN       = "webChecklist.screen";
+    private static final String WEB_CHECKLIST_CONTINUE_BTN = "webChecklist.button.continue"; // "Complete Workflow" – disabled until checklist done
 
-    // Meeting type radio/select
-    private static final String WEB_TYPE_VIRTUAL      = "type-virtual";
-    private static final String WEB_TYPE_IN_PERSON    = "type-in-person";
+    // Summary screen (native, scrollable)
+    private static final String SUMMARY_SCREEN             = "summary.screen";
+    private static final String SUMMARY_RESTART_BTN        = "summary.button.restart";       // "Start Again"
 
-    // Form actions
-    private static final String WEB_SUBMIT_BTN        = "btn-submit-meeting";
-    private static final String WEB_CONFIRM_BTN       = "btn-confirm";
-    private static final String WEB_CONFIRMATION_MSG  = "confirmation-message";
+    // ── WebView HTML element ID (inside inline CHECKLIST_HTML) ────────────────
+    private static final String WEB_CONFIRM_BTN            = "confirmButton";                // "Mark checklist as ready"
 
-    // ── Flow data ─────────────────────────────────────────────────────────
-
-    // Original flow
-    private static final String ORIG_TITLE    = "Team Standup";
-    private static final String ORIG_DATE     = "2026-05-01";
-    private static final String ORIG_TIME     = "09:00";
-    private static final String[] ORIG_ATTENDEES = {"alice@example.com", "bob@example.com", "carol@example.com"};
-    private static final String ORIG_TYPE     = WEB_TYPE_VIRTUAL;
-
-    // Alternate flow
-    private static final String ALT_TITLE     = "Community Workshop";
-    private static final String ALT_DATE      = "2026-05-15";
-    private static final String ALT_TIME      = "14:00";
-    private static final String[] ALT_ATTENDEES = {"dave@example.com", "eve@example.com",
-            "frank@example.com", "grace@example.com", "heidi@example.com"};
-    private static final String ALT_TYPE      = WEB_TYPE_IN_PERSON;
-
-    // ══════════════════════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════════════════
 
     @BeforeMethod
     public void setUp(Method testInfo) {
@@ -116,10 +89,11 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
         String appPath = resolveAppPath("android");
         options.setApp(appPath);
+        // SplashActivity transitions immediately to MainActivity; tell Appium to wait for MainActivity.
+        options.setAppWaitActivity("io.specmatic.e2edemo.MainActivity");
         System.out.printf("[Android] Using app: %s%n", appPath);
 
         if (IS_NML && IS_EYES_ENABLED) {
-            // NML static instrumentation: inject Applitools capabilities into the driver
             Eyes.setMobileCapabilities(options, APPLITOOLS_API_KEY);
         }
 
@@ -133,178 +107,137 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         configureEyes(APP_NAME, testInfo);
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // Tests
-    // ══════════════════════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════════════════
+    // Test
+    // ══════════════════════════════════════════════════════════════════════════
 
-    @Test(description = "Community Meeting Planner – schedule a meeting end-to-end")
+    @Test(description = "Community Meeting Planner – full workflow end-to-end")
     public void communityMeetingPlannerTest() {
+
+        // ── Step 1: App launch ────────────────────────────────────────────────
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(HOME_SCREEN));
+        checkpoint("App Launch");
+
+        // ── Step 2: Open Community Meeting Planner modal ──────────────────────
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(HOME_PLANNER_BTN)).click();
+
+        // ── Step 3: Select original or alternate flow ─────────────────────────
         if (USE_ALTERNATE_FLOW) {
-            runAlternateFlow();
+            Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(PLANNER_ALTERNATE_BTN)).click();
         } else {
-            runOriginalFlow();
+            Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(PLANNER_ORIGINAL_BTN)).click();
         }
-    }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // Original flow  –  Team Standup / Virtual / 3 attendees
-    // ══════════════════════════════════════════════════════════════════════
+        // ── Step 4: Planner screen ────────────────────────────────────────────
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(PLANNER_SCREEN));
+        checkpoint("Planner Screen");
 
-    private void runOriginalFlow() {
-        System.out.println("[Android] Running ORIGINAL flow");
+        // ── Step 5: Scroll to bottom → "Next: Load Guest Profiles" ───────────
+        scrollToAndClick(PLANNER_NEXT_BTN);
 
-        // 1. Home screen
-        WebElement homeScreen = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.accessibilityId(HOME_SCREEN));
-        checkpoint("Home Screen");
+        // ── Step 6: Guest Lookup screen ───────────────────────────────────────
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_SCREEN));
+        checkpoint("Guest Lookup Screen");
 
-        // 2. Open the Community Meeting Planner (WebView)
-        WebElement plannerBtn = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.accessibilityId(HOME_BTN_RECHARGE));
-        checkpoint("Home – Planner Button");
-        plannerBtn.click();
+        // ── Step 7: Enter 20 (out of range 1–15) → click "Load Profiles" ──────
+        WebElement countInput = Wait.waitTillElementIsPresent(driver,
+                AppiumBy.accessibilityId(GUEST_LOOKUP_INPUT));
+        countInput.click();
+        countInput.clear();
+        countInput.sendKeys("20");
+        hideKeyboard();
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_FETCH_BTN)).click();
+        checkpoint("Invalid Guest Count - Alert");
 
-        // 3. Wait for WebView / Planner home
-        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(RECHARGE_SCREEN));
+        // ── Step 8: Dismiss the validation alert ──────────────────────────────
+        driver.switchTo().alert().accept();
+
+        // ── Step 9: Enter 10 (valid) → click "Load Profiles" ─────────────────
+        countInput = Wait.waitTillElementIsPresent(driver,
+                AppiumBy.accessibilityId(GUEST_LOOKUP_INPUT));
+        countInput.click();
+        countInput.clear();
+        countInput.sendKeys("10");
+        hideKeyboard();
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_FETCH_BTN)).click();
+
+        // ── Step 10: Wait for API results (up to 30 s) ───────────────────────
+        // guestLookup.section.results (SectionTitle) has accessibilityLabel and renders
+        // only when guests.length > 0, making it a reliable load-complete signal.
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_RESULTS), 30);
+        checkpoint("Guest Profiles Loaded");
+
+        // ── Step 11: Scroll to bottom → "Next: Open Web Checklist" ───────────
+        scrollToAndClick(GUEST_LOOKUP_NEXT_BTN);
+
+        // ── Step 12: Web Checklist screen ─────────────────────────────────────
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(WEB_CHECKLIST_SCREEN));
+        checkpoint("Web Checklist Screen");
+
+        // ── Step 13: Switch to WebView → click "Mark checklist as ready" ──────
+        // The WebChecklist screen renders an inline HTML page (not a URL-based WebView).
         switchToWebViewContext();
+        Wait.waitTillElementIsClickable(driver, AppiumBy.id(WEB_CONFIRM_BTN)).click();
+        checkpoint("Checklist Marked Ready");
 
-        WebElement plannerTitle = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.id(WEB_PLANNER_TITLE));
-        checkpoint("Planner Home");
-        plannerTitle.getText(); // assert visible
+        // ── Step 14: Switch back to native → click "Complete Workflow" ────────
+        // The native button is enabled once the WebView posts 'checklist-complete'.
+        switchToNativeContext();
+        Wait.waitTillElementIsClickable(driver,
+                AppiumBy.accessibilityId(WEB_CHECKLIST_CONTINUE_BTN)).click();
 
-        // 4. Tap "New Meeting"
-        WebElement newMeetingBtn = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.id(WEB_NEW_MEETING_BTN));
-        checkpoint("New Meeting Button");
-        newMeetingBtn.click();
+        // ── Step 15: Summary screen ───────────────────────────────────────────
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(SUMMARY_SCREEN));
+        checkpoint("Summary Screen");
 
-        // 5. Fill meeting details
-        fillMeetingDetails(ORIG_TITLE, ORIG_DATE, ORIG_TIME, ORIG_TYPE);
+        // ── Step 16: Scroll to bottom → "Start Again" ────────────────────────
+        scrollToAndClick(SUMMARY_RESTART_BTN);
 
-        // 6. Add attendees
-        fillAttendees(ORIG_ATTENDEES);
-
-        checkpoint("Meeting Form – Filled (Original)");
-
-        // 7. Submit
-        submitAndConfirm();
-    }
-
-    // ══════════════════════════════════════════════════════════════════════
-    // Alternate flow  –  Community Workshop / In-person / 5 attendees
-    // ══════════════════════════════════════════════════════════════════════
-
-    private void runAlternateFlow() {
-        System.out.println("[Android] Running ALTERNATE flow");
-
-        // 1. Home screen
+        // ── Step 17: Back on Home screen ──────────────────────────────────────
         Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(HOME_SCREEN));
         checkpoint("Home Screen");
-
-        // 2. Open the Community Meeting Planner (WebView)
-        WebElement plannerBtn = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.accessibilityId(HOME_BTN_RECHARGE));
-        checkpoint("Home – Planner Button");
-        plannerBtn.click();
-
-        // 3. Wait for WebView / Planner home
-        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(RECHARGE_SCREEN));
-        switchToWebViewContext();
-
-        Wait.waitTillElementIsPresent(driver, AppiumBy.id(WEB_PLANNER_TITLE));
-        checkpoint("Planner Home");
-
-        // 4. Tap "New Meeting"
-        Wait.waitTillElementIsClickable(driver, AppiumBy.id(WEB_NEW_MEETING_BTN)).click();
-
-        // 5. Fill meeting details (alternate)
-        fillMeetingDetails(ALT_TITLE, ALT_DATE, ALT_TIME, ALT_TYPE);
-
-        // 6. Add attendees (more than original)
-        fillAttendees(ALT_ATTENDEES);
-
-        checkpoint("Meeting Form – Filled (Alternate)");
-
-        // 7. Submit
-        submitAndConfirm();
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // Shared helpers
-    // ══════════════════════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════════════════
+    // Helpers
+    // ══════════════════════════════════════════════════════════════════════════
+
+    /** Dismiss the soft keyboard via the AndroidDriver cast. */
+    private void hideKeyboard() {
+        ((AndroidDriver) driver).hideKeyboard();
+    }
+
+    /**
+     * Scroll within the first scrollable view until the element with the given
+     * content-desc (= accessibilityLabel = testID for PrimaryButton) is on screen,
+     * then click it.
+     */
+    private void scrollToAndClick(String accessibilityId) {
+        driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
+                ".scrollIntoView(new UiSelector().description(\"" + accessibilityId + "\"))")).click();
+    }
 
     /** Switch Appium context to the first available WEBVIEW. */
     private void switchToWebViewContext() {
-        Wait.waitFor(2); // let WebView finish loading
-        for (String ctx : driver.getContextHandles()) {
-            if (ctx.startsWith("WEBVIEW")) {
-                driver.context(ctx);
-                System.out.printf("[Android] Switched to context: %s%n", ctx);
+        Wait.waitFor(2); // allow WebView to finish loading
+        if (!(driver instanceof SupportsContextSwitching)) return;
+        SupportsContextSwitching ctx = (SupportsContextSwitching) driver;
+        for (String c : ctx.getContextHandles()) {
+            if (c.startsWith("WEBVIEW")) {
+                ctx.context(c);
+                System.out.printf("[Android] Switched to context: %s%n", c);
                 return;
             }
         }
-        System.out.println("[Android] No WEBVIEW context found – staying in NATIVE_APP context");
+        System.out.println("[Android] No WEBVIEW context found – staying in NATIVE_APP");
     }
 
-    private void fillMeetingDetails(String title, String date, String time, String meetingTypeId) {
-        // Title
-        WebElement titleInput = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.id(WEB_MEETING_TITLE_INPUT));
-        titleInput.clear();
-        titleInput.sendKeys(title);
-        checkpoint("Meeting Title Entered");
-
-        // Date
-        WebElement dateInput = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.id(WEB_MEETING_DATE_INPUT));
-        dateInput.clear();
-        dateInput.sendKeys(date);
-        checkpoint("Meeting Date Entered");
-
-        // Time
-        WebElement timeInput = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.id(WEB_MEETING_TIME_INPUT));
-        timeInput.clear();
-        timeInput.sendKeys(time);
-        checkpoint("Meeting Time Entered");
-
-        // Meeting type
-        WebElement typeOption = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.id(meetingTypeId));
-        typeOption.click();
-        checkpoint("Meeting Type Selected: " + meetingTypeId);
-    }
-
-    private void fillAttendees(String[] attendees) {
-        String[] inputIds = {
-                WEB_ATTENDEE_1_INPUT, WEB_ATTENDEE_2_INPUT, WEB_ATTENDEE_3_INPUT,
-                WEB_ATTENDEE_4_INPUT, WEB_ATTENDEE_5_INPUT
-        };
-        for (int i = 0; i < attendees.length && i < inputIds.length; i++) {
-            WebElement field = Wait.waitTillElementIsPresent(driver,
-                    AppiumBy.id(inputIds[i]));
-            field.clear();
-            field.sendKeys(attendees[i]);
+    /** Switch back to NATIVE_APP context. */
+    private void switchToNativeContext() {
+        if (driver instanceof SupportsContextSwitching) {
+            ((SupportsContextSwitching) driver).context("NATIVE_APP");
+            System.out.println("[Android] Switched back to NATIVE_APP context");
         }
-        checkpoint("Attendees Filled (" + attendees.length + ")");
-    }
-
-    private void submitAndConfirm() {
-        // Submit form
-        WebElement submitBtn = Wait.waitTillElementIsClickable(driver,
-                AppiumBy.id(WEB_SUBMIT_BTN));
-        checkpoint("Review Screen");
-        submitBtn.click();
-
-        // Confirm on review/summary screen
-        WebElement confirmBtn = Wait.waitTillElementIsClickable(driver,
-                AppiumBy.id(WEB_CONFIRM_BTN));
-        checkpoint("Confirmation Screen");
-        confirmBtn.click();
-
-        // Final confirmation message
-        Wait.waitTillElementIsPresent(driver, AppiumBy.id(WEB_CONFIRMATION_MSG));
-        checkpoint("Meeting Scheduled – Confirmation");
     }
 }

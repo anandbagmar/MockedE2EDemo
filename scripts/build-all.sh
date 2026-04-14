@@ -2,14 +2,13 @@
 # build-all.sh – Master build script for App Automation Playground (Android + iOS).
 #
 # Usage:
-#   scripts/build-all.sh [platform] [variant[,variant…]]
+#   scripts/build-all.sh <platform> <variant[,variant…]>
 #
-#   platform  : android | ios | all                              (default: all)
-#   variant   : debug | release | debug-nml | release-nml | all (default: all)
+#   platform  : android | ios | all
+#   variant   : debug | release | debug-nml | release-nml | all
 #               comma-separate multiple variants, no spaces
 #
 # Examples:
-#   scripts/build-all.sh                          # all platforms, all variants
 #   scripts/build-all.sh android debug            # Android debug only
 #   scripts/build-all.sh ios release              # iOS release only
 #   scripts/build-all.sh android debug,debug-nml  # Android debug + debug-nml
@@ -19,9 +18,46 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-PLATFORM="${1:-all}"
-VARIANT_ARG="${2:-all}"
+# shellcheck source=scripts/lib/logging.sh
+source "${PROJECT_ROOT}/scripts/lib/logging.sh"
+# shellcheck source=scripts/lib/builds-common.sh
+source "${PROJECT_ROOT}/scripts/lib/builds-common.sh"
+
+usage() {
+  cat <<EOF
+Usage: scripts/build-all.sh <platform> <variant[,variant…]>
+
+Platforms:
+  android
+  ios
+  all
+
+Variants (comma-separated, no spaces):
+  debug
+  release
+  debug-nml
+  release-nml
+  all
+
+Examples:
+  scripts/build-all.sh android debug
+  scripts/build-all.sh ios release
+  scripts/build-all.sh android debug,debug-nml
+  scripts/build-all.sh all debug,release
+  scripts/build-all.sh all release,release-nml
+EOF
+}
+
+[[ $# -lt 2 ]] && { usage; exit 1; }
+
+PLATFORM="$1"
+VARIANT_ARG="$2"
+BUILD_TIMESTAMP_ROOT="${BUILD_TIMESTAMP_ROOT:-$(builds_timestamp_root)}"
+export BUILD_TIMESTAMP_ROOT
+BUILD_OUTPUT_ROOT="$(ensure_builds_root)"
+export BUILD_OUTPUT_ROOT
 
 # ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -65,3 +101,4 @@ esac
 
 echo ""
 echo "✅ build-all.sh complete."
+echo "📦 Output root: ${BUILD_OUTPUT_ROOT}"

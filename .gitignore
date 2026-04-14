@@ -172,3 +172,5 @@ libs/applitoolsify-*
 
 # Icon generation marker (auto-created by build scripts)
 .icon-generated
+
+builds/
