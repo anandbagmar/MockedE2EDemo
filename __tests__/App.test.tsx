@@ -4,6 +4,9 @@
 
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+
+jest.mock('react-native-webview', () => 'WebView');
+
 import App from '../App';
 
 test('renders correctly', async () => {

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MockedE2EDemo</string>
+    <string name="app_name">App Automation Playground</string>
+    <string name="app_version">v1.1</string>
 </resources>

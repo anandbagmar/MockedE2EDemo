@@ -39,14 +39,23 @@ target 'MockedE2EDemo' do
         t.build_configurations.each do |config|
           # Reduce noisy warnings from Pods / RN libraries
           config.build_settings['CLANG_WARN_DOCUMENTATION_DEPRECATED_SYNC'] = 'NO'
+          config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
 
           # Suppress common third-party noise
           existing = config.build_settings['OTHER_CFLAGS'] || ['$(inherited)']
           existing = [existing] if existing.is_a?(String)
           config.build_settings['OTHER_CFLAGS'] = existing + [
             '-Wno-nonnull',
-            '-Wno-deprecated-declarations'
+            '-Wno-deprecated-declarations',
+            '-Wno-non-modular-include-in-framework-module'
           ]
+
+          # Xcode 26.4 is stricter with C++20 consteval in the bundled fmt pod.
+          # Limiting fmt to C++17 avoids those compile-time format-string failures
+          # without changing the rest of the React Native pod graph.
+          if t.name == 'fmt'
+            config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
+          end
         end
     end
   end

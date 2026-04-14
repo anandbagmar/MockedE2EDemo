@@ -11,6 +11,9 @@ gem 'concurrent-ruby', '< 1.3.4'
 
 # Ruby 3.4.0 has removed some libraries from the standard library.
 gem 'bigdecimal'
+gem 'base64'
 gem 'logger'
 gem 'benchmark'
 gem 'mutex_m'
+gem 'nkf'
+gem 'tsort'

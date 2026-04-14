@@ -122,7 +122,7 @@ These builds embed the JS bundle and run **WITHOUT Metro**.
 ### 3) Install CocoaPods (first time only)
 ```bash
 cd ios
-pod install
+bundle exec pod install
 cd ..
 ```
 
@@ -156,4 +156,4 @@ adb devices
 ```
 
 ### iOS: CocoaPods errors
-If `pod install` fails due to Ruby constraints, upgrade Ruby (Homebrew Ruby recommended) and reinstall CocoaPods.
+If `bundle exec pod install` fails due to Ruby constraints, upgrade Ruby (Homebrew Ruby recommended) and reinstall CocoaPods.
