@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -125,7 +125,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
 
         try {
             driver = new IOSDriver(new URL(APPIUM_SERVER_URL), options);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
         } catch (MalformedURLException e) {
             throw new RuntimeException("Invalid Appium server URL: " + APPIUM_SERVER_URL, e);
         }

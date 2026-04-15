@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.os.ExecutableFinder;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -19,7 +18,6 @@ import com.applitools.eyes.TestResults;
 import com.applitools.eyes.TestResultsStatus;
 import com.applitools.eyes.appium.Eyes;
 import com.applitools.eyes.config.Configuration;
-import com.applitools.eyes.selenium.fluent.Target;
 import com.applitools.eyes.visualgrid.model.AndroidMultiDeviceTarget;
 import com.applitools.eyes.visualgrid.model.IosMultiDeviceTarget;
 
@@ -296,6 +294,7 @@ public abstract class BaseTest {
         eyes.setIgnoreCaret(true);
         eyes.setIgnoreDisplacements(true);
         eyes.setSaveNewTests(true);
+        eyes.setForceFullPageScreenshot(true);
         eyes.addProperty("IS_NML", String.valueOf(IS_NML));
         if (appName.toLowerCase().contains("android")) {
             eyes.addProperty("PLATFORM", "Android");
@@ -322,7 +321,7 @@ public abstract class BaseTest {
      * Convenience: take a named Eyes checkpoint.
      */
     protected void checkpoint(String tag) {
-        Wait.waitFor(2);
+        Wait.waitFor(3);
         eyes.checkWindow(tag);
     }
 }

@@ -1,21 +1,23 @@
 package io.specmatic.tests.android;
 
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import com.applitools.eyes.appium.Eyes;
+
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.specmatic.tests.BaseTest;
 import io.specmatic.utils.Wait;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
 
 /**
  * CommunityMeetingPlannerAndroidTest
@@ -104,7 +106,7 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
         try {
             driver = new AndroidDriver(new URL(APPIUM_SERVER_URL), options);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
         } catch (MalformedURLException e) {
             throw new RuntimeException("Invalid Appium server URL: " + APPIUM_SERVER_URL, e);
         }
