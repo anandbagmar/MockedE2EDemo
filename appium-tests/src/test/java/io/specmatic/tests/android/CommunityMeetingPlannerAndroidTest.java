@@ -7,6 +7,7 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.specmatic.tests.BaseTest;
 import io.specmatic.utils.Wait;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -33,6 +34,7 @@ import java.time.Duration;
 public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
     private static final String APP_NAME = "Community Meeting Planner (Android)";
+    private static final String ANDROID_PACKAGE = "io.specmatic.e2edemo";
 
     private static final boolean USE_ALTERNATE_FLOW =
             "true".equalsIgnoreCase(System.getenv("USE_ALTERNATE_FLOW"))
@@ -85,7 +87,10 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         options.setDeviceName("Android");
         options.setAutoGrantPermissions(true);
         options.setFullReset(true);
+        options.setCapability("appium:enforceAppInstall", true);
         options.setCapability("printPageSourceOnFindFailure", true);
+
+        uninstallAndroidPackage(ANDROID_PACKAGE);
 
         String appPath = resolveAppPath("android");
         options.setApp(appPath);
@@ -133,10 +138,11 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         checkpoint("Planner Screen");
 
         // ── Step 5: Scroll to bottom → "Next: Load Guest Profiles" ───────────
-        scrollToAndClick(PLANNER_NEXT_BTN);
+        scrollIntoView(PLANNER_NEXT_BTN);
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(PLANNER_NEXT_BTN)).click();
+        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_SCREEN), 10);
 
         // ── Step 6: Guest Lookup screen ───────────────────────────────────────
-        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_SCREEN));
         checkpoint("Guest Lookup Screen");
 
         // ── Step 7: Enter 20 (out of range 1–15) → click "Load Profiles" ──────
@@ -150,7 +156,7 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         checkpoint("Invalid Guest Count - Alert");
 
         // ── Step 8: Dismiss the validation alert ──────────────────────────────
-        driver.switchTo().alert().accept();
+        dismissValidationAlert();
 
         // ── Step 9: Enter 10 (valid) → click "Load Profiles" ─────────────────
         countInput = Wait.waitTillElementIsPresent(driver,
@@ -168,7 +174,8 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         checkpoint("Guest Profiles Loaded");
 
         // ── Step 11: Scroll to bottom → "Next: Open Web Checklist" ───────────
-        scrollToAndClick(GUEST_LOOKUP_NEXT_BTN);
+        scrollIntoView(GUEST_LOOKUP_NEXT_BTN);
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_NEXT_BTN)).click();
 
         // ── Step 12: Web Checklist screen ─────────────────────────────────────
         Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(WEB_CHECKLIST_SCREEN));
@@ -177,7 +184,7 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         // ── Step 13: Switch to WebView → click "Mark checklist as ready" ──────
         // The WebChecklist screen renders an inline HTML page (not a URL-based WebView).
         switchToWebViewContext();
-        Wait.waitTillElementIsClickable(driver, AppiumBy.id(WEB_CONFIRM_BTN)).click();
+        Wait.waitTillElementIsClickable(driver, AppiumBy.cssSelector("#" + WEB_CONFIRM_BTN)).click();
         checkpoint("Checklist Marked Ready");
 
         // ── Step 14: Switch back to native → click "Complete Workflow" ────────
@@ -191,7 +198,8 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
         checkpoint("Summary Screen");
 
         // ── Step 16: Scroll to bottom → "Start Again" ────────────────────────
-        scrollToAndClick(SUMMARY_RESTART_BTN);
+        scrollIntoView(SUMMARY_RESTART_BTN);
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(SUMMARY_RESTART_BTN)).click();
 
         // ── Step 17: Back on Home screen ──────────────────────────────────────
         Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(HOME_SCREEN));
@@ -209,13 +217,29 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
     /**
      * Scroll within the first scrollable view until the element with the given
-     * content-desc (= accessibilityLabel = testID for PrimaryButton) is on screen,
-     * then click it.
+     * content-desc is on screen, then click it.
      */
-    private void scrollToAndClick(String accessibilityId) {
+    private void scrollIntoView(String accessibilityId) {
         driver.findElement(AppiumBy.androidUIAutomator(
                 "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
-                ".scrollIntoView(new UiSelector().description(\"" + accessibilityId + "\"))")).click();
+                ".scrollIntoView(new UiSelector().description(\"" + accessibilityId + "\"))"));
+    }
+
+    private void dismissValidationAlert() {
+        By okButton = AppiumBy.androidUIAutomator("new UiSelector().textMatches(\"(?i)ok\")");
+
+        try {
+            Wait.waitTillElementIsClickable(driver, okButton, 5).click();
+            return;
+        } catch (Exception ignored) {
+            // Some Android builds render this as a native alert instead of an in-app dialog.
+        }
+
+        try {
+            Wait.waitTillAlertIsPresent(driver).accept();
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to dismiss guest count validation dialog", e);
+        }
     }
 
     /** Switch Appium context to the first available WEBVIEW. */

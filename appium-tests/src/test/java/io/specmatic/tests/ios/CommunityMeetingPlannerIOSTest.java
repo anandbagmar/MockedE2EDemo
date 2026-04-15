@@ -15,6 +15,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -89,7 +91,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
     private static final String SUMMARY_RESTART_BTN        = "summary.button.restart";       // "Start Again"
 
     // ── WebView HTML element ID (inside inline CHECKLIST_HTML) ────────────────
-    private static final String WEB_CONFIRM_BTN            = "confirmButton";                // "Mark checklist as ready"
+    private static final String WEB_CONFIRM_BTN            = "Mark checklist as ready";      // WebView button label exposed by XCUITest
 
     // ── Temp dir for extracted .app ───────────────────────────────────────────
     private Path extractedAppDir;
@@ -186,12 +188,9 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_FETCH_BTN)).click();
 
         // ── Step 10: Wait for API results (up to 30 s) ───────────────────────
-        // Scroll to the bottom first so guestLookup.section.results is in the
-        // viewport; XCUITest only reports visible="true" for on-screen elements.
-        scrollToBottom();
-        // guestLookup.section.results (SectionTitle) renders only when
-        // guests.length > 0, making it a reliable load-complete signal.
-        Wait.waitTillElementIsPresent(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_RESULTS), 30);
+        // XCUITest can keep section markers "not visible" even after they are
+        // present, so use the next-step button as the load-complete signal.
+        Wait.waitTillElementExists(driver, AppiumBy.accessibilityId(GUEST_LOOKUP_NEXT_BTN), 30);
         checkpoint("Guest Profiles Loaded");
 
         // ── Step 11: Scroll to bottom → "Next: Open Web Checklist" ───────────
@@ -204,7 +203,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         // ── Step 13: Switch to WebView → click "Mark checklist as ready" ──────
         // The WebChecklist screen renders an inline HTML page (not a URL-based WebView).
         switchToWebViewContext();
-        Wait.waitTillElementIsClickable(driver, AppiumBy.id(WEB_CONFIRM_BTN)).click();
+        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(WEB_CONFIRM_BTN)).click();
         checkpoint("Checklist Marked Ready");
 
         // ── Step 14: Switch back to native → click "Complete Workflow" ────────
@@ -242,16 +241,31 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
     }
 
     /**
-     * Scroll within the nearest scrollable container using XCUITest mobile:scroll
-     * until the element matching the given accessibility identifier (= testID) is
-     * visible, then click it.
+     * Scroll within the nearest scrollable container using repeated XCUITest
+     * mobile:scroll gestures until the element matching the given accessibility
+     * identifier (= testID) becomes clickable, then click it.
      */
     private void scrollToAndClick(String accessibilityId) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("direction", "down");
-        args.put("predicateString", "name == '" + accessibilityId + "'");
-        driver.executeScript("mobile: scroll", args);
-        Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(accessibilityId)).click();
+        By locator = AppiumBy.accessibilityId(accessibilityId);
+        TimeoutException lastFailure = null;
+
+        for (int attempt = 0; attempt < 8; attempt++) {
+            try {
+                Wait.waitTillElementIsClickable(driver, locator, 2).click();
+                return;
+            } catch (TimeoutException e) {
+                lastFailure = e;
+            }
+
+            Map<String, Object> args = new HashMap<>();
+            args.put("direction", "down");
+            driver.executeScript("mobile: scroll", args);
+        }
+
+        throw new RuntimeException(
+                "Unable to scroll to element: " + accessibilityId,
+                lastFailure
+        );
     }
 
     /**
