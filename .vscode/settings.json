@@ -1,4 +1,40 @@
 {
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.project.importOnFirstTimeStartup": "disabled",
+  "java.project.importHint": false,
+  "java.import.gradle.enabled": false,
+  "java.import.maven.enabled": false,
+  "java.jdt.ls.androidSupport.enabled": false,
+  "java.import.exclusions": [
+    "**/android/**",
+    "**/node_modules/**"
+  ],
+  "java.project.resourceFilters": [
+    "android",
+    "node_modules",
+    ".project",
+    ".settings"
+  ],
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/android/**": true
+  },
+  "cucumber.features": [
+    "appium-tests/src/test/resources/**/*.feature"
+  ],
+  "cucumber.glue": [
+    "appium-tests/src/test/java/**/*.java",
+    "appium-tests/build/teswiz-src/com/znsio/teswiz/steps/**/*.java"
+  ],
+  "cucumberautocomplete.steps": [
+    "appium-tests/src/test/java/**/*.java",
+    "appium-tests/src/main/java/**/*.java",
+    "appium-tests/build/teswiz-src/com/znsio/teswiz/steps/**/*.java"
+  ],
+  "cucumberautocomplete.syncfeatures": "appium-tests/src/test/resources/**/*.feature",
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "cucumberautocomplete.strictGherkinValidation": true,
+  "cucumberautocomplete.smartSnippets": true,
+  "cucumberautocomplete.stepsInvariants": true
 }

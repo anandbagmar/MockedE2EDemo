@@ -9,7 +9,7 @@ plugins {
     id 'java'
 }
 
-def teswizVersion = "08e5c8bb28"
+def teswizVersion = "1.0.21"
 
 group   = 'io.specmatic'
 version = '1.0.0'
@@ -283,8 +283,6 @@ tasks.register('runTeswiz', JavaExec) {
         if (null == ipAddress) {
             println "Unable to get local IP address. NOT updating BASE_URL and REMOTE_WEBDRIVER_GRID_HOST_NAME"
         } else {
-//            println "Updating BASE_URL ('http://$ipAddress:3000') and REMOTE_WEBDRIVER_GRID_HOST_NAME ('$ipAddress')"
-//            environment "BASE_URL", "http://$ipAddress:3000"
             environment "REMOTE_WEBDRIVER_GRID_HOST_NAME", "$ipAddress"
         }
 
@@ -294,15 +292,6 @@ tasks.register('runTeswiz', JavaExec) {
             println("Run the test by providing the CONFIG file not provided, or does not exist")
             assert file(configFile).exists()
         }
-
-//      You can also specify which config file to use based on the value of RUN_IN_CI as shown below
-//
-//        def isRunInCI = Boolean.parseBoolean(System.getenv("RUN_IN_CI"))
-//        println "isRunningInCI: $isRunInCI"
-//        def configFile = isRunInCI
-//                ? "./configs/theapp/theapp_pcloudy_config.properties"
-//                : "./configs/theapp/theapp_local_android_config.properties"
-//        configFile = System.getenv("CONFIG") ? System.getenv("CONFIG") : configFile
 
         systemProperties = System.properties as Map<String, ?>
         def runnerArgs = [
