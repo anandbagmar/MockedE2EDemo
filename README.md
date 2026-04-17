@@ -1,6 +1,7 @@
 # App Automation Playground
 
 A React Native app demonstrating end-to-end mobile testing with [Specmatic](https://specmatic.io) API mocking and [Applitools](https://applitools.com) visual testing.
+The sample journey mixes native, web, and hybrid screens so Appium can exercise all three patterns in one flow.
 
 ---
 
@@ -66,7 +67,7 @@ npm install
 cd appium-tests && ./gradlew runAndroid
 ```
 
-See the **[Build & Test Guide](./README-IndependentBuild.md)** for all variants, NML builds, iOS setup, and test configuration.
+See the **[Build & Test Guide](./README-IndependentBuild.md)** for all variants, NML builds, iOS setup, the native/web/hybrid screen map, and test configuration. The iOS build script will install Bundler/CocoaPods dependencies automatically when needed.
 
 ---
 
@@ -89,13 +90,9 @@ npm run android
 ### Run on iOS
 
 ```bash
-# First time only
-bundle install
-cd ios
-bundle exec pod install
-cd ..
-
 npm run ios
 ```
+
+If you are using the standalone iOS build scripts in `scripts/`, they will install Bundler/CocoaPods dependencies automatically when needed. For direct `npm run ios` usage, CocoaPods still needs to be available on the machine.
 
 > After any JS/TS change, re-run the build script to update the embedded bundle in the APK/app used for Appium testing.

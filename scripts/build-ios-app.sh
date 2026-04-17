@@ -35,6 +35,7 @@ source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
 APP_NAME="App Automation Playground"
 IOS_DIR="ios"
 DERIVED_DATA="${IOS_DIR}/build"
+BUILD_TIMESTAMP_ROOT="$(builds_timestamp_root)"
 DIST_DIR="$(builds_platform_dir "ios")"
 
 WORKSPACE="$(find "${IOS_DIR}" -maxdepth 1 -name "*.xcworkspace" -type d | head -n 1)"
@@ -68,16 +69,37 @@ ensure_dirs() {
   ok "Directories ready"
 }
 
+ensure_ruby_dependencies() {
+  step "Ensuring Ruby dependencies are available"
+
+  if ! command -v bundle >/dev/null 2>&1; then
+    fail "Bundler is not installed. Install Ruby/Bundler first, then rerun the build."
+  fi
+
+  if bundle check >/dev/null 2>&1; then
+    info "Ruby gems already installed"
+  else
+    info "Ruby gems missing or out of date — running bundle install"
+    bundle install
+  fi
+
+  ok "Ruby dependencies ready"
+}
+
 pod_install_if_needed() {
   if [[ ! -d "${IOS_DIR}/Pods" ]]; then
     step "Pods not found — running pod install"
     info "Working dir: ${IOS_DIR}/"
-    pushd "${IOS_DIR}" >/dev/null
-    pod install
+    pushd "${PROJECT_ROOT}" >/dev/null
+    RCT_USE_PREBUILT_RNCORE=0 bundle exec pod install --project-directory="${IOS_DIR}"
     popd >/dev/null
     ok "pod install complete"
   else
-    info "Pods already installed — skipping pod install"
+    info "Pods already installed — verifying with bundle exec pod install"
+    pushd "${PROJECT_ROOT}" >/dev/null
+    RCT_USE_PREBUILT_RNCORE=0 bundle exec pod install --project-directory="${IOS_DIR}"
+    popd >/dev/null
+    ok "pod install complete"
   fi
 }
 
@@ -194,6 +216,7 @@ build_debug() {
 
   banner "iOS  │  debug"
   ensure_dirs
+  ensure_ruby_dependencies
   pod_install_if_needed
   run_xcodebuild Debug
   bundle_js true "${DEBUG_SIM_APP}"
@@ -209,6 +232,7 @@ build_release() {
 
   banner "iOS  │  release"
   ensure_dirs
+  ensure_ruby_dependencies
   pod_install_if_needed
   run_xcodebuild Release
   bundle_js false "${RELEASE_SIM_APP}"
@@ -250,6 +274,7 @@ build_all() {
 
   step "Pre-downloading NML binary (shared across all variants)"
   ensure_applitoolsify "ios"
+  ensure_ruby_dependencies
 
   build_debug
   build_release

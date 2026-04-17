@@ -1,21 +1,25 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Image,
   Modal,
+  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
+  Pressable,
   TouchableOpacity,
   View,
+  Keyboard,
+  type ViewProps,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
+import { requireNativeComponent } from 'react-native';
 
 if (__DEV__) {
   // @ts-ignore
@@ -53,6 +57,8 @@ type RootStackParamList = {
   Home: undefined;
   Recharge: undefined;
   Planner: FlowRouteParams;
+  NativeJourney: FlowRouteParams;
+  NativeHybrid: FlowRouteParams;
   GuestLookup: FlowRouteParams;
   WebChecklist: FlowRouteParams;
   Summary: FlowRouteParams;
@@ -82,7 +88,7 @@ const UI = {
   plannerTipBanner: 'planner.tipBanner',
   plannerTipTitle: 'planner.tipBanner.title',
   plannerTipText: 'planner.tipBanner.text',
-  plannerNextButton: 'planner.button.next',
+  plannerNextNativeButton: 'planner.button.next.native',
   rechargeScreen: 'recharge.screen',
   rechargeFrame: 'recharge.frame',
   rechargeWebView: 'recharge.webview',
@@ -96,9 +102,23 @@ const UI = {
   guestLookupLoader: 'guestLookup.loader',
   guestLookupLoaderText: 'guestLookup.loader.text',
   guestLookupResults: 'guestLookup.results',
+  guestLookupCards: 'guestLookup.cards',
+  guestLookupCardsList: 'guestLookup.cards.list',
   guestLookupResultsNextButton: 'guestLookup.button.next',
+  nativeJourneyScreen: 'nativeJourney.screen',
+  nativeJourneyScroll: 'nativeJourney.scroll',
+  nativeJourneyPanel: 'nativeJourney.panel',
+  nativeJourneyView: 'nativeJourney.nativeView',
+  nativeJourneyContinue: 'nativeJourney.button.continue',
+  nativeJourneyModeNote: 'nativeJourney.mode.native',
+  nativeHybridScreen: 'nativeHybrid.screen',
+  nativeHybridView: 'nativeHybrid.nativeView',
+  nativeHybridContinue: 'nativeHybrid.button.continue',
+  nativeHybridModeNote: 'nativeHybrid.mode.hybrid',
   webChecklistScreen: 'webChecklist.screen',
   webChecklistTop: 'webChecklist.top',
+  webChecklistLoading: 'webChecklist.loading',
+  webChecklistReady: 'webChecklist.ready',
   webChecklistFrame: 'webChecklist.frame',
   webChecklistWebView: 'webChecklist.webview',
   webChecklistContinue: 'webChecklist.button.continue',
@@ -123,6 +143,11 @@ const getProfileId = (
   part: 'card' | 'avatar' | 'name' | 'email' | 'location' | 'phone',
 ) => `guestLookup.profile.${index + 1}.${part}`;
 const getRecapId = (index: number) => `summary.recap.${index + 1}`;
+const nativePlatformName = Platform.select({ android: 'AndroidX', ios: 'Swift' }) ?? 'Native';
+const nativePlatformSuffix = Platform.select({ android: 'androidx', ios: 'swift' }) ?? 'native';
+const reactNativeModeLabel = 'React Native View';
+const nativeViewModeLabel = `${nativePlatformName} Native View`;
+const hybridViewModeLabel = `${nativePlatformName} Hybrid Native Views`;
 const APP_VERSION = 'Version 1.1';
 
 const FEATURE_HIGHLIGHTS = [
@@ -154,6 +179,21 @@ const AGENDA_STEPS = [
     title: 'Wrap-up Notes',
     subtitle: 'Attendees leave with contacts and follow-up actions.',
   },
+  {
+    title: 'Photo Wall',
+    subtitle:
+      'A slow stroll past a few snapshots from the day before everyone moves on.',
+  },
+  {
+    title: 'Team Kudos',
+    subtitle:
+      'A calm moment for a couple of shout-outs and small celebrations.',
+  },
+  {
+    title: 'Exit Snacks',
+    subtitle:
+      'A final friendly stop for refreshments, quick goodbyes, and the last scroll of the page.',
+  },
 ];
 
 const ALTERNATE_AGENDA_STEPS = [
@@ -180,7 +220,25 @@ const ALTERNATE_AGENDA_STEPS = [
     subtitle:
       'Attendees leave with fresh contacts and a few follow-up actions.',
   },
+  {
+    title: 'Photo Wall',
+    subtitle:
+      'A longer, slower pass where guests can browse snapshots from the day and tap into the memories.',
+  },
+  {
+    title: 'Team Kudos',
+    subtitle:
+      'A final stretch for shout-outs, quick thank-yous, and a couple of small wins from the event.',
+  },
+  {
+    title: 'Exit Snacks',
+    subtitle:
+      'One last scroll-friendly stop with refreshments and a quiet finish before everyone heads out.',
+  },
 ];
+
+const NativeJourneyView = requireNativeComponent<ViewProps>('NativeJourneyView');
+const NativeHybridView = requireNativeComponent<ViewProps>('NativeHybridView');
 
 const CHECKLIST_HTML = `
 <!DOCTYPE html>
@@ -269,6 +327,7 @@ function PrimaryButton({
 }) {
   return (
     <TouchableOpacity
+      accessible
       accessibilityLabel={testID ?? label}
       accessibilityRole="button"
       disabled={disabled}
@@ -276,11 +335,7 @@ function PrimaryButton({
       style={[styles.primaryButton, disabled && styles.primaryButtonDisabled]}
       testID={testID}
     >
-      <Text
-        accessibilityLabel={testID ? `${testID}.label` : undefined}
-        style={styles.primaryButtonText}
-        testID={testID ? `${testID}.label` : undefined}
-      >
+      <Text style={styles.primaryButtonText}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -298,17 +353,14 @@ function SecondaryButton({
 }) {
   return (
     <TouchableOpacity
+      accessible
       accessibilityLabel={testID ?? label}
       accessibilityRole="button"
       onPress={onPress}
       style={styles.secondaryButton}
       testID={testID}
     >
-      <Text
-        accessibilityLabel={testID ? `${testID}.label` : undefined}
-        style={styles.secondaryButtonText}
-        testID={testID ? `${testID}.label` : undefined}
-      >
+      <Text style={styles.secondaryButtonText}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -357,6 +409,24 @@ function SectionTitle({
   );
 }
 
+function ScreenModeNote({
+  label,
+  testID,
+}: {
+  label: string;
+  testID: string;
+}) {
+  return (
+    <View
+      accessibilityLabel={testID}
+      style={styles.modeNote}
+      testID={testID}
+    >
+      <Text style={styles.modeNoteText}>{label}</Text>
+    </View>
+  );
+}
+
 function HomeScreen({ navigation }: any) {
   const [isPlannerModeVisible, setIsPlannerModeVisible] = useState(false);
 
@@ -379,6 +449,19 @@ function HomeScreen({ navigation }: any) {
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.homeScreen} testID={UI.homeScreen}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff8e7" />
+      <View style={styles.screenTopActions}>
+        <PrimaryButton
+          label="Recharge Phone Number"
+          onPress={() => navigation.navigate('Recharge')}
+          testID={UI.homeRechargeButton}
+        />
+        <View style={styles.actionSpacer} />
+        <PrimaryButton
+          label="Community Meeting Planner"
+          onPress={openPlannerModeChooser}
+          testID={UI.homePlannerButton}
+        />
+      </View>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -414,6 +497,7 @@ function HomeScreen({ navigation }: any) {
           style={styles.panel}
           testID={UI.homeWorkflowPanel}
         >
+          <ScreenModeNote label={reactNativeModeLabel} testID="home.mode.native" />
           <SectionTitle
             eyebrow="What It Shows"
             title="Choose a demo workflow"
@@ -437,20 +521,6 @@ function HomeScreen({ navigation }: any) {
               </Text>
             </View>
           ))}
-        </View>
-
-        <View style={styles.actionStack}>
-          <PrimaryButton
-            label="Recharge Phone Number"
-            onPress={() => navigation.navigate('Recharge')}
-            testID={UI.homeRechargeButton}
-          />
-          <View style={styles.actionSpacer} />
-          <PrimaryButton
-            label="Community Meeting Planner"
-            onPress={openPlannerModeChooser}
-            testID={UI.homePlannerButton}
-          />
         </View>
 
         <Text style={styles.versionText} testID={UI.homeVersion}>
@@ -500,6 +570,9 @@ function HomeScreen({ navigation }: any) {
 function RechargeScreen() {
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.rechargeScreen} testID={UI.rechargeScreen}>
+      <View style={styles.screenHeader}>
+        <ScreenModeNote label="Web view" testID="recharge.mode.web" />
+      </View>
       <View
         accessibilityLabel={UI.rechargeFrame}
         style={styles.webviewFrame}
@@ -510,8 +583,102 @@ function RechargeScreen() {
           javaScriptEnabled
           domStorageEnabled
           startInLoadingState
+          webviewDebuggingEnabled
           accessibilityLabel={UI.rechargeWebView}
           testID={UI.rechargeWebView}
+        />
+      </View>
+    </SafeAreaView>
+  );
+}
+
+function NativeJourneyScreen({ navigation, route }: any) {
+  const variant: FlowVariant = route.params?.variant ?? 'original';
+  const isAlternate = variant === 'alternate';
+
+  return (
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.nativeJourneyScreen} testID={UI.nativeJourneyScreen}>
+      <View style={styles.screenTopActions}>
+        <PrimaryButton
+          label="Next: Hybrid Native Views"
+          onPress={() => navigation.push('NativeHybrid', { variant })}
+          testID={UI.nativeJourneyContinue}
+        />
+      </View>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          isAlternate && styles.scrollContentAlternate,
+        ]}
+        showsVerticalScrollIndicator={false}
+        testID={UI.nativeJourneyScroll}
+      >
+        <View style={styles.screenHeader}>
+          <ScreenModeNote
+            label={nativeViewModeLabel}
+            testID={`${UI.nativeJourneyModeNote}.${nativePlatformSuffix}`}
+          />
+        </View>
+
+        <SectionTitle
+          eyebrow="Step 2A"
+          title={
+            isAlternate
+              ? `${nativePlatformName} native detail with extra breathing room`
+              : `A longer ${nativePlatformName} native screen`
+          }
+          body={
+            `This scrollable screen is rendered entirely with ${nativePlatformName} platform views before the workflow continues.`
+          }
+          testID="nativeJourney.section.intro"
+        />
+
+        <NativeJourneyView
+          accessibilityLabel={UI.nativeJourneyView}
+          testID={UI.nativeJourneyView}
+          style={styles.nativeJourneyView}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+function NativeHybridScreen({ navigation, route }: any) {
+  const variant: FlowVariant = route.params?.variant ?? 'original';
+  const isAlternate = variant === 'alternate';
+
+  return (
+    <SafeAreaView style={styles.screen} accessibilityLabel={UI.nativeHybridScreen} testID={UI.nativeHybridScreen}>
+      <View style={styles.screenTopActions}>
+        <PrimaryButton
+          label="Next: Load Guest Profiles"
+          onPress={() => navigation.navigate('GuestLookup', { variant })}
+          testID={UI.nativeHybridContinue}
+        />
+      </View>
+      <View style={styles.nativeHybridShell}>
+        <View style={styles.screenHeader}>
+          <ScreenModeNote
+            label={hybridViewModeLabel}
+            testID={`${UI.nativeHybridModeNote}.${nativePlatformSuffix}`}
+          />
+        </View>
+
+        <SectionTitle
+          eyebrow="Step 2B"
+          title={
+            isAlternate
+              ? `${nativePlatformName} hybrid native views before profiles`
+              : `A compact ${nativePlatformName} hybrid native views`
+          }
+          body="This screen combines React Native layout with a fixed native component, and it does not scroll."
+          testID="nativeHybrid.section.intro"
+        />
+
+        <NativeHybridView
+          accessibilityLabel={UI.nativeHybridView}
+          testID={UI.nativeHybridView}
+          style={styles.nativeHybridView}
         />
       </View>
     </SafeAreaView>
@@ -525,12 +692,20 @@ function PlannerScreen({ navigation, route }: any) {
 
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.plannerScreen} testID={UI.plannerScreen}>
+      <View style={styles.screenTopActions}>
+        <PrimaryButton
+          label="Next: Native Detail"
+          onPress={() => navigation.push('NativeJourney', { variant })}
+          testID={UI.plannerNextNativeButton}
+        />
+      </View>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
           isAlternate && styles.scrollContentAlternate,
         ]}
         showsVerticalScrollIndicator={false}
+        style={styles.plannerScroll}
         testID={UI.plannerScroll}
       >
         <SectionTitle
@@ -545,6 +720,8 @@ function PlannerScreen({ navigation, route }: any) {
           }
           testID="planner.section.intro"
         />
+
+        <ScreenModeNote label={reactNativeModeLabel} testID="planner.mode.native" />
 
         {agendaSteps.map((step, index) => (
           <View
@@ -605,12 +782,6 @@ function PlannerScreen({ navigation, route }: any) {
               : 'Scroll through the agenda, then move forward to fetch attendee profiles from the API.'}
           </Text>
         </View>
-
-        <PrimaryButton
-          label="Next: Load Guest Profiles"
-          onPress={() => navigation.navigate('GuestLookup', { variant })}
-          testID={UI.plannerNextButton}
-        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -622,6 +793,14 @@ function GuestLookupScreen({ navigation, route }: any) {
   const [guestCount, setGuestCount] = useState('');
   const [guests, setGuests] = useState<PlannerGuest[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeAlert, setActiveAlert] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
+
+  const dismissActiveAlert = useCallback(() => {
+    setActiveAlert(null);
+  }, []);
 
   const validateGuestCount = useCallback((value: string) => {
     const trimmedValue = value.trim();
@@ -640,10 +819,14 @@ function GuestLookupScreen({ navigation, route }: any) {
   }, []);
 
   const loadGuests = useCallback(async () => {
+    Keyboard.dismiss();
     const validationMessage = validateGuestCount(guestCount);
 
     if (validationMessage) {
-      Alert.alert('Invalid guest count', validationMessage, [{ text: 'Ok' }]);
+      setActiveAlert({
+        title: 'Invalid guest count',
+        message: validationMessage,
+      });
       return;
     }
 
@@ -661,9 +844,10 @@ function GuestLookupScreen({ navigation, route }: any) {
       const payload = await response.json();
       setGuests(Array.isArray(payload?.results) ? payload.results : []);
     } catch {
-      Alert.alert('Unable to load profiles', 'Please try again in a moment.', [
-        { text: 'Ok' },
-      ]);
+      setActiveAlert({
+        title: 'Unable to load profiles',
+        message: 'Please try again in a moment.',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -671,6 +855,53 @@ function GuestLookupScreen({ navigation, route }: any) {
 
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.guestLookupScreen} testID={UI.guestLookupScreen}>
+      <View style={styles.screenTopActions}>
+        <PrimaryButton
+          label={isLoading ? 'Loading Profiles...' : 'Load Profiles'}
+          onPress={loadGuests}
+          disabled={isLoading}
+          testID={UI.guestLookupFetchButton}
+        />
+        <View style={styles.actionSpacer} />
+        <PrimaryButton
+          label="Next: Open Web Checklist"
+          onPress={() => navigation.navigate('WebChecklist', { variant })}
+          disabled={guests.length === 0}
+          testID={UI.guestLookupResultsNextButton}
+        />
+      </View>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={activeAlert !== null}
+        onRequestClose={dismissActiveAlert}
+      >
+        <Pressable
+          accessibilityLabel="guestLookup.alert.backdrop"
+          style={styles.alertBackdrop}
+          testID="guestLookup.alert.backdrop"
+          onPress={dismissActiveAlert}
+        >
+          <Pressable
+            accessibilityLabel="guestLookup.alert.card"
+            style={styles.alertCard}
+            testID="guestLookup.alert.card"
+            onPress={() => undefined}
+          >
+            <Text style={styles.alertTitle} testID="guestLookup.alert.title">
+              {activeAlert?.title}
+            </Text>
+            <Text style={styles.alertBody} testID="guestLookup.alert.body">
+              {activeAlert?.message}
+            </Text>
+            <SecondaryButton
+              label="Ok"
+              onPress={dismissActiveAlert}
+              testID="guestLookup.alert.ok"
+            />
+          </Pressable>
+        </Pressable>
+      </Modal>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
@@ -679,7 +910,8 @@ function GuestLookupScreen({ navigation, route }: any) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         testID={UI.guestLookupScroll}
-      >
+        >
+        <ScreenModeNote label={reactNativeModeLabel} testID="guestLookup.mode.native" />
         <SectionTitle
           eyebrow="Step 2"
           title={
@@ -728,13 +960,6 @@ function GuestLookupScreen({ navigation, route }: any) {
               ? 'Use digits only. Values from 1 to 15 are accepted.'
               : 'Only numeric values from 1 to 15 are accepted.'}
           </Text>
-
-          <PrimaryButton
-            label={isLoading ? 'Loading Profiles...' : 'Load Profiles'}
-            onPress={loadGuests}
-            disabled={isLoading}
-            testID={UI.guestLookupFetchButton}
-          />
         </View>
 
         {isLoading ? (
@@ -763,69 +988,76 @@ function GuestLookupScreen({ navigation, route }: any) {
               testID="guestLookup.section.results"
             />
 
-            {guests.map((guest, index) => (
+            <View
+              accessibilityLabel={UI.guestLookupCards}
+              testID={UI.guestLookupCards}
+            >
               <View
-                key={guest.login.uuid}
-                style={[
-                  styles.profileCard,
-                  isAlternate && styles.profileCardAlternate,
-                ]}
-                testID={getProfileId(index, 'card')}
+                accessibilityLabel={UI.guestLookupCardsList}
+                collapsable={false}
+                style={styles.profileCards}
+                testID={UI.guestLookupCardsList}
               >
-                <Image
-                  source={{ uri: guest.picture.large }}
-                  style={[styles.avatar, isAlternate && styles.avatarAlternate]}
-                  testID={getProfileId(index, 'avatar')}
-                />
-                <View
-                  style={styles.profileContent}
-                  testID={`guestLookup.profile.${index + 1}.content`}
-                >
-                  <Text
+                {guests.map((guest, index) => (
+                  <View
+                    key={guest.login.uuid}
                     style={[
-                      styles.profileName,
-                      isAlternate && styles.profileNameAlternate,
+                      styles.profileCard,
+                      isAlternate && styles.profileCardAlternate,
                     ]}
-                    testID={getProfileId(index, 'name')}
+                    testID={getProfileId(index, 'card')}
                   >
-                    {guest.name.title} {guest.name.first} {guest.name.last}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.profileMeta,
-                      isAlternate && styles.profileMetaAlternate,
-                    ]}
-                    testID={getProfileId(index, 'email')}
-                  >
-                    {guest.email}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.profileMeta,
-                      isAlternate && styles.profileMetaAlternate,
-                    ]}
-                    testID={getProfileId(index, 'location')}
-                  >
-                    {guest.location.city}, {guest.location.country}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.profileMeta,
-                      isAlternate && styles.profileMetaAlternate,
-                    ]}
-                    testID={getProfileId(index, 'phone')}
-                  >
-                    Phone: {guest.phone} | Cell: {guest.cell}
-                  </Text>
-                </View>
+                    <Image
+                      source={{ uri: guest.picture.large }}
+                      style={[styles.avatar, isAlternate && styles.avatarAlternate]}
+                      testID={getProfileId(index, 'avatar')}
+                    />
+                    <View
+                      style={styles.profileContent}
+                      testID={`guestLookup.profile.${index + 1}.content`}
+                    >
+                      <Text
+                        style={[
+                          styles.profileName,
+                          isAlternate && styles.profileNameAlternate,
+                        ]}
+                        testID={getProfileId(index, 'name')}
+                      >
+                        {guest.name.title} {guest.name.first} {guest.name.last}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.profileMeta,
+                          isAlternate && styles.profileMetaAlternate,
+                        ]}
+                        testID={getProfileId(index, 'email')}
+                      >
+                        {guest.email}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.profileMeta,
+                          isAlternate && styles.profileMetaAlternate,
+                        ]}
+                        testID={getProfileId(index, 'location')}
+                      >
+                        {guest.location.city}, {guest.location.country}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.profileMeta,
+                          isAlternate && styles.profileMetaAlternate,
+                        ]}
+                        testID={getProfileId(index, 'phone')}
+                      >
+                        Phone: {guest.phone} | Cell: {guest.cell}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
               </View>
-            ))}
+            </View>
 
-            <PrimaryButton
-              label="Next: Open Web Checklist"
-              onPress={() => navigation.navigate('WebChecklist', { variant })}
-              testID={UI.guestLookupResultsNextButton}
-            />
           </View>
         ) : null}
       </ScrollView>
@@ -837,6 +1069,7 @@ function WebChecklistScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
   const isAlternate = variant === 'alternate';
   const [checklistCompleted, setChecklistCompleted] = useState(false);
+  const [webViewReady, setWebViewReady] = useState(false);
 
   const onMessage = useCallback((event: any) => {
     if (event?.nativeEvent?.data === 'checklist-complete') {
@@ -847,6 +1080,7 @@ function WebChecklistScreen({ navigation, route }: any) {
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.webChecklistScreen} testID={UI.webChecklistScreen}>
       <View style={styles.webScreenTop} testID={UI.webChecklistTop}>
+        <ScreenModeNote label="Hybrid view" testID="webChecklist.mode.hybrid" />
         <SectionTitle
           eyebrow="Step 3"
           title={
@@ -856,24 +1090,19 @@ function WebChecklistScreen({ navigation, route }: any) {
             isAlternate
               ? 'The checklist still runs inside a webview, while the surrounding native screen has small presentation changes.'
               : 'The checklist below runs inside a webview. Tap the button in the web content to unlock the final screen.'
-          }
+            }
           testID="webChecklist.section.intro"
         />
+        <View
+          accessibilityLabel={UI.webChecklistReady}
+          style={styles.webChecklistReadyBadge}
+          testID={UI.webChecklistReady}
+        >
+          <Text style={styles.webChecklistReadyText}>Web checklist ready</Text>
+        </View>
       </View>
 
-      <View style={styles.webviewFrame} testID={UI.webChecklistFrame}>
-        <WebView
-          source={{ html: CHECKLIST_HTML }}
-          onMessage={onMessage}
-          javaScriptEnabled
-          domStorageEnabled
-          startInLoadingState
-          accessibilityLabel={UI.webChecklistWebView}
-          testID={UI.webChecklistWebView}
-        />
-      </View>
-
-      <View style={styles.webScreenBottom}>
+      <View style={styles.screenTopActions}>
         <PrimaryButton
           label={
             checklistCompleted
@@ -884,6 +1113,27 @@ function WebChecklistScreen({ navigation, route }: any) {
           disabled={!checklistCompleted}
           testID={UI.webChecklistContinue}
         />
+      </View>
+
+      <View style={styles.webviewFrame} testID={UI.webChecklistFrame}>
+        <WebView
+          source={{ html: CHECKLIST_HTML }}
+          onLoadEnd={() => setWebViewReady(true)}
+          onLoadStart={() => setWebViewReady(false)}
+          onMessage={onMessage}
+          javaScriptEnabled
+          domStorageEnabled
+          startInLoadingState
+          webviewDebuggingEnabled
+          accessibilityLabel={UI.webChecklistWebView}
+          testID={UI.webChecklistWebView}
+        />
+        {!webViewReady ? (
+          <View style={styles.webChecklistLoading} testID={UI.webChecklistLoading}>
+            <ActivityIndicator size="small" color="#ef6c3d" />
+            <Text style={styles.webChecklistLoadingText}>Loading web checklist...</Text>
+          </View>
+        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -905,6 +1155,13 @@ function SummaryScreen({ navigation, route }: any) {
 
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.summaryScreen} testID={UI.summaryScreen}>
+      <View style={styles.screenTopActions}>
+        <PrimaryButton
+          label="Start Again"
+          onPress={() => navigation.popToTop()}
+          testID={UI.summaryRestartButton}
+        />
+      </View>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
@@ -912,7 +1169,8 @@ function SummaryScreen({ navigation, route }: any) {
         ]}
         showsVerticalScrollIndicator={false}
         testID={UI.summaryScroll}
-      >
+        >
+        <ScreenModeNote label={reactNativeModeLabel} testID="summary.mode.native" />
         <View
           style={[
             styles.summaryCard,
@@ -977,11 +1235,6 @@ function SummaryScreen({ navigation, route }: any) {
           </View>
         ))}
 
-        <PrimaryButton
-          label="Start Again"
-          onPress={() => navigation.popToTop()}
-          testID={UI.summaryRestartButton}
-        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -1016,6 +1269,16 @@ export default function App() {
             options={{ title: 'Meeting Planner' }}
           />
           <Stack.Screen
+            name="NativeJourney"
+            component={NativeJourneyScreen}
+            options={{ title: 'Native Detail' }}
+          />
+          <Stack.Screen
+            name="NativeHybrid"
+            component={NativeHybridScreen}
+            options={{ title: 'Native Blend' }}
+          />
+          <Stack.Screen
             name="GuestLookup"
             component={GuestLookupScreen}
             options={{ title: 'Guest Profiles' }}
@@ -1041,9 +1304,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff8e7',
   },
+  screenTopActions: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 12,
+  },
   scrollContent: {
     padding: 20,
     paddingBottom: 32,
+  },
+  plannerScroll: {
+    flex: 1,
+  },
+  screenHeader: {
+    marginBottom: 12,
+  },
+  modeNote: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#fff0df',
+    borderColor: '#f5c7a8',
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginBottom: 14,
+  },
+  modeNoteText: {
+    color: '#8a3f18',
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
   heroCard: {
     height: 280,
@@ -1158,9 +1449,6 @@ const styles = StyleSheet.create({
     color: '#17324d',
     fontSize: 16,
     fontWeight: '700',
-  },
-  actionStack: {
-    marginTop: 4,
   },
   actionSpacer: {
     height: 12,
@@ -1306,6 +1594,9 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 14,
   },
+  profileCards: {
+    width: '100%',
+  },
   profileCardAlternate: {
     borderWidth: 1,
     borderColor: '#d2e3db',
@@ -1359,9 +1650,54 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: '#ffffff',
   },
-  webScreenBottom: {
+  webChecklistLoading: {
+    ...StyleSheet.absoluteFill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.88)',
+  },
+  webChecklistLoadingText: {
+    color: '#4d6378',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  webChecklistReadyText: {
+    color: '#0f766e',
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+  },
+  webChecklistReadyBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#e2fbf4',
+    borderColor: '#9be1cd',
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  nativeJourneyView: {
+    minHeight: 1120,
+    marginTop: 12,
+    marginBottom: 16,
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: '#ffffff',
+  },
+  nativeHybridShell: {
+    flex: 1,
     paddingHorizontal: 20,
+    paddingTop: 20,
     paddingBottom: 24,
+  },
+  nativeHybridView: {
+    flexGrow: 0,
+    height: 320,
+    marginBottom: 16,
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: '#ffffff',
   },
   summaryCard: {
     backgroundColor: '#17324d',
@@ -1427,6 +1763,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 28,
     padding: 24,
+  },
+  alertBackdrop: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'rgba(23, 50, 77, 0.45)',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  alertCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 24,
+    padding: 24,
+    width: '100%',
+  },
+  alertTitle: {
+    color: '#17324d',
+    fontSize: 22,
+    fontWeight: '800',
+    marginBottom: 10,
+  },
+  alertBody: {
+    color: '#4d6378',
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 20,
   },
   modalEyebrow: {
     color: '#ef6c3d',

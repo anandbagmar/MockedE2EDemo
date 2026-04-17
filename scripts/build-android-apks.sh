@@ -35,6 +35,7 @@ source "${PROJECT_ROOT}/scripts/lib/nml-common.sh"
 APP_NAME="App Automation Playground"
 ASSETS_DIR="android/app/src/main/assets"
 RES_DIR="android/app/src/main/res"
+BUILD_TIMESTAMP_ROOT="$(builds_timestamp_root)"
 DIST_DIR="$(builds_platform_dir "android")"
 
 GRADLE_DEBUG_APK="android/app/build/outputs/apk/debug/app-debug.apk"
@@ -179,6 +180,7 @@ build_debug_nml() {
   build_debug
   ensure_applitoolsify "android"
   apply_nml_android "$DIST_DEBUG_APK" "$DIST_DEBUG_NML_APK"
+  apply_nml_android "$DIST_DEBUG_APK" "${DIST_DIR}/${APP_NAME}-debug-nml-r.apk" "-r"
   BUILT_DEBUG_NML=1
 }
 
@@ -193,6 +195,7 @@ build_release_nml() {
   build_release
   ensure_applitoolsify "android"
   apply_nml_android "$DIST_RELEASE_APK" "$DIST_RELEASE_NML_APK"
+  apply_nml_android "$DIST_RELEASE_APK" "${DIST_DIR}/${APP_NAME}-release-nml-r.apk" "-r"
   BUILT_RELEASE_NML=1
 }
 

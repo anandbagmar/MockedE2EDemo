@@ -6,7 +6,9 @@
 #
 # Public API:
 #   ensure_applitoolsify PLATFORM        → downloads binary if absent; sets APPLITOOLSIFY_BIN
-#   apply_nml_android    INPUT  OUTPUT   → Android: stage a renamed -nml input copy,
+#   apply_nml_android    INPUT  OUTPUT [SUFFIX]
+#                                         → Android: stage a renamed -nml input copy,
+#                                           optionally add a filename suffix such as "-r",
 #                                           let applitoolsify emit into legacy dist/,
 #                                           then copy the result to the final output path
 #   apply_nml_ios        INPUT  OUTPUT   → iOS:     applitoolsify overwrites the supplied file
@@ -16,13 +18,17 @@
 # Binaries are cached in <project-root>/libs/
 #
 # applitoolsify output behaviour:
-#   Android – instrument a staged renamed copy (for example debug-nml.apk). applitoolsify
-#             is expected to emit the instrumented APK into legacy dist/ using the staged
-#             input basename, after which we copy it to the final builds/ location.
+#   Android – instrument a staged renamed copy (for example debug-nml.apk or
+#             debug-nml-r.apk). applitoolsify is expected to emit the instrumented
+#             APK into legacy dist/ using the staged input basename, after which we
+#             copy it to the final builds/ location.
 #               input:        builds/App Automation Playground-debug.apk
 #               staged input: builds/App Automation Playground-debug-nml.apk
 #               dist output:  dist/App Automation Playground-debug-nml.apk
 #               final output: builds/App Automation Playground-debug-nml.apk
+#               staged input: builds/App Automation Playground-debug-nml-r.apk
+#               dist output:  dist/App Automation Playground-debug-nml-r.apk
+#               final output: builds/App Automation Playground-debug-nml-r.apk
 #   iOS     – accepts a real .app bundle (or .ipa), not a .zip. We therefore unpack the
 #             base archive, rename the bundle to the desired -nml name, instrument it
 #             in-place, and then re-zip it to the requested output path.
@@ -245,6 +251,7 @@ _assert_bin() {
 apply_nml_android() {
   local INPUT="$1"
   local OUTPUT="$2"
+  local OUTPUT_SUFFIX="${3:-}"
   _assert_bin
 
   step "Applying NML instrumentation (Android)"
@@ -258,6 +265,9 @@ apply_nml_android() {
   INPUT_DIR="$(dirname "$INPUT")"
   INPUT_BASE="$(basename "$INPUT")"
   OUTPUT_BASE="$(basename "$OUTPUT")"
+  if [[ -n "$OUTPUT_SUFFIX" ]]; then
+    OUTPUT_BASE="${OUTPUT_BASE%.apk}${OUTPUT_SUFFIX}.apk"
+  fi
   STAGED_DIR="$(mktemp -d "${TMPDIR:-/tmp}/applitoolsify-android-stage-XXXXXX")"
   STAGED_INPUT="${STAGED_DIR}/${OUTPUT_BASE}"
 
@@ -275,7 +285,12 @@ apply_nml_android() {
 
   rm -f "$LEGACY_DIST_OUTPUT"
 
-  "$APPLITOOLSIFY_BIN" "$STAGED_INPUT"
+  if [[ "$OUTPUT_SUFFIX" == "-r" ]]; then
+    info "Args   : -r"
+    "$APPLITOOLSIFY_BIN" -r "$STAGED_INPUT"
+  else
+    "$APPLITOOLSIFY_BIN" "$STAGED_INPUT"
+  fi
 
   local ACTUAL_OUT=""
   if [[ -f "$LEGACY_DIST_OUTPUT" ]]; then

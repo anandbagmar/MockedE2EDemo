@@ -35,7 +35,6 @@ def envVarsToForward = [
         'IS_NML',
         'IS_EYES_ENABLED',
         'USE_ALTERNATE_FLOW',
-        'LOG_DIR',
         'IOS_DEVICE_NAME',
         'IOS_PLATFORM_VERSION',
         'builds.dir',
@@ -44,6 +43,10 @@ def envVarsToForward = [
 // Apply common config to every task of type Test (test, runAndroid, runIos)
 tasks.withType(Test).configureEach {
     useTestNG()
+
+    // Appium test runs are interactive and should execute on every invocation,
+    // even if Gradle thinks the task inputs are unchanged.
+    outputs.upToDateWhen { false }
 
     testLogging {
         events          'passed', 'skipped', 'failed'
@@ -75,6 +78,7 @@ tasks.register('runAndroid', Test) {
     description = 'Run Appium visual tests for Android (Community Meeting Planner)'
     group       = 'verification'
     include     '**/android/**'
+    systemProperty 'TEST_PLATFORM', 'Android'
 }
 
 /**
@@ -88,10 +92,36 @@ tasks.register('runIos', Test) {
     description = 'Run Appium visual tests for iOS (Community Meeting Planner)'
     group       = 'verification'
     include     '**/ios/**'
+    systemProperty 'TEST_PLATFORM', 'iOS'
 }
 
-// Default `test` task runs both platforms
-test {
-    description = 'Run Appium visual tests for Android + iOS (Community Meeting Planner)'
-    include '**/android/**', '**/ios/**'
+tasks.named('runIos', Test) {
+    mustRunAfter tasks.named('runAndroid', Test)
+}
+
+/**
+ * Run Android then iOS Appium tests in one command.
+ *
+ *   ./gradlew run
+ *   IS_NML=true APPLITOOLS_API_KEY=xxx ./gradlew run
+ *   ./gradlew run -DUSE_ALTERNATE_FLOW=true
+ */
+tasks.register('run') {
+    description = 'Run Appium visual tests for Android then iOS (Community Meeting Planner)'
+    group       = 'verification'
+    dependsOn   'runAndroid', 'runIos'
+    doLast {
+        def androidTask = tasks.named('runAndroid', Test).get()
+        if (androidTask.state.failure != null) {
+            throw new GradleException("Android Appium tests failed, but iOS tests were still executed.")
+        }
+    }
+}
+
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(tasks.named('run').get())) {
+        tasks.named('runAndroid', Test).configure {
+            ignoreFailures = true
+        }
+    }
 }

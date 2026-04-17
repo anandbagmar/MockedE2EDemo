@@ -74,11 +74,10 @@ cd MockedE2EDemo
 
 # 2. Install Node dependencies
 npm install
-
-# 3. iOS only — install CocoaPods dependencies
-bundle install
-cd ios && bundle exec pod install && cd ..
 ```
+
+For iOS, the build script now bootstraps Ruby gems and CocoaPods automatically the first time you build. If you want to pre-install them manually, you still can, but it is no longer required before running `./scripts/build-ios-app.sh`.
+The iOS build script also forces React Native Core to build from source during CocoaPods setup, which avoids the prebuilt VFS overlay mismatch that can appear with newer React Native releases.
 
 ---
 
@@ -101,6 +100,7 @@ All build scripts live in `scripts/`. They:
 - copy the finished artifact to a timestamped folder under `builds/`
 - auto-generate app icons if the source image is present and stale
 - update `builds/version.txt` and `builds/CHANGELOG.md`
+- for iOS, bootstrap Bundler/CocoaPods automatically when needed
 
 ### Build variants
 
@@ -239,6 +239,7 @@ builds/latest-ios
 ## Running Appium visual tests
 
 The Appium test project lives in `appium-tests/` and uses **Gradle + TestNG + Applitools Eyes**.
+The app journey now includes native, web, and hybrid screens, plus a native interlude screen in the middle of the flow. Both the original and alternate variants follow the same structure; only the copy/layout differs where the app already branches.
 
 ### Prerequisites
 
@@ -269,6 +270,14 @@ cd appium-tests
 ./gradlew test
 ```
 
+The screen-by-screen journey in the tests is intentionally split into helper methods so it is easier to follow and maintain:
+- home
+- planner
+- native interlude
+- guest lookup
+- web checklist
+- summary
+
 ### Using the NML-instrumented app
 
 ```bash
@@ -280,6 +289,12 @@ IS_NML=true APPLITOOLS_API_KEY=<your-key> ./gradlew runIos
 ```
 
 When `IS_NML=true` the test should load the `-nml` app from the relevant timestamped folder under `builds/`.
+
+Appium server logs are written to:
+- `reports/appium/appium-server-android.log`
+- `reports/appium/appium-server-ios.log`
+
+The console prints the exact log path at startup.
 
 ### Disabling visual checks
 
@@ -298,7 +313,7 @@ IS_EYES_ENABLED=false ./gradlew runAndroid
 | `USE_ALTERNATE_FLOW` | `false` | Run alternate user journey |
 | `IOS_DEVICE_NAME` | `iPhone 16` | iOS simulator name |
 | `IOS_PLATFORM_VERSION` | `18.4` | iOS simulator OS version |
-| `LOG_DIR` | *(none)* | Directory to write `appium_logs.txt` |
+| `TEST_PLATFORM` | set by Gradle task | Labels the batch and Appium log file as Android, iOS, or Android+iOS |
 
 All variables can also be passed as `-D` system properties:
 
@@ -347,6 +362,9 @@ Build the app first:
 ./scripts/build-android-apks.sh debug   # or debug-nml for NML tests
 ./scripts/build-ios-app.sh debug
 ```
+
+### Appium logs
+If a test run is noisy or fails during session startup, check the Appium server log in `reports/appium/` first. The test console prints the exact log file name when the server starts.
 
 ### iOS simulator app: unzip manually
 ```bash
