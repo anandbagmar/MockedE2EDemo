@@ -26,6 +26,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 public class RunTestCukes
         extends AbstractTestNGCucumberTests {
+
     private static final Logger LOGGER = LogManager.getLogger(RunTestCukes.class.getName());
     private final TestExecutionContext context;
 
@@ -39,7 +40,8 @@ public class RunTestCukes
     @Override
     @DataProvider(parallel = true)
     public Object[][] scenarios() {
-        LOGGER.info(String.format("RunTestCukes: ThreadId: %d: in overridden scenarios%n", Thread.currentThread().getId()));
+        LOGGER.info(
+                String.format("RunTestCukes: ThreadId: %d: in overridden scenarios%n", Thread.currentThread().getId()));
         Object[][] scenarios = super.scenarios();
         LOGGER.info(scenarios);
         return scenarios;
@@ -48,7 +50,8 @@ public class RunTestCukes
     @Before
     public void beforeTestScenario(Scenario scenario) {
         long threadId = Thread.currentThread().getId();
-        LOGGER.info("RunTestCukes: ThreadId : '%d' :: beforeTestScenario: '%s'".formatted(threadId, scenario.getName()));
+        LOGGER.info(
+                "RunTestCukes: ThreadId : '%d' :: beforeTestScenario: '%s'".formatted(threadId, scenario.getName()));
         new Hooks().beforeScenario(scenario);
         addApplitoolsUFGConfigurationToContext();
         addApplitoolsNMLConfigurationToContext();
@@ -67,7 +70,8 @@ public class RunTestCukes
         ufgConfig.addBrowser(1024, 1024, BrowserType.FIREFOX);
         ufgConfig.addDeviceEmulation(DeviceName.iPhone_X, ScreenOrientation.PORTRAIT);
         ufgConfig.addDeviceEmulation(DeviceName.OnePlus_7T_Pro, ScreenOrientation.LANDSCAPE);
-        LOGGER.info("Use the following Browsers and devices in UFG config: " + JsonPrettyPrinter.prettyPrint(ufgConfig.getBrowsersInfo()));
+        LOGGER.info("Use the following Browsers and devices in UFG config: "
+                + JsonPrettyPrinter.prettyPrint(ufgConfig.getBrowsersInfo()));
         context.addTestState(APPLITOOLS.UFG_CONFIG, ufgConfig);
     }
 
@@ -76,24 +80,43 @@ public class RunTestCukes
 
         if (null == currentPlatform) {
             LOGGER.info("Skipping NML config for platform: " + currentPlatform);
-        } else switch (currentPlatform) {
-            case iOS:
-                IosMultiDeviceTarget[] iosTargets = new IosMultiDeviceTarget[]{
-                    IosMultiDeviceTarget.iPhone_14(),
-                    IosMultiDeviceTarget.iPhone_14_Pro_Max()
-                };  LOGGER.info("Use the following devices in NML config: " + JsonPrettyPrinter.prettyPrint(iosTargets));
-                context.addTestState(APPLITOOLS.NML_CONFIG, iosTargets);
-                break;
-            case android:
-                AndroidMultiDeviceTarget[] androidTargets = new AndroidMultiDeviceTarget[]{
-                    AndroidMultiDeviceTarget.Galaxy_S25_Ultra(),
-                    AndroidMultiDeviceTarget.Pixel_9()
-                };  LOGGER.info("Use the following devices in NML config: " + JsonPrettyPrinter.prettyPrint(androidTargets));
-                context.addTestState(APPLITOOLS.NML_CONFIG, androidTargets);
-                break;
-            default:
-                LOGGER.info("Skipping NML config for platform: " + currentPlatform);
-                break;
+        } else {
+            switch (currentPlatform) {
+                case iOS:
+                    IosMultiDeviceTarget[] iosTargets = new IosMultiDeviceTarget[]{
+                        IosMultiDeviceTarget.iPhone_14(),
+                        IosMultiDeviceTarget.iPhone_14_Plus(),
+                        IosMultiDeviceTarget.iPhone_14_Pro(),
+                        IosMultiDeviceTarget.iPhone_14_Pro_Max(),
+                        IosMultiDeviceTarget.iPhone_13(),
+                        IosMultiDeviceTarget.iPhone_13_mini(),
+                        IosMultiDeviceTarget.iPhone_13_Pro(),
+                        IosMultiDeviceTarget.iPhone_13_Pro_Max(),
+                        IosMultiDeviceTarget.iPhone_12(),
+                        IosMultiDeviceTarget.iPhone_12_mini(),
+                        IosMultiDeviceTarget.iPhone_12_Pro(),
+                        IosMultiDeviceTarget.iPhone_12_Pro_Max(),
+                        IosMultiDeviceTarget.iPhone_11(),
+                        IosMultiDeviceTarget.iPhone_11_Pro(),
+                        IosMultiDeviceTarget.iPhone_11_Pro_Max()
+                    };
+                    LOGGER.info(
+                            "Use the following devices in NML config: " + JsonPrettyPrinter.prettyPrint(iosTargets));
+                    context.addTestState(APPLITOOLS.NML_CONFIG, iosTargets);
+                    break;
+                case android:
+                    AndroidMultiDeviceTarget[] androidTargets = new AndroidMultiDeviceTarget[]{
+                        AndroidMultiDeviceTarget.Galaxy_S25_Ultra(),
+                        AndroidMultiDeviceTarget.Pixel_9()
+                    };
+                    LOGGER.info("Use the following devices in NML config: "
+                            + JsonPrettyPrinter.prettyPrint(androidTargets));
+                    context.addTestState(APPLITOOLS.NML_CONFIG, androidTargets);
+                    break;
+                default:
+                    LOGGER.info("Skipping NML config for platform: " + currentPlatform);
+                    break;
+            }
         }
     }
 }

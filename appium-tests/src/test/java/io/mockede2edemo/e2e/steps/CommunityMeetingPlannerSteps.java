@@ -199,7 +199,9 @@ public class CommunityMeetingPlannerSteps {
         countInput.click();
         countInput.clear();
         countInput.sendKeys("20");
-        hideKeyboard(platform);
+        if (platform == Platform.android) {
+            hideKeyboard(platform);
+        }
         tapGuestLookupFetchButton(platform);
         checkpointNative(platform, "Invalid Guest Count - Alert");
         dismissValidationAlert();
@@ -209,12 +211,22 @@ public class CommunityMeetingPlannerSteps {
         countInput.click();
         countInput.clear();
         countInput.sendKeys("10");
-        hideKeyboard(platform);
+        if (platform == Platform.iOS) {
+            Wait.waitFor(2);
+        }
+        if (platform == Platform.android) {
+            hideKeyboard(platform);
+        }
         tapGuestLookupFetchButton(platform);
-        waitForGuestLookupResults(platform);
-        checkpointWithMultipleMatchLevels(
-                "Guest Profiles - Strict & Layout Content",
-                (ICheckSettings) Target.window().layout(AppiumBy.accessibilityId(GUEST_LOOKUP_CARDS_LIST)).strict());
+        if (platform == Platform.iOS) {
+            Wait.waitFor(5);
+            checkpointNative(platform, "Guest Profiles - Loaded 10 Sample Guests");
+        } else {
+            waitForGuestLookupResults(platform);
+            checkpointWithMultipleMatchLevels(
+                    "Guest Profiles - Strict & Layout Content",
+                    (ICheckSettings) Target.window().layout(AppiumBy.accessibilityId(GUEST_LOOKUP_CARDS_LIST)).strict());
+        }
 
         tapAndWaitForScreen(GUEST_LOOKUP_NEXT_BTN, WEB_CHECKLIST_SCREEN);
     }

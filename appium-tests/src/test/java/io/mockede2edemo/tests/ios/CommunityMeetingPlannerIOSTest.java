@@ -181,8 +181,8 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         handleNativeJourneyScreen();
         handleNativeHybridScreen();
         handleGuestLookupScreen();
-        // handleWebChecklistScreen();
-        // handleSummaryScreen();
+        handleWebChecklistScreen();
+        handleSummaryScreen();
     }
 
     // ══════════════════════════════════════════════════════════════════════════
