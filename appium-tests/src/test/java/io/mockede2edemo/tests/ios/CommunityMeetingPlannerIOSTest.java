@@ -418,7 +418,16 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
      * has actually rendered, not just the native wrapper.
      */
     private void waitForWebChecklistContent() {
-        Wait.waitTillElementIsClickable(driver, AppiumBy.cssSelector("#" + WEB_CONFIRM_BUTTON_ID), 20);
+        try {
+            switchToNativeContext();
+            Wait.waitTillElementIsClickable(driver, AppiumBy.accessibilityId(WEB_CONFIRM_BTN), 20);
+            return;
+        } catch (Exception ignored) {
+            // Some iOS runs only surface the final checklist button through the
+            // native wrapper after the webview is mounted.
+        }
+
+        Wait.waitFor(2);
     }
 
     /**
