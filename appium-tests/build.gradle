@@ -270,7 +270,11 @@ gradle.taskGraph.whenReady { taskGraph ->
 tasks.register('runTeswiz', JavaExec) {
     doFirst {
         println "Using LOG_DIR: ${logDir}"
+        def forwardedSystemProperties = new LinkedHashMap(System.properties)
+        forwardedSystemProperties.put("LOG_DIR", logDir)
+        systemProperties = forwardedSystemProperties
         System.setProperty "LOG_DIR", "${logDir}"
+        file("${logDir}/testLogs").mkdirs()
         environment "APPLITOOLS_LOG_DIR", "${logDir}/applitools_logs"
         environment "APPLITOOLS_API_KEY", System.getenv("APPLITOOLS_API_KEY")
 
