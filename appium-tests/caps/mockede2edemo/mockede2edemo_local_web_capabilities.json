@@ -1,0 +1,32 @@
+{
+  "android": {
+    "platformName": "android",
+    "automationName": "UiAutomator2",
+    "autoGrantPermissions": true,
+    "appPackage": "com.appiumpro.the_app",
+    "uiautomator2ServerInstallTimeout": 10000,
+    "adbExecTimeout": 45000,
+    "eventTimings": true,
+    "enablePerformanceLogging": true,
+    "printPageSourceOnFindFailure": true,
+    "app": "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/builds/latest-android/App Automation Playground-debug-nml-r.apk",
+    "deviceName": "android",
+    "noSign": true
+  },
+  "serverConfig" : {
+    "server": {
+      "use-plugins": ["device-farm"],
+      "plugin": {
+        "device-farm": {
+          "platform": "web",
+          "skipChromeDownload": true,
+          "cloud": {
+            "cloudName": "docker",
+            "web": {}
+          }
+        }
+      }
+    }
+  },
+  "appiumServerPath": "./node_modules/appium/build/lib/main.js"
+}

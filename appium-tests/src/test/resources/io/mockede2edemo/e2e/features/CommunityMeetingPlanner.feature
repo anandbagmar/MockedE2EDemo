@@ -1,0 +1,19 @@
+@mockede2edemo
+Feature: Scenarios for "Community Meeting Planner" app
+
+  # CONFIG=./configs/mockede2edemo/mockede2edemo_local_android_config.properties IS_VISUAL=true PLATFORM=android TAG=@app ./gradlew runTeswiz
+  # CONFIG=./configs/mockede2edemo/mockede2edemo_local_ios_config.properties IS_VISUAL=true PLATFORM=iOS TAG=@app ./gradlew runTeswiz
+  @communityMeetingPlanner @android @iOS @app
+  Scenario: Verify_Community_Meeting_Planner_workflow
+    Given I launch the Community Meeting Planner app
+    When I run the Community Meeting Planner workflow
+    Then I should be back on the home screen
+
+  # CONFIG=./configs/mockede2edemo/mockede2edemo_local_android_config.properties IS_VISUAL=true PLATFORM=android TAG=@figma ./gradlew runTeswiz
+  # CONFIG=./configs/mockede2edemo/mockede2edemo_local_ios_config.properties IS_VISUAL=true PLATFORM=iOS TAG=@figma ./gradlew runTeswiz
+  @communityMeetingPlanner @android @figma
+  Scenario: Verify Community Meeting Planner workflow against Figma design
+    Given I have my Figma design with app name "Applitools website", test name "Applitools Full Pages" and baseline name "Applitools Full Pages_1506" available in Applitools
+    When I launch the Community Meeting Planner app
+    And I run the Community Meeting Planner workflow
+    Then I should be back on the home screen

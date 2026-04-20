@@ -174,3 +174,5 @@ libs/applitoolsify-*
 .icon-generated
 
 builds/
+.claude/
+.project*

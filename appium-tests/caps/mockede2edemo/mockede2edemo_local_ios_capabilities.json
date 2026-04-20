@@ -1,0 +1,38 @@
+{
+  "iOS": {
+    "app": "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/builds/latest-ios/App Automation Playground-debug-nml.app.zip",
+    "iPhoneOnly": true,
+    "automationName": "XCUITest",
+    "clearSystemFiles": true,
+    "deviceName": "iPhone 17 Pro",
+    "platformVersion": "26.4",
+    "maxTypingFrequency": 10,
+    "fullReset": false,
+    "noReset": false,
+    "platformName": "iOS",
+    "preventWDAAttachments": true,
+    "printPageSourceOnFindFailure": true,
+    "usePrebuiltWDA": false,
+    "webviewConnectTimeout": 20000,
+    "webviewConnectRetries": 40,
+    "startIWDP": true,
+    "fullContextList": true,
+    "additionalWebviewBundleIds": "[\"*\"]"
+  },
+  "serverConfig": {
+    "server": {
+      "use-plugins": [
+        "device-farm",
+        "relaxed-caps"
+      ],
+      "plugin": {
+        "device-farm": {
+          "platform": "iOS",
+          "skipChromeDownload": true,
+          "iosDeviceType": "simulated"
+        }
+      }
+    }
+  },
+  "appiumServerPath": "../node_modules/appium/build/lib/main.js"
+}

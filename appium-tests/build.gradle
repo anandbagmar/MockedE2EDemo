@@ -1,31 +1,186 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    ext {
+    }
+}
+
 plugins {
     id 'java'
 }
+
+def teswizVersion = "1.0.21"
 
 group   = 'io.specmatic'
 version = '1.0.0'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
+      flatDir {
+        dirs 'libs'
+    }
     mavenCentral()
+    maven {
+        url = 'https://jitpack.io'
+    }
+    mavenLocal()
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+// Define the libs directory in the project root
+ext.libsDir = file("$projectDir/libs")
+
+def isJarInLocalCache(String group, String artifact, String version, String fileNameSuffix) {
+    def m2Path = new File(System.getProperty("user.home"),
+            ".m2/repository/${group.replace('.', '/')}/${artifact}/${version}/${artifact}-${version}${fileNameSuffix}.jar")
+    def gradlePath = new File(System.getProperty("user.home"),
+            ".gradle/caches/modules-2/files-2.1/${group}/${artifact}/${version}")
+
+    if (m2Path.exists()) {
+        println "\t✔ Found in local .m2 cache: $m2Path"
+        return m2Path
+    }
+
+    if (gradlePath.exists()) {
+        def cachedJar = gradlePath.listFiles()?.find { it.name.endsWith(".jar") }
+        if (cachedJar) {
+            println "\t✔ Found in .gradle cache: ${cachedJar}"
+            return cachedJar
+        }
+    }
+
+    return null
+}
+
+def downloadDependency(String name, String type, Map<String, String> params) {
+    if (!libsDir.exists()) {
+        libsDir.mkdirs()
+    }
+
+    println "Processing dependency: ${name} from ${type}"
+    def jarFile = new File(libsDir, "${name}-${params.version}.jar")
+
+    if (params.forceUpdate?.toString() == "true") {
+        if (jarFile.exists()) {
+            println "\t🧹 Force update enabled. Deleting existing jar: $jarFile"
+            jarFile.delete()
+        }
+    } else if (jarFile.exists()) {
+        println "\t✔ Dependency $name already exists at: $jarFile. Skipping download."
+        return jarFile
+    }
+
+    def cachedJar = isJarInLocalCache(params.group, params.artifact, params.version, params.fileNameSuffix ?: "")
+    if (cachedJar != null) {
+        jarFile.bytes = cachedJar.bytes
+        println "\t✅ Copied from local cache to: $jarFile"
+        return jarFile
+    }
+
+    def jarUrl
+    if (type == "github") {
+        println "\tFetching latest GitHub release information for ${params.repoUrl}..."
+        def jsonResponse = new URL(params.repoUrl).text
+        def jsonSlurper = new groovy.json.JsonSlurper()
+        def releaseInfo = jsonSlurper.parseText(jsonResponse)
+
+        def assets = releaseInfo.assets
+        if (!(assets instanceof List)) {
+            throw new GradleException("Assets field is not a list: $assets")
+        }
+
+        def jarAsset = assets.find { it.name.matches(/${name}-\d+\.\d+\.\d+\.jar/) }
+        if (!jarAsset) {
+            throw new GradleException("No ${name} JAR file found in the latest GitHub release.")
+        }
+        jarUrl = jarAsset.browser_download_url
+    } else if (type == "jitpack") {
+        jarUrl = "https://jitpack.io/${params.group.replace('.', '/')}/${params.artifact}/${params.version}/${params.artifact}-${params.version}${params.fileNameSuffix}.jar"
+    } else {
+        throw new GradleException("Unknown type: $type")
+    }
+
+    println "\t⬇ Downloading ${name} JAR from ${jarUrl}"
+    def downloadCommand = System.getProperty("os.name").toLowerCase().contains("win") ?
+            ["cmd", "/c", "curl", "-L", "-o", jarFile.absolutePath, jarUrl] :
+            ["wget", "-O", jarFile.absolutePath, jarUrl]
+
+    downloadCommand = downloadCommand.collect { it.toString() }
+
+    println "\t📥 Downloading using command: ${downloadCommand}"
+
+    def process = new ProcessBuilder(downloadCommand).redirectErrorStream(true).start()
+    process.inputStream.eachLine { println it }
+    process.waitFor()
+
+    if (process.exitValue() != 0) {
+        throw new GradleException("❌ Failed to download ${name} JAR.")
+    }
+
+    println "✅ ${name} JAR downloaded to $jarFile"
+    return jarFile
+}
+
+// Define a custom task to download dependencies
+tasks.register('downloadDependencies') {
+    doLast {
+        println "Downloading required dependencies..."
+        def dependencies = [
+                [
+                        name  : "teswiz",
+                        type  : "jitpack",
+                        params: [
+                                group         : "com.github.znsio",
+                                artifact      : "teswiz",
+                                version       : "$teswizVersion",
+                                fileNameSuffix: "",
+                                forceUpdate   : false
+                        ]
+                ]
+        ]
+
+        println "\n---------------------------------------------"
+
+        dependencies.each { dep ->
+            println "Processing dependency: ${dep.name}"
+            downloadDependency(dep.name, dep.type, dep.params)
+            println "\n---------------------------------------------"
+
+        }
+    }
+}
+
+// Ensure dependencies are downloaded before compiling
+tasks.compileJava {
+    dependsOn downloadDependencies
+    options.encoding = "UTF-8"
 }
 
 dependencies {
-    // Appium Java Client
-    implementation 'io.appium:java-client:9.2.3'
+    implementation fileTree(dir: "$project.projectDir/libs", include: ['*.jar'])
+    implementation files(layout.buildDirectory.files("/classes/main"))
+    implementation files(layout.buildDirectory.files("/classes/test"))
 
-    // Selenium (pin to avoid transitive conflicts)
-    implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
+    // // Appium Java Client
+    // implementation 'io.appium:java-client:9.2.3'
 
-    // Applitools Eyes for Appium
-    implementation 'com.applitools:eyes-appium-java5:5.77.0'
+    // // Selenium (pin to avoid transitive conflicts)
+    // implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
 
-    // TestNG
-    testImplementation 'org.testng:testng:7.10.2'
+    // // Applitools Eyes for Appium
+    // implementation 'com.applitools:eyes-appium-java5:5.77.0'
+
+    // // TestNG
+    // testImplementation 'org.testng:testng:7.10.2'
 }
 
 // ── Helper: forward env vars + -D system props into every Test JVM ─────────
@@ -62,6 +217,121 @@ tasks.withType(Test).configureEach {
     envVarsToForward.each { key ->
         def val = System.getenv(key)
         if (val) systemProperty key, val
+    }
+}
+
+static def getCurrentDatestamp() {
+    Date today = new Date()
+    SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy")
+    return df.format(today)
+}
+
+static def getMonth() {
+    Date today = new Date()
+    SimpleDateFormat df = new SimpleDateFormat("MMM-yyyy")
+    return df.format(today)
+}
+
+static def getCurrentTimestamp() {
+    Date today = new Date()
+    SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss")
+    return df.format(today)
+}
+
+def logDir = "./target/" + getMonth() + "/" + getCurrentDatestamp() + "/" + getCurrentTimestamp()
+
+def copyRpPropertiesIfMissing() {
+    def rpFile = file('src/test/resources/reportportal.properties')
+    def rpTemplateFile = file('src/test/resources/reportportal.properties.template')
+
+    if (!rpFile.exists() && rpTemplateFile.exists()) {
+        println "Copying $rpTemplateFile to $rpFile"
+        rpFile.text = rpTemplateFile.text
+    } else if (!rpTemplateFile.exists()) {
+        println "$rpTemplateFile does not exist. Please create it."
+    } else {
+        println "$rpFile already exists."
+    }
+    System.setProperty("reportportal.properties.file", rpFile.absolutePath)
+}
+
+tasks.register('copyRpPropertiesIfMissing') {
+    doLast {
+        copyRpPropertiesIfMissing()
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':build') || taskGraph.hasTask(':run')) {
+        copyRpPropertiesIfMissing()
+    }
+}
+
+tasks.register('runTeswiz', JavaExec) {
+    doFirst {
+        println "Using LOG_DIR: ${logDir}"
+        System.setProperty "LOG_DIR", "${logDir}"
+        environment "APPLITOOLS_LOG_DIR", "${logDir}/applitools_logs"
+        environment "APPLITOOLS_API_KEY", System.getenv("APPLITOOLS_API_KEY")
+
+        def hostname = InetAddress.getLocalHost().getHostName()
+        println "Hostname: $hostname"
+        def ipAddress = InetAddress.getAllByName(hostname)
+                .find { it.hostAddress.startsWith("192") || it.hostAddress.startsWith("172") || it.hostAddress.startsWith("10") }
+                ?.hostAddress
+        println "IP Address of this machine: $ipAddress"
+        if (null == ipAddress) {
+            println "Unable to get local IP address. NOT updating BASE_URL and REMOTE_WEBDRIVER_GRID_HOST_NAME"
+        } else {
+            environment "REMOTE_WEBDRIVER_GRID_HOST_NAME", "$ipAddress"
+        }
+
+        def platform = System.getenv("PLATFORM") ?: System.getProperty("PLATFORM")
+        def configFile = System.getenv("CONFIG")
+        if (null == configFile || configFile.isBlank()) {
+            if ("android".equalsIgnoreCase(platform)) {
+                configFile = "./configs/mockede2edemo/mockede2edemo_local_android_config.properties"
+            } else if ("ios".equalsIgnoreCase(platform)) {
+                configFile = "./configs/mockede2edemo/mockede2edemo_local_ios_config.properties"
+            }
+            if (configFile != null) {
+                println "CONFIG not provided. Using ${configFile} for PLATFORM=${platform}"
+            }
+        }
+        if (null == configFile || !file(configFile).exists()) {
+            println("CONFIG file not provided, or does not exist")
+            println("Run the test by providing a valid CONFIG file")
+            assert configFile != null && file(configFile).exists()
+        }
+
+        systemProperties = System.properties as Map<String, ?>
+        def runnerArgs = [
+                "${configFile}",
+                "io/mockede2edemo/e2e/steps",
+                "./src/test/resources/io/mockede2edemo/e2e/features",
+        ]
+        args = runnerArgs
+
+        println("Debug mode: " + System.getProperty('debug', 'false'))
+        // attach debugger
+        // example: ./gradlew run -Ddebug=true
+        if (System.getProperty('debug', 'false') == 'true') {
+            println("In debug mode")
+            jvmArgs '-Xdebug', '-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,' +
+                    'address=*:5005'
+        }
+    }
+    mainClass = "com.znsio.teswiz.runner.Runner"
+    classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['--release', '17']
+}
+
+tasks.withType(JavaExec).configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 

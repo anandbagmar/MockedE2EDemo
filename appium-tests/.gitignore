@@ -4,3 +4,4 @@ build/
 
 # Maven leftovers (replaced by Gradle)
 target/
+libs/
