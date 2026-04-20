@@ -286,11 +286,22 @@ tasks.register('runTeswiz', JavaExec) {
             environment "REMOTE_WEBDRIVER_GRID_HOST_NAME", "$ipAddress"
         }
 
+        def platform = System.getenv("PLATFORM") ?: System.getProperty("PLATFORM")
         def configFile = System.getenv("CONFIG")
+        if (null == configFile || configFile.isBlank()) {
+            if ("android".equalsIgnoreCase(platform)) {
+                configFile = "./configs/mockede2edemo/mockede2edemo_local_android_config.properties"
+            } else if ("ios".equalsIgnoreCase(platform)) {
+                configFile = "./configs/mockede2edemo/mockede2edemo_local_ios_config.properties"
+            }
+            if (configFile != null) {
+                println "CONFIG not provided. Using ${configFile} for PLATFORM=${platform}"
+            }
+        }
         if (null == configFile || !file(configFile).exists()) {
             println("CONFIG file not provided, or does not exist")
-            println("Run the test by providing the CONFIG file not provided, or does not exist")
-            assert file(configFile).exists()
+            println("Run the test by providing a valid CONFIG file")
+            assert configFile != null && file(configFile).exists()
         }
 
         systemProperties = System.properties as Map<String, ?>
