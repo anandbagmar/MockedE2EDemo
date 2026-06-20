@@ -109,7 +109,9 @@ public class CommunityMeetingPlannerWebTest {
         options.setCapability("goog:loggingPrefs", logPrefs);
         options.addArguments("--window-size=1280,900");
         if (HEADLESS) {
-            options.addArguments("--headless=new");
+            // --no-sandbox / --disable-dev-shm-usage are required for headless
+            // Chrome on CI runners (e.g. GitHub Actions).
+            options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage");
         }
 
         driver = new ChromeDriver(options);
