@@ -12,7 +12,7 @@ export default function Checklist() {
   return (
     <main data-testid="webChecklist.screen">
       <div data-testid="webChecklist.top">
-        <span className="mode-note">Hybrid View</span>
+        <span className="mode-note">Responsive Web View</span>
         <SectionTitle
           eyebrow="Step 3"
           title="Finish one checklist task"
