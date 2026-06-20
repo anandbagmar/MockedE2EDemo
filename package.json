@@ -37,7 +37,7 @@
     "jest": "^30.3.0",
     "patch-package": "^8.0.1",
     "prettier": "3.8.3",
-    "react-test-renderer": "19.2.3",
+    "react-test-renderer": "19.2.7",
     "typescript": "^5.9.3",
     "@appium/doctor": "2.1.15",
     "@appium/relaxed-caps-plugin": "2.2.0",
