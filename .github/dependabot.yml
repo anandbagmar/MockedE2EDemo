@@ -1,0 +1,38 @@
+version: 2
+updates:
+  # Root React Native app (npm)
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 5
+
+  # Webapp (npm)
+  - package-ecosystem: npm
+    directory: "/webapp"
+    schedule:
+      interval: daily
+
+  # Ruby / Bundler
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: daily
+
+  # Android Gradle
+  - package-ecosystem: gradle
+    directory: "/android"
+    schedule:
+      interval: daily
+
+  # e2e tests Gradle
+  - package-ecosystem: gradle
+    directory: "/e2eTests"
+    schedule:
+      interval: daily
+
+  # Keep the GitHub Actions in workflows up to date
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
