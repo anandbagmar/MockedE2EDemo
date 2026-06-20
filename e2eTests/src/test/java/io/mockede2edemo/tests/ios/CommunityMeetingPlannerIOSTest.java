@@ -1,4 +1,4 @@
-package io.specmatic.tests.ios;
+package io.mockede2edemo.tests.ios;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,16 +34,16 @@ import io.specmatic.utils.Wait;
  * CommunityMeetingPlannerIOSTest
  *
  * Exercises the full Community Meeting Planner workflow on iOS (simulator):
- *   Home → flow-selector modal → Planner → NativeJourney → NativeHybrid
- *     → GuestLookup (with validation) → WebChecklist (inline WebView)
- *     → Summary → back to Home
+ * Home → flow-selector modal → Planner → NativeJourney → NativeHybrid
+ * → GuestLookup (with validation) → WebChecklist (inline WebView)
+ * → Summary → back to Home
  *
  * Flow selection:
- *   USE_ALTERNATE_FLOW = false  →  Original flow
- *   USE_ALTERNATE_FLOW = true   →  Alternate flow
+ * USE_ALTERNATE_FLOW = false → Original flow
+ * USE_ALTERNATE_FLOW = true → Alternate flow
  *
  * Override at runtime:
- *   ./gradlew test -DUSE_ALTERNATE_FLOW=true -Pios
+ * ./gradlew test -DUSE_ALTERNATE_FLOW=true -Pios
  *
  * Note: autoAcceptAlerts is intentionally NOT set so the test can take a
  * checkpoint while the validation alert is visible and dismiss it explicitly.
@@ -53,85 +53,83 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
     private static final String APP_NAME = "Community Meeting Planner -iOS";
     private static final String IOS_BUNDLE_ID = "io.specmatic.e2edemo";
 
-    private static final boolean USE_ALTERNATE_FLOW =
-            "true".equalsIgnoreCase(System.getenv("USE_ALTERNATE_FLOW"))
-                    || "true".equalsIgnoreCase(System.getProperty("USE_ALTERNATE_FLOW"));
+    private static final boolean USE_ALTERNATE_FLOW = "true".equalsIgnoreCase(System.getenv("USE_ALTERNATE_FLOW"))
+            || "true".equalsIgnoreCase(System.getProperty("USE_ALTERNATE_FLOW"));
 
-    private static final String IOS_DEVICE_NAME =
-            System.getProperty("IOS_DEVICE_NAME", "iPhone 17 Pro");
+    private static final String IOS_DEVICE_NAME = System.getProperty("IOS_DEVICE_NAME", "iPhone 17 Pro");
 
-    private static final String IOS_PLATFORM_VERSION =
-            System.getProperty("IOS_PLATFORM_VERSION", "26.4");
+    private static final String IOS_PLATFORM_VERSION = System.getProperty("IOS_PLATFORM_VERSION", "26.4");
 
-    private static final int WDA_LAUNCH_TIMEOUT_MS =
-            Integer.getInteger("WDA_LAUNCH_TIMEOUT_MS", 180000);
-    private static final int WDA_CONNECTION_TIMEOUT_MS =
-            Integer.getInteger("WDA_CONNECTION_TIMEOUT_MS", 180000);
-    private static final int WDA_STARTUP_RETRIES =
-            Integer.getInteger("WDA_STARTUP_RETRIES", 4);
-    private static final int WDA_STARTUP_RETRY_INTERVAL_MS =
-            Integer.getInteger("WDA_STARTUP_RETRY_INTERVAL_MS", 20000);
-    private static final int WDA_LOCAL_PORT =
-            Integer.getInteger("WDA_LOCAL_PORT", 8100);
-    private static final int IOS_NEW_COMMAND_TIMEOUT_SECONDS =
-            Integer.getInteger("IOS_NEW_COMMAND_TIMEOUT_SECONDS", 180);
+    private static final int WDA_LAUNCH_TIMEOUT_MS = Integer.getInteger("WDA_LAUNCH_TIMEOUT_MS", 180000);
+    private static final int WDA_CONNECTION_TIMEOUT_MS = Integer.getInteger("WDA_CONNECTION_TIMEOUT_MS", 180000);
+    private static final int WDA_STARTUP_RETRIES = Integer.getInteger("WDA_STARTUP_RETRIES", 4);
+    private static final int WDA_STARTUP_RETRY_INTERVAL_MS = Integer.getInteger("WDA_STARTUP_RETRY_INTERVAL_MS", 20000);
+    private static final int WDA_LOCAL_PORT = Integer.getInteger("WDA_LOCAL_PORT", 8100);
+    private static final int IOS_NEW_COMMAND_TIMEOUT_SECONDS = Integer.getInteger("IOS_NEW_COMMAND_TIMEOUT_SECONDS",
+            180);
 
     // ── Native layer locators ─────────────────────────────────────────────────
     // On iOS, testID → accessibilityIdentifier, so AppiumBy.accessibilityId()
     // matches testID values directly for all elements.
 
-    private static final String HOME_SCREEN                = "home.screen";
-    private static final String HOME_PLANNER_BTN           = "home.button.planner";
+    private static final String HOME_SCREEN = "home.screen";
+    private static final String HOME_PLANNER_BTN = "home.button.planner";
 
     // Flow-selector modal
-    private static final String PLANNER_MODE_PANEL       = "planner.mode.panel";
-    private static final String PLANNER_ORIGINAL_BTN       = "planner.mode.button.original";
-    private static final String PLANNER_ALTERNATE_BTN      = "planner.mode.button.alternate";
+    private static final String PLANNER_MODE_PANEL = "planner.mode.panel";
+    private static final String PLANNER_ORIGINAL_BTN = "planner.mode.button.original";
+    private static final String PLANNER_ALTERNATE_BTN = "planner.mode.button.alternate";
 
     // Planner screen (native, scrollable)
-    private static final String PLANNER_SCREEN             = "planner.screen";
-    private static final String PLANNER_NEXT_NATIVE_BTN    = "planner.button.next.native";   // "Next: Native Detail"
+    private static final String PLANNER_SCREEN = "planner.screen";
+    private static final String PLANNER_NEXT_NATIVE_BTN = "planner.button.next.native"; // "Next: Native Detail"
 
     // Guest Lookup screen (native, scrollable)
-    private static final String GUEST_LOOKUP_SCREEN        = "guestLookup.screen";
-    private static final String GUEST_LOOKUP_INPUT         = "guestLookup.input.count";      // TextInput – has accessibilityLabel
-    private static final String GUEST_LOOKUP_FETCH_BTN     = "guestLookup.button.fetch";     // "Load Profiles"
-    private static final String GUEST_LOOKUP_FETCH_LABEL   = "Load Profiles";
-    private static final String GUEST_LOOKUP_LOADER        = "guestLookup.loader";           // Loading indicator shown while fetching profiles
-    private static final String GUEST_LOOKUP_RESULTS       = "guestLookup.results";          // Results container rendered after API load
-    private static final String GUEST_LOOKUP_RESULTS_TITLE = "guestLookup.section.results";  // SectionTitle inside the results container
-    private static final String GUEST_LOOKUP_CARDS         = "guestLookup.cards";           // Wrapper around all guest cards
-    private static final String GUEST_LOOKUP_CARDS_LIST    = "guestLookup.cards.list";      // Dedicated list wrapper for Eyes regioning
-    private static final String GUEST_LOOKUP_ALERT_CARD    = "guestLookup.alert.card";
-    private static final String GUEST_LOOKUP_ALERT_OK      = "guestLookup.alert.ok";
+    private static final String GUEST_LOOKUP_SCREEN = "guestLookup.screen";
+    private static final String GUEST_LOOKUP_INPUT = "guestLookup.input.count"; // TextInput – has accessibilityLabel
+    private static final String GUEST_LOOKUP_FETCH_BTN = "guestLookup.button.fetch"; // "Load Profiles"
+    private static final String GUEST_LOOKUP_FETCH_LABEL = "Load Profiles";
+    private static final String GUEST_LOOKUP_LOADER = "guestLookup.loader"; // Loading indicator shown while fetching
+                                                                            // profiles
+    private static final String GUEST_LOOKUP_RESULTS = "guestLookup.results"; // Results container rendered after API
+                                                                              // load
+    private static final String GUEST_LOOKUP_RESULTS_TITLE = "guestLookup.section.results"; // SectionTitle inside the
+                                                                                            // results container
+    private static final String GUEST_LOOKUP_CARDS = "guestLookup.cards"; // Wrapper around all guest cards
+    private static final String GUEST_LOOKUP_CARDS_LIST = "guestLookup.cards.list"; // Dedicated list wrapper for Eyes
+                                                                                    // regioning
+    private static final String GUEST_LOOKUP_ALERT_CARD = "guestLookup.alert.card";
+    private static final String GUEST_LOOKUP_ALERT_OK = "guestLookup.alert.ok";
     private static final String GUEST_LOOKUP_ALERT_BACKDROP = "guestLookup.alert.backdrop";
-    private static final String GUEST_LOOKUP_NEXT_BTN      = "guestLookup.button.next";      // "Next: Open Web Checklist"
+    private static final String GUEST_LOOKUP_NEXT_BTN = "guestLookup.button.next"; // "Next: Open Web Checklist"
 
     // Web Checklist screen (native shell + inline WebView)
-    private static final String WEB_CHECKLIST_SCREEN       = "webChecklist.screen";
-    private static final String WEB_CHECKLIST_WEBVIEW      = "webChecklist.webview";
-    private static final String WEB_CHECKLIST_READY        = "webChecklist.ready";
-    private static final String WEB_CHECKLIST_CONTINUE_BTN = "webChecklist.button.continue"; // "Complete Workflow" – disabled until checklist done
+    private static final String WEB_CHECKLIST_SCREEN = "webChecklist.screen";
+    private static final String WEB_CHECKLIST_WEBVIEW = "webChecklist.webview";
+    private static final String WEB_CHECKLIST_READY = "webChecklist.ready";
+    private static final String WEB_CHECKLIST_CONTINUE_BTN = "webChecklist.button.continue"; // "Complete Workflow" –
+                                                                                             // disabled until checklist
+                                                                                             // done
 
     // Native interlude screen
-    private static final String NATIVE_JOURNEY_SCREEN      = "nativeJourney.screen";
-    private static final String NATIVE_JOURNEY_MODE_NOTE   = "nativeJourney.mode.native.swift";
-    private static final String NATIVE_JOURNEY_VIEW        = "nativeJourney.nativeView";
+    private static final String NATIVE_JOURNEY_SCREEN = "nativeJourney.screen";
+    private static final String NATIVE_JOURNEY_MODE_NOTE = "nativeJourney.mode.native.swift";
+    private static final String NATIVE_JOURNEY_VIEW = "nativeJourney.nativeView";
     private static final String NATIVE_JOURNEY_CONTINUE_BTN = "nativeJourney.button.continue";
 
     // Native hybrid screen
-    private static final String NATIVE_HYBRID_SCREEN       = "nativeHybrid.screen";
-    private static final String NATIVE_HYBRID_MODE_NOTE    = "nativeHybrid.mode.hybrid.swift";
-    private static final String NATIVE_HYBRID_VIEW         = "nativeHybrid.nativeView";
+    private static final String NATIVE_HYBRID_SCREEN = "nativeHybrid.screen";
+    private static final String NATIVE_HYBRID_MODE_NOTE = "nativeHybrid.mode.hybrid.swift";
+    private static final String NATIVE_HYBRID_VIEW = "nativeHybrid.nativeView";
     private static final String NATIVE_HYBRID_CONTINUE_BTN = "nativeHybrid.button.continue";
 
     // Summary screen (native, scrollable)
-    private static final String SUMMARY_SCREEN             = "summary.screen";
-    private static final String SUMMARY_RESTART_BTN        = "summary.button.restart";       // "Start Again"
+    private static final String SUMMARY_SCREEN = "summary.screen";
+    private static final String SUMMARY_RESTART_BTN = "summary.button.restart"; // "Start Again"
 
     // ── WebView HTML element ID (inside inline CHECKLIST_HTML) ────────────────
-    private static final String WEB_CONFIRM_BUTTON_ID      = "confirmButton";
-    private static final String WEB_CONFIRM_BTN            = "Mark checklist as ready";      // Button label shown in the web content
+    private static final String WEB_CONFIRM_BUTTON_ID = "confirmButton";
+    private static final String WEB_CONFIRM_BTN = "Mark checklist as ready"; // Button label shown in the web content
 
     // ── Temp dir for extracted .app ───────────────────────────────────────────
     private Path extractedAppDir;
@@ -357,8 +355,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
 
         throw new RuntimeException(
                 "Unable to scroll to element: " + accessibilityId,
-                lastFailure
-        );
+                lastFailure);
     }
 
     /**
@@ -402,7 +399,8 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         try {
             Wait.waitTillElementIsPresent(driver, resultsTitleLocator, 5);
         } catch (TimeoutException ignored) {
-            // The section title can be below the fold on iOS; the container is the stronger readiness signal.
+            // The section title can be below the fold on iOS; the container is the stronger
+            // readiness signal.
         }
         Wait.waitTillElementExists(driver, cardsLocator, 30);
         Wait.waitTillElementExists(driver, cardsListLocator, 30);
@@ -431,8 +429,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
 
         throw new RuntimeException(
                 "Unable to tap button and reach next screen: " + accessibilityId + " -> " + nextScreenId,
-                lastFailure
-        );
+                lastFailure);
     }
 
     /**
@@ -551,7 +548,8 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
 
     /** Switch Appium context to the first available WEBVIEW. */
     private boolean switchToWebViewContext() {
-        if (!(driver instanceof SupportsContextSwitching)) return false;
+        if (!(driver instanceof SupportsContextSwitching))
+            return false;
         SupportsContextSwitching ctx = (SupportsContextSwitching) driver;
         for (int attempt = 0; attempt < 10; attempt++) {
             for (Object contextHandle : ctx.getContextHandles()) {

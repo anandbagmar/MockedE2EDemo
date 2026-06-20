@@ -70,7 +70,7 @@ public abstract class BaseTest {
             ? System.getenv("APPLITOOLS_API_KEY")
             : System.getProperty("APPLITOOLS_API_KEY", "");
 
-    // Builds root (relative to project root / appium-tests module)
+    // Builds root (relative to project root / e2eTests module)
     protected static final String BUILDS_ROOT
             = projectRoot().getAbsolutePath()
             + File.separator + "builds";

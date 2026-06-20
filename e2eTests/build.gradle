@@ -190,6 +190,8 @@ def envVarsToForward = [
         'IS_NML',
         'IS_EYES_ENABLED',
         'USE_ALTERNATE_FLOW',
+        'WEB_BASE_URL',
+        'headless',
         'IOS_DEVICE_NAME',
         'IOS_PLATFORM_VERSION',
         'builds.dir',
@@ -371,6 +373,27 @@ tasks.register('runIos', Test) {
 
 tasks.named('runIos', Test) {
     mustRunAfter tasks.named('runAndroid', Test)
+}
+
+/**
+ * Run the Selenium web tests against the responsive webapp.
+ *
+ * The webapp must already be running (locally or hosted). Point the test at it
+ * with WEB_BASE_URL (defaults to http://localhost:5173):
+ *
+ *   cd webapp && npm run dev                # in another terminal
+ *   ./gradlew runWeb
+ *   ./gradlew runWeb -DWEB_BASE_URL=https://anandbagmar.github.io/MockedE2EDemo/
+ *   ./gradlew runWeb -DUSE_ALTERNATE_FLOW=true -Dheadless=true
+ *
+ * This task does not boot an Appium server — the web test is self-contained
+ * Selenium + TestNG and does not extend the Appium BaseTest.
+ */
+tasks.register('runWeb', Test) {
+    description = 'Run Selenium web tests for the webapp (Community Meeting Planner)'
+    group       = 'verification'
+    include     '**/tests/web/**'
+    systemProperty 'TEST_PLATFORM', 'Web'
 }
 
 /**

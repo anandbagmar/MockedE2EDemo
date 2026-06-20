@@ -21,18 +21,18 @@
     "**/android/**": true
   },
   "cucumber.features": [
-    "appium-tests/src/test/resources/**/*.feature"
+    "e2eTests/src/test/resources/**/*.feature"
   ],
   "cucumber.glue": [
-    "appium-tests/src/test/java/**/*.java",
-    "appium-tests/build/teswiz-src/com/znsio/teswiz/steps/**/*.java"
+    "e2eTests/src/test/java/**/*.java",
+    "e2eTests/build/teswiz-src/com/znsio/teswiz/steps/**/*.java"
   ],
   "cucumberautocomplete.steps": [
-    "appium-tests/src/test/java/**/*.java",
-    "appium-tests/src/main/java/**/*.java",
-    "appium-tests/build/teswiz-src/com/znsio/teswiz/steps/**/*.java"
+    "e2eTests/src/test/java/**/*.java",
+    "e2eTests/src/main/java/**/*.java",
+    "e2eTests/build/teswiz-src/com/znsio/teswiz/steps/**/*.java"
   ],
-  "cucumberautocomplete.syncfeatures": "appium-tests/src/test/resources/**/*.feature",
+  "cucumberautocomplete.syncfeatures": "e2eTests/src/test/resources/**/*.feature",
   "cucumberautocomplete.strictGherkinCompletion": true,
   "cucumberautocomplete.strictGherkinValidation": true,
   "cucumberautocomplete.smartSnippets": true,

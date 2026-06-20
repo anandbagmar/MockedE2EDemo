@@ -39,13 +39,16 @@ The sample journey mixes native, web, and hybrid screens so Appium can exercise 
 │       ├── android/
 │       └── ios/
 │
-├── appium-tests/               Appium + Applitools visual test project (Gradle/Java)
+├── e2eTests/               Appium + Selenium + Applitools test project (Gradle/Java)
 │   ├── build.gradle
 │   ├── gradlew
-│   └── src/test/java/io/specmatic/tests/
+│   └── src/test/java/io/mockede2edemo/tests/
 │       ├── BaseTest.java
 │       ├── android/CommunityMeetingPlannerAndroidTest.java
-│       └── ios/CommunityMeetingPlannerIOSTest.java
+│       ├── ios/CommunityMeetingPlannerIOSTest.java
+│       └── web/CommunityMeetingPlannerWebTest.java
+│
+├── webapp/                     Responsive web mirror of the workflow (Vite + React + TS)
 │
 └── libs/                       Auto-downloaded tool binaries (git-ignored)
     └── applitoolsify-*         Applitools NML instrumentation binary
@@ -64,7 +67,19 @@ npm install
 ./scripts/build-ios-app.sh debug
 
 # 3. Run Appium visual tests
-cd appium-tests && ./gradlew runAndroid
+cd e2eTests && ./gradlew runAndroid
+```
+
+### Run the web tests
+
+```bash
+# Start the webapp (in one terminal)
+cd webapp && npm install && npm run dev      # http://localhost:5173
+
+# Run the Selenium web tests against it (in another terminal)
+cd e2eTests && ./gradlew runWeb
+# ...or against a hosted build:
+# ./gradlew runWeb -DWEB_BASE_URL=https://anandbagmar.github.io/MockedE2EDemo/
 ```
 
 See the **[Build & Test Guide](./README-IndependentBuild.md)** for all variants, NML builds, iOS setup, the native/web/hybrid screen map, and test configuration. The iOS build script will install Bundler/CocoaPods dependencies automatically when needed.

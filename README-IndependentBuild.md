@@ -238,7 +238,7 @@ builds/latest-ios
 
 ## Running Appium visual tests
 
-The Appium test project lives in `appium-tests/` and uses **Gradle + TestNG + Applitools Eyes**.
+The Appium test project lives in `e2eTests/` and uses **Gradle + TestNG + Applitools Eyes**.
 The app journey now includes native, web, and hybrid screens, plus a native interlude screen in the middle of the flow. Both the original and alternate variants follow the same structure; only the copy/layout differs where the app already branches.
 
 ### Prerequisites
@@ -252,7 +252,7 @@ The app journey now includes native, web, and hybrid screens, plus a native inte
 ### Run commands
 
 ```bash
-cd appium-tests
+cd e2eTests
 
 # Android — original flow
 ./gradlew runAndroid

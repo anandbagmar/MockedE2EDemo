@@ -1,4 +1,4 @@
-package io.specmatic.tests.android;
+package io.mockede2edemo.tests.android;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
