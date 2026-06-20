@@ -76,12 +76,16 @@ const UI = {
   homeHeroEyebrow: 'home.hero.eyebrow',
   homeHeroTitle: 'home.hero.title',
   homeHeroBody: 'home.hero.body',
+  homeHeroBadge: 'home.hero.badge',
   homeWorkflowPanel: 'home.panel.workflows',
   homeNamePanel: 'home.panel.name',
   homeNameLabel: 'home.label.name',
   homeNameInput: 'home.input.name',
   homeNameHelper: 'home.helper.name',
   homeVersion: 'home.version',
+  brandCredit: 'brand.credit',
+  brandCreditLogo: 'brand.credit.logo',
+  brandCreditText: 'brand.credit.text',
   homeRechargeButton: 'home.button.recharge',
   homePlannerButton: 'home.button.planner',
   plannerModeModal: 'planner.mode.modal',
@@ -268,8 +272,8 @@ const CHECKLIST_HTML = `
       body {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(180deg, #fff8e7 0%, #f4f9ff 100%);
-        color: #17324d;
+        background: linear-gradient(180deg, #eef1fa 0%, #f4f9ff 100%);
+        color: #21309B;
       }
       .wrap {
         padding: 24px 18px 40px;
@@ -278,7 +282,7 @@ const CHECKLIST_HTML = `
         background: #ffffff;
         border-radius: 18px;
         padding: 18px;
-        box-shadow: 0 10px 30px rgba(23, 50, 77, 0.08);
+        box-shadow: 0 10px 30px rgba(33, 48, 155, 0.08);
       }
       h1 {
         margin: 0 0 10px;
@@ -296,15 +300,15 @@ const CHECKLIST_HTML = `
         font-size: 16px;
         font-weight: 700;
         color: #ffffff;
-        background: #ef6c3d;
+        background: #C8202E;
       }
       .done {
         margin-top: 16px;
         display: none;
         padding: 14px;
         border-radius: 14px;
-        background: #e7f7ee;
-        color: #1b6b42;
+        background: #e4f6ea;
+        color: #0f7a35;
         font-weight: 600;
       }
     </style>
@@ -325,13 +329,35 @@ const CHECKLIST_HTML = `
         doneMessage.style.display = 'block';
         button.textContent = 'Ready';
         button.disabled = true;
-        button.style.background = '#1b6b42';
+        button.style.background = '#0f7a35';
         window.ReactNativeWebView && window.ReactNativeWebView.postMessage('checklist-complete');
       });
     </script>
   </body>
 </html>
 `;
+
+const EOT_LOGO = require('./assets/images/eot-logo.jpg');
+
+function PoweredByEssence({ testID }: { testID?: string }) {
+  return (
+    <View
+      accessibilityLabel={UI.brandCredit}
+      style={styles.brandCredit}
+      testID={testID ?? UI.brandCredit}
+    >
+      <Image
+        source={EOT_LOGO}
+        style={styles.brandCreditLogo}
+        resizeMode="contain"
+        testID={UI.brandCreditLogo}
+      />
+      <Text style={styles.brandCreditText} testID={UI.brandCreditText}>
+        Powered by Essence of Testing
+      </Text>
+    </View>
+  );
+}
 
 function PrimaryButton({
   label,
@@ -472,7 +498,7 @@ function HomeScreen({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.screen} accessibilityLabel={UI.homeScreen} testID={UI.homeScreen}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff8e7" />
+      <StatusBar barStyle="dark-content" backgroundColor="#eef1fa" />
       <View style={styles.screenTopActions}>
         <PrimaryButton
           label="Recharge Phone Number"
@@ -502,6 +528,13 @@ function HomeScreen({ navigation }: any) {
             testID={UI.homeHeroImage}
             resizeMode="cover"
           />
+          <View style={styles.heroBadge} testID={UI.homeHeroBadge}>
+            <Image
+              source={EOT_LOGO}
+              style={styles.heroBadgeLogo}
+              resizeMode="contain"
+            />
+          </View>
           <View style={styles.heroOverlay}>
             <Text style={styles.heroEyebrow} testID={UI.homeHeroEyebrow}>
               Cross-platform Demo
@@ -576,6 +609,8 @@ function HomeScreen({ navigation }: any) {
         <Text style={styles.versionText} testID={UI.homeVersion}>
           {APP_VERSION}
         </Text>
+
+        <PoweredByEssence testID="home.brand.credit" />
       </ScrollView>
 
       <Modal
@@ -1022,7 +1057,7 @@ function GuestLookupScreen({ navigation, route }: any) {
 
         {isLoading ? (
           <View style={styles.loaderWrap} testID={UI.guestLookupLoader}>
-            <ActivityIndicator size="large" color="#ef6c3d" />
+            <ActivityIndicator size="large" color="#C8202E" />
             <Text style={styles.loaderText} testID={UI.guestLookupLoaderText}>
               {isAlternate
                 ? 'Fetching attendee profiles...'
@@ -1190,7 +1225,7 @@ function WebChecklistScreen({ navigation, route }: any) {
         />
         {!webViewReady ? (
           <View style={styles.webChecklistLoading} testID={UI.webChecklistLoading}>
-            <ActivityIndicator size="small" color="#ef6c3d" />
+            <ActivityIndicator size="small" color="#C8202E" />
             <Text style={styles.webChecklistLoadingText}>Loading web checklist...</Text>
           </View>
         ) : null}
@@ -1314,6 +1349,7 @@ function SummaryScreen({ navigation, route }: any) {
           </View>
         ))}
 
+        <PoweredByEssence testID="summary.brand.credit" />
       </ScrollView>
     </SafeAreaView>
   );
@@ -1325,11 +1361,11 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: '#fff8e7' },
+            headerStyle: { backgroundColor: '#eef1fa' },
             headerShadowVisible: false,
-            headerTintColor: '#17324d',
+            headerTintColor: '#21309B',
             headerTitleStyle: { fontWeight: '700' },
-            contentStyle: { backgroundColor: '#fff8e7' },
+            contentStyle: { backgroundColor: '#eef1fa' },
           }}
         >
           <Stack.Screen
@@ -1381,7 +1417,7 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#fff8e7',
+    backgroundColor: '#eef1fa',
   },
   screenTopActions: {
     paddingHorizontal: 20,
@@ -1400,8 +1436,8 @@ const styles = StyleSheet.create({
   },
   modeNote: {
     alignSelf: 'flex-start',
-    backgroundColor: '#fff0df',
-    borderColor: '#f5c7a8',
+    backgroundColor: '#fdecee',
+    borderColor: '#f1bbc0',
     borderWidth: 1,
     borderRadius: 999,
     paddingHorizontal: 12,
@@ -1409,7 +1445,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   modeNoteText: {
-    color: '#8a3f18',
+    color: '#991320',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.8,
@@ -1420,11 +1456,28 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     overflow: 'hidden',
     marginBottom: 20,
-    backgroundColor: '#17324d',
+    backgroundColor: '#21309B',
   },
   heroLogo: {
     width: '100%',
     height: '100%',
+  },
+  heroBadge: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#ffffff',
+  },
+  heroBadgeLogo: {
+    width: 52,
+    height: 52,
   },
   heroOverlay: {
     position: 'absolute',
@@ -1432,10 +1485,10 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     padding: 20,
-    backgroundColor: 'rgba(23, 50, 77, 0.78)',
+    backgroundColor: 'rgba(33, 48, 155, 0.78)',
   },
   heroEyebrow: {
-    color: '#ffd166',
+    color: '#5fd896',
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.1,
@@ -1449,7 +1502,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   heroBody: {
-    color: '#f4f7fb',
+    color: '#eef0fb',
     fontSize: 15,
     lineHeight: 22,
   },
@@ -1463,7 +1516,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   eyebrow: {
-    color: '#ef6c3d',
+    color: '#C8202E',
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1,
@@ -1471,13 +1524,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   sectionTitle: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 28,
     fontWeight: '800',
     marginBottom: 8,
   },
   sectionBody: {
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 15,
     lineHeight: 22,
   },
@@ -1490,25 +1543,25 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#ef6c3d',
+    backgroundColor: '#C8202E',
     marginTop: 6,
     marginRight: 12,
   },
   bulletText: {
     flex: 1,
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 15,
     lineHeight: 22,
   },
   primaryButton: {
-    backgroundColor: '#ef6c3d',
+    backgroundColor: '#C8202E',
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 20,
     alignItems: 'center',
   },
   primaryButtonDisabled: {
-    backgroundColor: '#e4b09c',
+    backgroundColor: '#e6a6ab',
   },
   primaryButtonText: {
     color: '#ffffff',
@@ -1517,7 +1570,7 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     borderWidth: 1,
-    borderColor: '#d6dee6',
+    borderColor: '#d3d8ec',
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 20,
@@ -1525,7 +1578,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   secondaryButtonText: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 16,
     fontWeight: '700',
   },
@@ -1534,10 +1587,27 @@ const styles = StyleSheet.create({
   },
   versionText: {
     marginTop: 20,
-    color: '#66788a',
+    color: '#6b7290',
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  brandCredit: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  brandCreditLogo: {
+    width: 28,
+    height: 28,
+    marginRight: 8,
+  },
+  brandCreditText: {
+    color: '#21309B',
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   agendaCard: {
     backgroundColor: '#ffffff',
@@ -1546,20 +1616,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   agendaIndex: {
-    color: '#ef6c3d',
+    color: '#C8202E',
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.1,
     marginBottom: 8,
   },
   agendaTitle: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 20,
     fontWeight: '800',
     marginBottom: 8,
   },
   agendaSubtitle: {
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 15,
     lineHeight: 22,
   },
@@ -1569,93 +1639,93 @@ const styles = StyleSheet.create({
   },
   agendaCardAlternate: {
     borderWidth: 1,
-    borderColor: '#b7d4c9',
+    borderColor: '#bfe0c9',
     paddingVertical: 22,
     paddingHorizontal: 24,
     marginLeft: 8,
   },
   agendaIndexAlternate: {
-    color: '#0f766e',
+    color: '#0f7a35',
     fontSize: 13,
     letterSpacing: 1.4,
   },
   agendaTitleAlternate: {
-    color: '#124559',
+    color: '#0d5826',
     fontSize: 22,
     fontStyle: 'italic',
   },
   agendaSubtitleAlternate: {
-    color: '#516b76',
+    color: '#456b50',
     fontSize: 16,
   },
   tipBanner: {
-    backgroundColor: '#17324d',
+    backgroundColor: '#21309B',
     borderRadius: 22,
     padding: 20,
     marginBottom: 20,
   },
   tipTitle: {
-    color: '#ffd166',
+    color: '#5fd896',
     fontSize: 16,
     fontWeight: '800',
     marginBottom: 8,
   },
   tipText: {
-    color: '#f4f7fb',
+    color: '#eef0fb',
     fontSize: 15,
     lineHeight: 22,
   },
   tipBannerAlternate: {
-    backgroundColor: '#e3f5ef',
+    backgroundColor: '#e4f6ea',
     borderWidth: 1,
-    borderColor: '#9ac8ba',
+    borderColor: '#a6d9b4',
   },
   tipTitleAlternate: {
-    color: '#0f766e',
+    color: '#0f7a35',
     fontSize: 17,
   },
   tipTextAlternate: {
-    color: '#295769',
+    color: '#1f6b39',
   },
   inputLabel: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#d6dee6',
+    borderColor: '#d3d8ec',
     backgroundColor: '#fdfdfd',
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 14,
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 18,
     marginBottom: 8,
   },
   helperText: {
-    color: '#66788a',
+    color: '#6b7290',
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 16,
   },
   panelAlternate: {
     borderWidth: 1,
-    borderColor: '#d9e7df',
+    borderColor: '#dbeede',
     paddingTop: 24,
   },
   inputLabelAlternate: {
-    color: '#0f766e',
+    color: '#0f7a35',
     fontSize: 17,
     fontStyle: 'italic',
   },
   inputAlternate: {
-    borderColor: '#b6d3c8',
+    borderColor: '#bcdcc6',
     backgroundColor: '#fbfefd',
   },
   helperTextAlternate: {
-    color: '#5b7a72',
+    color: '#4f7a5f',
   },
   loaderWrap: {
     paddingVertical: 20,
@@ -1663,7 +1733,7 @@ const styles = StyleSheet.create({
   },
   loaderText: {
     marginTop: 10,
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 14,
   },
   profileCard: {
@@ -1678,7 +1748,7 @@ const styles = StyleSheet.create({
   },
   profileCardAlternate: {
     borderWidth: 1,
-    borderColor: '#d2e3db',
+    borderColor: '#d6ebdc',
     padding: 18,
     marginLeft: 6,
   },
@@ -1687,7 +1757,7 @@ const styles = StyleSheet.create({
     height: 74,
     borderRadius: 37,
     marginRight: 14,
-    backgroundColor: '#e8edf2',
+    backgroundColor: '#e6e9f5',
   },
   avatarAlternate: {
     width: 78,
@@ -1698,23 +1768,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   profileName: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 17,
     fontWeight: '800',
     marginBottom: 6,
   },
   profileMeta: {
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 3,
   },
   profileNameAlternate: {
-    color: '#124559',
+    color: '#0d5826',
     fontStyle: 'italic',
   },
   profileMetaAlternate: {
-    color: '#5f727c',
+    color: '#557a60',
     fontSize: 14,
   },
   webScreenTop: {
@@ -1736,12 +1806,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.88)',
   },
   webChecklistLoadingText: {
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 13,
     fontWeight: '600',
   },
   webChecklistReadyText: {
-    color: '#0f766e',
+    color: '#0f7a35',
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
@@ -1749,8 +1819,8 @@ const styles = StyleSheet.create({
   },
   webChecklistReadyBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#e2fbf4',
-    borderColor: '#9be1cd',
+    backgroundColor: '#e4f6ea',
+    borderColor: '#a6d9b4',
     borderRadius: 999,
     borderWidth: 1,
     paddingHorizontal: 12,
@@ -1779,13 +1849,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   summaryCard: {
-    backgroundColor: '#17324d',
+    backgroundColor: '#21309B',
     borderRadius: 28,
     padding: 24,
     marginBottom: 20,
   },
   summaryEyebrow: {
-    color: '#ffd166',
+    color: '#5fd896',
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1,
@@ -1799,47 +1869,47 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   summaryBody: {
-    color: '#eef5fb',
+    color: '#eef0fb',
     fontSize: 15,
     lineHeight: 22,
   },
   summaryCardAlternate: {
-    backgroundColor: '#e3f5ef',
+    backgroundColor: '#e4f6ea',
     borderWidth: 1,
-    borderColor: '#9ac8ba',
+    borderColor: '#a6d9b4',
   },
   summaryEyebrowAlternate: {
-    color: '#0f766e',
+    color: '#0f7a35',
   },
   summaryTitleAlternate: {
-    color: '#124559',
+    color: '#0d5826',
     fontStyle: 'italic',
     fontSize: 30,
   },
   summaryBodyAlternate: {
-    color: '#376071',
+    color: '#2f7544',
   },
   thankYouCard: {
-    backgroundColor: '#e2fbf4',
-    borderColor: '#9be1cd',
+    backgroundColor: '#e4f6ea',
+    borderColor: '#a6d9b4',
     borderWidth: 1,
     borderRadius: 22,
     padding: 20,
     marginBottom: 20,
   },
   thankYouText: {
-    color: '#0f766e',
+    color: '#0f7a35',
     fontSize: 18,
     fontWeight: '800',
     marginBottom: 6,
   },
   thankYouLabel: {
-    color: '#0f766e',
+    color: '#0f7a35',
     fontSize: 14,
     marginBottom: 4,
   },
   thankYouId: {
-    color: '#085041',
+    color: '#0d5826',
     fontSize: 18,
     fontWeight: '800',
     letterSpacing: 0.5,
@@ -1848,18 +1918,18 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   bulletDotAlternate: {
-    backgroundColor: '#0f766e',
+    backgroundColor: '#0f7a35',
     width: 12,
     height: 12,
     borderRadius: 3,
   },
   bulletTextAlternate: {
-    color: '#295769',
+    color: '#1f6b39',
     fontSize: 16,
   },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(23, 50, 77, 0.45)',
+    backgroundColor: 'rgba(33, 48, 155, 0.45)',
     justifyContent: 'center',
     padding: 20,
   },
@@ -1871,7 +1941,7 @@ const styles = StyleSheet.create({
   alertBackdrop: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'rgba(23, 50, 77, 0.45)',
+    backgroundColor: 'rgba(33, 48, 155, 0.45)',
     justifyContent: 'center',
     padding: 20,
   },
@@ -1882,19 +1952,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   alertTitle: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 22,
     fontWeight: '800',
     marginBottom: 10,
   },
   alertBody: {
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 15,
     lineHeight: 22,
     marginBottom: 20,
   },
   modalEyebrow: {
-    color: '#ef6c3d',
+    color: '#C8202E',
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.1,
@@ -1902,13 +1972,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   modalTitle: {
-    color: '#17324d',
+    color: '#21309B',
     fontSize: 26,
     fontWeight: '800',
     marginBottom: 10,
   },
   modalBody: {
-    color: '#4d6378',
+    color: '#5b6488',
     fontSize: 15,
     lineHeight: 22,
     marginBottom: 20,
