@@ -952,7 +952,7 @@ function GuestLookupScreen({ navigation, route }: any) {
         <PrimaryButton
           label={isLoading ? 'Loading Profiles...' : 'Load Profiles'}
           onPress={loadGuests}
-          disabled={isLoading}
+          disabled={isLoading || guests.length > 0}
           testID={UI.guestLookupFetchButton}
         />
         <View style={styles.actionSpacer} />
@@ -1033,12 +1033,17 @@ function GuestLookupScreen({ navigation, route }: any) {
           </Text>
           <TextInput
             accessibilityLabel={UI.guestLookupInput}
+            editable={guests.length === 0}
             keyboardType="number-pad"
             maxLength={2}
             onChangeText={setGuestCount}
             placeholder="Enter 1 to 15"
             placeholderTextColor="#7f8b97"
-            style={[styles.input, isAlternate && styles.inputAlternate]}
+            style={[
+              styles.input,
+              isAlternate && styles.inputAlternate,
+              guests.length > 0 && styles.inputDisabled,
+            ]}
             testID={UI.guestLookupInput}
             value={guestCount}
           />
@@ -1703,6 +1708,10 @@ const styles = StyleSheet.create({
     color: '#21309B',
     fontSize: 18,
     marginBottom: 8,
+  },
+  inputDisabled: {
+    backgroundColor: '#eef1fa',
+    color: '#8a93b5',
   },
   helperText: {
     color: '#6b7290',

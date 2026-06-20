@@ -46,7 +46,7 @@ export default function GuestLookup() {
           type="button"
           className="btn btn-primary"
           onClick={loadGuests}
-          disabled={isLoading}
+          disabled={isLoading || guests.length > 0}
           data-testid="guestLookup.button.fetch"
         >
           {isLoading ? 'Loading Profiles…' : 'Load Profiles'}
@@ -83,6 +83,7 @@ export default function GuestLookup() {
           placeholder="Enter 1 to 15"
           value={guestCount}
           onChange={(e) => setGuestCount(e.target.value)}
+          disabled={guests.length > 0}
           data-testid="guestLookup.input.count"
         />
         <p className="helper-text" data-testid="guestLookup.helper.count">
