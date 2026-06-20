@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -51,6 +51,8 @@ type FlowVariant = 'original' | 'alternate';
 
 type FlowRouteParams = {
   variant: FlowVariant;
+  name: string;
+  uniqueId: string;
 };
 
 type RootStackParamList = {
@@ -75,6 +77,10 @@ const UI = {
   homeHeroTitle: 'home.hero.title',
   homeHeroBody: 'home.hero.body',
   homeWorkflowPanel: 'home.panel.workflows',
+  homeNamePanel: 'home.panel.name',
+  homeNameLabel: 'home.label.name',
+  homeNameInput: 'home.input.name',
+  homeNameHelper: 'home.helper.name',
   homeVersion: 'home.version',
   homeRechargeButton: 'home.button.recharge',
   homePlannerButton: 'home.button.planner',
@@ -128,7 +134,20 @@ const UI = {
   summaryEyebrow: 'summary.eyebrow',
   summaryTitle: 'summary.title',
   summaryBody: 'summary.body',
+  summaryThankYou: 'summary.thankYou',
+  summaryUniqueId: 'summary.uniqueId',
   summaryRestartButton: 'summary.button.restart',
+};
+
+const generateUniqueId = () => {
+  const random = Math.random().toString(36).slice(2, 6).toUpperCase();
+  const stamp = Date.now().toString(36).slice(-4).toUpperCase();
+  return `CMP-${stamp}${random}`;
+};
+
+const normalizeName = (value: string) => {
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : 'Guest';
 };
 
 const getHighlightId = (index: number) => `home.highlight.${index + 1}`;
@@ -429,6 +448,7 @@ function ScreenModeNote({
 
 function HomeScreen({ navigation }: any) {
   const [isPlannerModeVisible, setIsPlannerModeVisible] = useState(false);
+  const [name, setName] = useState('');
 
   const openPlannerModeChooser = useCallback(() => {
     setIsPlannerModeVisible(true);
@@ -441,9 +461,13 @@ function HomeScreen({ navigation }: any) {
   const startPlannerFlow = useCallback(
     (variant: FlowVariant) => {
       setIsPlannerModeVisible(false);
-      navigation.navigate('Planner', { variant });
+      navigation.navigate('Planner', {
+        variant,
+        name: normalizeName(name),
+        uniqueId: generateUniqueId(),
+      });
     },
-    [navigation],
+    [navigation, name],
   );
 
   return (
@@ -490,6 +514,32 @@ function HomeScreen({ navigation }: any) {
               validation, API data, and a webview step.
             </Text>
           </View>
+        </View>
+
+        <View
+          accessibilityLabel={UI.homeNamePanel}
+          style={styles.panel}
+          testID={UI.homeNamePanel}
+        >
+          <Text
+            style={styles.inputLabel}
+            testID={UI.homeNameLabel}
+          >
+            Your name
+          </Text>
+          <TextInput
+            accessibilityLabel={UI.homeNameInput}
+            autoCapitalize="words"
+            onChangeText={setName}
+            placeholder="Enter your name"
+            placeholderTextColor="#7f8b97"
+            style={styles.input}
+            testID={UI.homeNameInput}
+            value={name}
+          />
+          <Text style={styles.helperText} testID={UI.homeNameHelper}>
+            Used to personalize your summary at the end of the workflow.
+          </Text>
         </View>
 
         <View
@@ -594,6 +644,8 @@ function RechargeScreen() {
 
 function NativeJourneyScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
+  const name: string = route.params?.name ?? 'Guest';
+  const uniqueId: string = route.params?.uniqueId ?? '';
   const isAlternate = variant === 'alternate';
 
   return (
@@ -601,7 +653,7 @@ function NativeJourneyScreen({ navigation, route }: any) {
       <View style={styles.screenTopActions}>
         <PrimaryButton
           label="Next: Hybrid Native Views"
-          onPress={() => navigation.push('NativeHybrid', { variant })}
+          onPress={() => navigation.push('NativeHybrid', { variant, name, uniqueId })}
           testID={UI.nativeJourneyContinue}
         />
       </View>
@@ -645,6 +697,8 @@ function NativeJourneyScreen({ navigation, route }: any) {
 
 function NativeHybridScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
+  const name: string = route.params?.name ?? 'Guest';
+  const uniqueId: string = route.params?.uniqueId ?? '';
   const isAlternate = variant === 'alternate';
 
   return (
@@ -652,7 +706,7 @@ function NativeHybridScreen({ navigation, route }: any) {
       <View style={styles.screenTopActions}>
         <PrimaryButton
           label="Next: Load Guest Profiles"
-          onPress={() => navigation.navigate('GuestLookup', { variant })}
+          onPress={() => navigation.navigate('GuestLookup', { variant, name, uniqueId })}
           testID={UI.nativeHybridContinue}
         />
       </View>
@@ -687,6 +741,8 @@ function NativeHybridScreen({ navigation, route }: any) {
 
 function PlannerScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
+  const name: string = route.params?.name ?? 'Guest';
+  const uniqueId: string = route.params?.uniqueId ?? '';
   const isAlternate = variant === 'alternate';
   const agendaSteps = isAlternate ? ALTERNATE_AGENDA_STEPS : AGENDA_STEPS;
 
@@ -695,7 +751,7 @@ function PlannerScreen({ navigation, route }: any) {
       <View style={styles.screenTopActions}>
         <PrimaryButton
           label="Next: Native Detail"
-          onPress={() => navigation.push('NativeJourney', { variant })}
+          onPress={() => navigation.push('NativeJourney', { variant, name, uniqueId })}
           testID={UI.plannerNextNativeButton}
         />
       </View>
@@ -789,6 +845,8 @@ function PlannerScreen({ navigation, route }: any) {
 
 function GuestLookupScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
+  const name: string = route.params?.name ?? 'Guest';
+  const uniqueId: string = route.params?.uniqueId ?? '';
   const isAlternate = variant === 'alternate';
   const [guestCount, setGuestCount] = useState('');
   const [guests, setGuests] = useState<PlannerGuest[]>([]);
@@ -865,7 +923,7 @@ function GuestLookupScreen({ navigation, route }: any) {
         <View style={styles.actionSpacer} />
         <PrimaryButton
           label="Next: Open Web Checklist"
-          onPress={() => navigation.navigate('WebChecklist', { variant })}
+          onPress={() => navigation.navigate('WebChecklist', { variant, name, uniqueId })}
           disabled={guests.length === 0}
           testID={UI.guestLookupResultsNextButton}
         />
@@ -1067,6 +1125,8 @@ function GuestLookupScreen({ navigation, route }: any) {
 
 function WebChecklistScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
+  const name: string = route.params?.name ?? 'Guest';
+  const uniqueId: string = route.params?.uniqueId ?? '';
   const isAlternate = variant === 'alternate';
   const [checklistCompleted, setChecklistCompleted] = useState(false);
   const [webViewReady, setWebViewReady] = useState(false);
@@ -1109,7 +1169,7 @@ function WebChecklistScreen({ navigation, route }: any) {
               ? 'Complete Workflow'
               : 'Complete the web checklist first'
           }
-          onPress={() => navigation.navigate('Summary', { variant })}
+          onPress={() => navigation.navigate('Summary', { variant, name, uniqueId })}
           disabled={!checklistCompleted}
           testID={UI.webChecklistContinue}
         />
@@ -1141,7 +1201,16 @@ function WebChecklistScreen({ navigation, route }: any) {
 
 function SummaryScreen({ navigation, route }: any) {
   const variant: FlowVariant = route.params?.variant ?? 'original';
+  const name: string = route.params?.name ?? 'Guest';
+  const uniqueId: string = route.params?.uniqueId ?? generateUniqueId();
   const isAlternate = variant === 'alternate';
+
+  useEffect(() => {
+    console.log(
+      `[CommunityMeetingPlanner] Workflow complete for ${name} - uniqueId=${uniqueId}`,
+    );
+  }, [name, uniqueId]);
+
   const recapItems = useMemo(
     () => [
       'Native stack navigation across multiple screens',
@@ -1208,6 +1277,16 @@ function SummaryScreen({ navigation, route }: any) {
             {isAlternate
               ? 'This flow keeps the same journey while introducing intentional visual differences for comparison testing.'
               : 'This flow is intentionally simple, visually clean, and easy to use in presentations or automation demos.'}
+          </Text>
+        </View>
+
+        <View style={styles.thankYouCard} testID={UI.summaryThankYou}>
+          <Text style={styles.thankYouText} testID={`${UI.summaryThankYou}.text`}>
+            Thank you {name}.
+          </Text>
+          <Text style={styles.thankYouLabel}>Your unique id is:</Text>
+          <Text style={styles.thankYouId} testID={UI.summaryUniqueId}>
+            {uniqueId}
           </Text>
         </View>
 
@@ -1739,6 +1818,31 @@ const styles = StyleSheet.create({
   },
   summaryBodyAlternate: {
     color: '#376071',
+  },
+  thankYouCard: {
+    backgroundColor: '#e2fbf4',
+    borderColor: '#9be1cd',
+    borderWidth: 1,
+    borderRadius: 22,
+    padding: 20,
+    marginBottom: 20,
+  },
+  thankYouText: {
+    color: '#0f766e',
+    fontSize: 18,
+    fontWeight: '800',
+    marginBottom: 6,
+  },
+  thankYouLabel: {
+    color: '#0f766e',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  thankYouId: {
+    color: '#085041',
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: 0.5,
   },
   bulletRowAlternate: {
     marginLeft: 8,

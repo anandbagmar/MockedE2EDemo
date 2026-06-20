@@ -63,6 +63,19 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
     private static final String IOS_PLATFORM_VERSION =
             System.getProperty("IOS_PLATFORM_VERSION", "26.4");
 
+    private static final int WDA_LAUNCH_TIMEOUT_MS =
+            Integer.getInteger("WDA_LAUNCH_TIMEOUT_MS", 180000);
+    private static final int WDA_CONNECTION_TIMEOUT_MS =
+            Integer.getInteger("WDA_CONNECTION_TIMEOUT_MS", 180000);
+    private static final int WDA_STARTUP_RETRIES =
+            Integer.getInteger("WDA_STARTUP_RETRIES", 4);
+    private static final int WDA_STARTUP_RETRY_INTERVAL_MS =
+            Integer.getInteger("WDA_STARTUP_RETRY_INTERVAL_MS", 20000);
+    private static final int WDA_LOCAL_PORT =
+            Integer.getInteger("WDA_LOCAL_PORT", 8100);
+    private static final int IOS_NEW_COMMAND_TIMEOUT_SECONDS =
+            Integer.getInteger("IOS_NEW_COMMAND_TIMEOUT_SECONDS", 180);
+
     // ── Native layer locators ─────────────────────────────────────────────────
     // On iOS, testID → accessibilityIdentifier, so AppiumBy.accessibilityId()
     // matches testID values directly for all elements.
@@ -144,7 +157,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         options.setDeviceName(IOS_DEVICE_NAME);
         options.setPlatformVersion(IOS_PLATFORM_VERSION);
         options.setApp(appPath);
-        options.setNewCommandTimeout(Duration.ofSeconds(30));
+        options.setNewCommandTimeout(Duration.ofSeconds(IOS_NEW_COMMAND_TIMEOUT_SECONDS));
         options.setCapability("printPageSourceOnFindFailure", true);
         options.setCapability("appium:webviewConnectTimeout", 20000);
         options.setCapability("appium:webviewConnectRetries", 40);
@@ -157,6 +170,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         if (IS_NML && IS_EYES_ENABLED) {
             Eyes.setMobileCapabilities(options, APPLITOOLS_API_KEY);
         }
+        applyWdaStartupCapabilities(options);
 
         try {
             driver = new IOSDriver(new URL(APPIUM_SERVER_URL), options);
@@ -168,6 +182,26 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         logStep("iOS", "Configuring Eyes");
         configureEyes(APP_NAME, testInfo);
         logStep("iOS", "Session ready");
+    }
+
+    private void applyWdaStartupCapabilities(XCUITestOptions options) {
+        options.setCapability("appium:wdaLaunchTimeout", WDA_LAUNCH_TIMEOUT_MS);
+        options.setCapability("appium:wdaConnectionTimeout", WDA_CONNECTION_TIMEOUT_MS);
+        options.setCapability("appium:wdaStartupRetries", WDA_STARTUP_RETRIES);
+        options.setCapability("appium:wdaStartupRetryInterval", WDA_STARTUP_RETRY_INTERVAL_MS);
+        options.setCapability("appium:wdaLocalPort", WDA_LOCAL_PORT);
+        options.setCapability("appium:showXcodeLog", true);
+        options.setCapability("appium:derivedDataPath", resolveWdaDerivedDataPath());
+    }
+
+    private String resolveWdaDerivedDataPath() {
+        Path appiumTestsDir = Path.of(System.getProperty("user.dir")).toAbsolutePath();
+        Path projectRoot = appiumTestsDir.getParent();
+        if (projectRoot == null) {
+            projectRoot = appiumTestsDir;
+        }
+        Path derivedDataPath = projectRoot.resolve("reports").resolve("appium").resolve("wda-derived-data");
+        return derivedDataPath.normalize().toString();
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -242,11 +276,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         checkpointNative("Guest Lookup Screen");
 
         logStep("iOS", "Step 11 - validate out-of-range guest count");
-        scrollToAndClick(GUEST_LOOKUP_INPUT);
-        WebElement countInput = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.accessibilityId(GUEST_LOOKUP_INPUT));
-        countInput.clear();
-        countInput.sendKeys("20");
+        enterGuestCount("20");
         tapGuestLookupFetchButton();
         checkpointNative("Invalid Guest Count - Alert");
 
@@ -254,11 +284,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         dismissValidationAlert();
 
         logStep("iOS", "Step 13 - load guest profiles");
-        scrollToAndClick(GUEST_LOOKUP_INPUT);
-        countInput = Wait.waitTillElementIsPresent(driver,
-                AppiumBy.accessibilityId(GUEST_LOOKUP_INPUT));
-        countInput.clear();
-        countInput.sendKeys("10");
+        enterGuestCount("10");
         tapGuestLookupFetchButton();
 
         logStep("iOS", "Step 14 - wait for guest results");
@@ -269,6 +295,14 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
 
         logStep("iOS", "Step 15 - open web checklist");
         tapButtonAndWaitForScreen(GUEST_LOOKUP_NEXT_BTN, WEB_CHECKLIST_SCREEN);
+    }
+
+    private void enterGuestCount(String guestCount) {
+        scrollToAndClick(GUEST_LOOKUP_INPUT);
+        WebElement countInput = Wait.waitTillElementExists(driver,
+                AppiumBy.accessibilityId(GUEST_LOOKUP_INPUT));
+        countInput.clear();
+        countInput.sendKeys(guestCount);
     }
 
     private void handleWebChecklistScreen() {
@@ -567,7 +601,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
      */
     private void checkpointNative(String tag) {
         switchToNativeContext();
-        eyes.checkWindow(tag);
+        eyes.check(tag, Target.window().fully());
     }
 
     /**
@@ -577,7 +611,7 @@ public class CommunityMeetingPlannerIOSTest extends BaseTest {
         if (!switchToWebViewContext()) {
             System.out.printf("[iOS] WEBVIEW context not exposed; taking native checkpoint for %s%n", tag);
         }
-        eyes.checkWindow(tag);
+        eyes.check(tag, Target.window().fully());
     }
 
     // ── .app.zip extraction helpers ───────────────────────────────────────────
