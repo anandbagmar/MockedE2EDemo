@@ -229,6 +229,10 @@ input.text-input:disabled {
 .btn-success:hover {
   background: var(--eot-green-dark);
 }
+.btn-success:disabled {
+  background: #a6d9b4;
+  cursor: not-allowed;
+}
 .btn-secondary {
   background: #fff;
   color: var(--eot-blue);
