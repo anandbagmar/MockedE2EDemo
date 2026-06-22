@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "io.specmatic.e2edemo"
+    namespace "com.eot.e2edemo"
     defaultConfig {
-        applicationId "io.specmatic.e2edemo"
+        applicationId "com.eot.e2edemo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2

@@ -313,8 +313,8 @@ tasks.register('runTeswiz', JavaExec) {
         systemProperties = System.properties as Map<String, ?>
         def runnerArgs = [
                 "${configFile}",
-                "io/mockede2edemo/e2e/steps",
-                "./src/test/resources/io/mockede2edemo/e2e/features",
+                "com/eot/e2edemo/e2e/steps",
+                "./src/test/resources/com/eot/e2edemo/e2e/features",
         ]
         args = runnerArgs
 

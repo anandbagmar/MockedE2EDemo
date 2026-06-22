@@ -42,7 +42,7 @@ The sample journey mixes native, web, and hybrid screens so Appium can exercise 
 ├── e2eTests/               Appium + Selenium + Applitools test project (Gradle/Java)
 │   ├── build.gradle
 │   ├── gradlew
-│   └── src/test/java/io/mockede2edemo/tests/
+│   └── src/test/java/com/eot/e2edemo/tests/
 │       ├── BaseTest.java
 │       ├── android/CommunityMeetingPlannerAndroidTest.java
 │       ├── ios/CommunityMeetingPlannerIOSTest.java
