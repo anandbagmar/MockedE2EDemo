@@ -9,7 +9,7 @@ import Summary from './screens/Summary';
 
 export default function App() {
   return (
-    <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <HashRouter>
       <div className="app-shell" data-testid="app.shell">
         <Routes>
           <Route path="/" element={<Home />} />
