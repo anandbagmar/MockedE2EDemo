@@ -129,6 +129,15 @@ body {
   margin-bottom: 18px;
 }
 
+.native-view {
+  background: linear-gradient(135deg, #eef1fa 0%, #e3e7f7 100%);
+  border: 1px dashed var(--eot-blue);
+}
+
+.native-view .eyebrow {
+  margin-bottom: 8px;
+}
+
 .mode-note {
   display: inline-block;
   background: #fdecee;

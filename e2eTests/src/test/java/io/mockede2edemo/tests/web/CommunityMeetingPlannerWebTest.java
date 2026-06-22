@@ -68,6 +68,11 @@ public class CommunityMeetingPlannerWebTest {
     private static final String PLANNER_INTRO            = "planner.section.intro";
     private static final String PLANNER_NEXT_BTN         = "planner.button.next";
 
+    private static final String NATIVE_JOURNEY_SCREEN       = "nativeJourney.screen";
+    private static final String NATIVE_JOURNEY_CONTINUE_BTN = "nativeJourney.button.continue";
+    private static final String NATIVE_HYBRID_SCREEN        = "nativeHybrid.screen";
+    private static final String NATIVE_HYBRID_CONTINUE_BTN  = "nativeHybrid.button.continue";
+
     private static final String GUEST_LOOKUP_SCREEN      = "guestLookup.screen";
     private static final String GUEST_LOOKUP_INPUT       = "guestLookup.input.count";
     private static final String GUEST_LOOKUP_FETCH_BTN   = "guestLookup.button.fetch";
@@ -130,6 +135,7 @@ public class CommunityMeetingPlannerWebTest {
     public void communityMeetingPlannerWebTest() {
         handleHomeScreen();
         handlePlannerScreen();
+        handleNativeInterludeScreens();
         handleGuestLookupScreen();
         handleChecklistScreen();
         handleSummaryScreen();
@@ -156,8 +162,23 @@ public class CommunityMeetingPlannerWebTest {
         waitVisible(PLANNER_SCREEN);
         waitVisible(PLANNER_INTRO);
 
-        logStep("Step 5 - continue to guest lookup");
+        logStep("Step 5 - continue to native detail");
         click(PLANNER_NEXT_BTN);
+    }
+
+    /**
+     * Web parity for the mobile native interlude (Step 2A/2B). The webapp now
+     * renders the same two journey steps as standard web components between the
+     * planner and guest lookup, so the workflow stays identical across platforms.
+     */
+    private void handleNativeInterludeScreens() {
+        logStep("Step 5a - verify native journey screen");
+        waitVisible(NATIVE_JOURNEY_SCREEN);
+        click(NATIVE_JOURNEY_CONTINUE_BTN);
+
+        logStep("Step 5b - verify native hybrid screen");
+        waitVisible(NATIVE_HYBRID_SCREEN);
+        click(NATIVE_HYBRID_CONTINUE_BTN);
     }
 
     private void handleGuestLookupScreen() {

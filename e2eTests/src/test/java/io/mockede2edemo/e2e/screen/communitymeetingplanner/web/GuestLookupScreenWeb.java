@@ -1,0 +1,84 @@
+package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
+
+import org.openqa.selenium.WebElement;
+
+import com.znsio.teswiz.runner.Driver;
+import com.znsio.teswiz.runner.Visual;
+
+import io.mockede2edemo.e2e.screen.communitymeetingplanner.GuestLookupScreen;
+import io.mockede2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
+
+public class GuestLookupScreenWeb extends GuestLookupScreen {
+    private static final String APP_NAME = "Community Meeting Planner";
+    private static final String EXPECTED_ALERT_TITLE = "Invalid guest count";
+
+    private static final String GUEST_LOOKUP_SCREEN = "guestLookup.screen";
+    private static final String GUEST_LOOKUP_INPUT = "guestLookup.input.count";
+    private static final String GUEST_LOOKUP_FETCH_BTN = "guestLookup.button.fetch";
+    private static final String GUEST_LOOKUP_RESULTS = "guestLookup.results";
+    private static final String GUEST_LOOKUP_FIRST_CARD = "guestLookup.profile.1.card";
+    private static final String GUEST_LOOKUP_ALERT_CARD = "guestLookup.alert.card";
+    private static final String GUEST_LOOKUP_ALERT_TITLE = "guestLookup.alert.title";
+    private static final String GUEST_LOOKUP_ALERT_OK = "guestLookup.alert.ok";
+    private static final String GUEST_LOOKUP_NEXT_BTN = "guestLookup.button.next";
+
+    private final Driver driver;
+    private final Visual visually;
+
+    public GuestLookupScreenWeb(Driver driver, Visual visually) {
+        this.driver = driver;
+        this.visually = visually;
+    }
+
+    @Override
+    public GuestLookupScreen waitForScreen() {
+        CmpWeb.waitVisible(driver, GUEST_LOOKUP_SCREEN);
+        CmpWeb.waitVisible(driver, GUEST_LOOKUP_INPUT);
+        visually.checkWindow(APP_NAME, "Guest Lookup Screen");
+        return this;
+    }
+
+    @Override
+    public GuestLookupScreen fetchProfilesExpectingValidationError(int count) {
+        enterCount(count);
+        CmpWeb.click(driver, GUEST_LOOKUP_FETCH_BTN);
+
+        WebElement alertTitle = CmpWeb.waitVisible(driver, GUEST_LOOKUP_ALERT_TITLE);
+        visually.checkWindow(APP_NAME, "Invalid Guest Count - Alert");
+        if (!EXPECTED_ALERT_TITLE.equalsIgnoreCase(alertTitle.getText().trim())) {
+            throw new RuntimeException(
+                    "Expected validation alert '" + EXPECTED_ALERT_TITLE + "' for out-of-range guest count, but was: "
+                            + alertTitle.getText());
+        }
+        return this;
+    }
+
+    @Override
+    public GuestLookupScreen dismissValidationAlert() {
+        CmpWeb.click(driver, GUEST_LOOKUP_ALERT_OK);
+        CmpWeb.waitInvisible(driver, GUEST_LOOKUP_ALERT_CARD);
+        return this;
+    }
+
+    @Override
+    public GuestLookupScreen loadProfiles(int count) {
+        enterCount(count);
+        CmpWeb.click(driver, GUEST_LOOKUP_FETCH_BTN);
+        CmpWeb.waitVisible(driver, GUEST_LOOKUP_RESULTS, 30);
+        CmpWeb.waitVisible(driver, GUEST_LOOKUP_FIRST_CARD, 30);
+        visually.checkWindow(APP_NAME, "Guest Profiles Loaded");
+        return this;
+    }
+
+    @Override
+    public WebChecklistScreen openChecklist() {
+        CmpWeb.click(driver, GUEST_LOOKUP_NEXT_BTN);
+        return WebChecklistScreen.get().waitForScreen();
+    }
+
+    private void enterCount(int count) {
+        WebElement countInput = CmpWeb.waitVisible(driver, GUEST_LOOKUP_INPUT);
+        countInput.clear();
+        countInput.sendKeys(String.valueOf(count));
+    }
+}

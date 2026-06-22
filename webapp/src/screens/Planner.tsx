@@ -20,10 +20,10 @@ export default function Planner() {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => navigate('/guests', { state: flow })}
+          onClick={() => navigate('/native-journey', { state: flow })}
           data-testid="planner.button.next"
         >
-          Next: Load Guest Profiles
+          Next: Native Detail
         </button>
       </div>
 

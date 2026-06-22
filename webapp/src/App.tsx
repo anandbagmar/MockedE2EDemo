@@ -1,6 +1,8 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './screens/Home';
 import Planner from './screens/Planner';
+import NativeJourney from './screens/NativeJourney';
+import NativeHybrid from './screens/NativeHybrid';
 import GuestLookup from './screens/GuestLookup';
 import Checklist from './screens/Checklist';
 import Summary from './screens/Summary';
@@ -12,6 +14,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/planner" element={<Planner />} />
+          <Route path="/native-journey" element={<NativeJourney />} />
+          <Route path="/native-hybrid" element={<NativeHybrid />} />
           <Route path="/guests" element={<GuestLookup />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/summary" element={<Summary />} />
