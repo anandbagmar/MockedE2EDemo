@@ -10,7 +10,7 @@ Feature: Scenarios for "Community Meeting Planner" app
     When I run the Community Meeting Planner workflow
     Then I should be back on the home screen
 
-  # CONFIG=./configs/mockede2edemo/mockede2edemo_local_android_config.properties PLATFORM=android TAG=@figma ./gradlew runTeswiz
+  # IS_VISUAL=true CONFIG=./configs/mockede2edemo/mockede2edemo_local_android_config.properties PLATFORM=android TAG=@figma ./gradlew runTeswiz
   # CONFIG=./configs/mockede2edemo/mockede2edemo_local_ios_config.properties PLATFORM=iOS TAG=@figma ./gradlew runTeswiz
   @communityMeetingPlanner @android @figma
   Scenario: Verify Community Meeting Planner workflow against Figma design
