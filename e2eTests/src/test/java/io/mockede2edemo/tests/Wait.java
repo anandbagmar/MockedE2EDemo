@@ -1,4 +1,4 @@
-package io.specmatic.utils;
+package io.mockede2edemo.tests;
 
 import java.time.Duration;
 
