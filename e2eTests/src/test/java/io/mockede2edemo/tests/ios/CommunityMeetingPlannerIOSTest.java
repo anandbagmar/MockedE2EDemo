@@ -27,8 +27,8 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.SupportsContextSwitching;
+import io.mockede2edemo.tests.Wait;
 import io.specmatic.tests.BaseTest;
-import io.specmatic.utils.Wait;
 
 /**
  * CommunityMeetingPlannerIOSTest

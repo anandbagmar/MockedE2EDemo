@@ -17,87 +17,94 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.SupportsContextSwitching;
+import io.mockede2edemo.tests.Wait;
 import io.specmatic.tests.BaseTest;
-import io.specmatic.utils.Wait;
 
 /**
  * CommunityMeetingPlannerAndroidTest
  *
  * Exercises the full Community Meeting Planner workflow on Android:
- *   Home → flow-selector modal → Planner → NativeJourney → NativeHybrid
- *     → GuestLookup (with validation) → WebChecklist (inline WebView)
- *     → Summary → back to Home
+ * Home → flow-selector modal → Planner → NativeJourney → NativeHybrid
+ * → GuestLookup (with validation) → WebChecklist (inline WebView)
+ * → Summary → back to Home
  *
  * Flow selection:
- *   USE_ALTERNATE_FLOW = false  →  Original flow
- *   USE_ALTERNATE_FLOW = true   →  Alternate flow
+ * USE_ALTERNATE_FLOW = false → Original flow
+ * USE_ALTERNATE_FLOW = true → Alternate flow
  *
  * Override at runtime:
- *   ./gradlew test -DUSE_ALTERNATE_FLOW=true -Pandroid
+ * ./gradlew test -DUSE_ALTERNATE_FLOW=true -Pandroid
  */
 public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
     private static final String APP_NAME = "Community Meeting Planner - Android";
     private static final String ANDROID_PACKAGE = "io.specmatic.e2edemo";
 
-    private static final boolean USE_ALTERNATE_FLOW =
-            "true".equalsIgnoreCase(System.getenv("USE_ALTERNATE_FLOW"))
-                    || "true".equalsIgnoreCase(System.getProperty("USE_ALTERNATE_FLOW"));
+    private static final boolean USE_ALTERNATE_FLOW = "true".equalsIgnoreCase(System.getenv("USE_ALTERNATE_FLOW"))
+            || "true".equalsIgnoreCase(System.getProperty("USE_ALTERNATE_FLOW"));
 
     // ── Native layer locators ─────────────────────────────────────────────────
-    // All SafeAreaView screens have accessibilityLabel (= testID) after App.tsx fix.
-    // All PrimaryButton / SecondaryButton elements always have accessibilityLabel = testID.
-    // → AppiumBy.accessibilityId() matches content-desc on Android for all of these.
+    // All SafeAreaView screens have accessibilityLabel (= testID) after App.tsx
+    // fix.
+    // All PrimaryButton / SecondaryButton elements always have accessibilityLabel =
+    // testID.
+    // → AppiumBy.accessibilityId() matches content-desc on Android for all of
+    // these.
 
-    private static final String HOME_SCREEN                = "home.screen";
-    private static final String HOME_PLANNER_BTN           = "home.button.planner";
+    private static final String HOME_SCREEN = "home.screen";
+    private static final String HOME_PLANNER_BTN = "home.button.planner";
 
     // Flow-selector modal
-    private static final String PLANNER_MODE_PANEL       = "planner.mode.panel";
-    private static final String PLANNER_ORIGINAL_BTN       = "planner.mode.button.original";
-    private static final String PLANNER_ALTERNATE_BTN      = "planner.mode.button.alternate";
+    private static final String PLANNER_MODE_PANEL = "planner.mode.panel";
+    private static final String PLANNER_ORIGINAL_BTN = "planner.mode.button.original";
+    private static final String PLANNER_ALTERNATE_BTN = "planner.mode.button.alternate";
 
     // Planner screen (native, scrollable)
-    private static final String PLANNER_SCREEN             = "planner.screen";
-    private static final String PLANNER_NEXT_NATIVE_BTN    = "planner.button.next.native";   // "Next: Native Detail"
+    private static final String PLANNER_SCREEN = "planner.screen";
+    private static final String PLANNER_NEXT_NATIVE_BTN = "planner.button.next.native"; // "Next: Native Detail"
 
     // Guest Lookup screen (native, scrollable)
-    private static final String GUEST_LOOKUP_SCREEN        = "guestLookup.screen";
-    private static final String GUEST_LOOKUP_INPUT         = "guestLookup.input.count";      // TextInput – has accessibilityLabel
-    private static final String GUEST_LOOKUP_FETCH_BTN     = "guestLookup.button.fetch";     // "Load Profiles"
-    private static final String GUEST_LOOKUP_FETCH_LABEL   = "Load Profiles";
-    private static final String GUEST_LOOKUP_RESULTS       = "guestLookup.section.results";  // SectionTitle – has accessibilityLabel; appears only after API load
-    private static final String GUEST_LOOKUP_CARDS         = "guestLookup.cards";           // Wrapper around all guest cards
-    private static final String GUEST_LOOKUP_CARDS_LIST    = "guestLookup.cards.list";      // Dedicated list wrapper for Eyes regioning
-    private static final String GUEST_LOOKUP_ALERT_CARD     = "guestLookup.alert.card";
-    private static final String GUEST_LOOKUP_ALERT_OK       = "guestLookup.alert.ok";
+    private static final String GUEST_LOOKUP_SCREEN = "guestLookup.screen";
+    private static final String GUEST_LOOKUP_INPUT = "guestLookup.input.count"; // TextInput – has accessibilityLabel
+    private static final String GUEST_LOOKUP_FETCH_BTN = "guestLookup.button.fetch"; // "Load Profiles"
+    private static final String GUEST_LOOKUP_FETCH_LABEL = "Load Profiles";
+    private static final String GUEST_LOOKUP_RESULTS = "guestLookup.section.results"; // SectionTitle – has
+                                                                                      // accessibilityLabel; appears
+                                                                                      // only after API load
+    private static final String GUEST_LOOKUP_CARDS = "guestLookup.cards"; // Wrapper around all guest cards
+    private static final String GUEST_LOOKUP_CARDS_LIST = "guestLookup.cards.list"; // Dedicated list wrapper for Eyes
+                                                                                    // regioning
+    private static final String GUEST_LOOKUP_ALERT_CARD = "guestLookup.alert.card";
+    private static final String GUEST_LOOKUP_ALERT_OK = "guestLookup.alert.ok";
     private static final String GUEST_LOOKUP_ALERT_BACKDROP = "guestLookup.alert.backdrop";
-    private static final String GUEST_LOOKUP_NEXT_BTN      = "guestLookup.button.next";      // "Next: Open Web Checklist"
+    private static final String GUEST_LOOKUP_NEXT_BTN = "guestLookup.button.next"; // "Next: Open Web Checklist"
 
     // Web Checklist screen (native shell + inline WebView)
-    private static final String WEB_CHECKLIST_SCREEN       = "webChecklist.screen";
-    private static final String WEB_CHECKLIST_WEBVIEW      = "webChecklist.webview";
-    private static final String WEB_CHECKLIST_READY        = "webChecklist.ready";
-    private static final String WEB_CHECKLIST_CONTINUE_BTN = "webChecklist.button.continue"; // "Complete Workflow" – disabled until checklist done
+    private static final String WEB_CHECKLIST_SCREEN = "webChecklist.screen";
+    private static final String WEB_CHECKLIST_WEBVIEW = "webChecklist.webview";
+    private static final String WEB_CHECKLIST_READY = "webChecklist.ready";
+    private static final String WEB_CHECKLIST_CONTINUE_BTN = "webChecklist.button.continue"; // "Complete Workflow" –
+                                                                                             // disabled until checklist
+                                                                                             // done
 
     // Native interlude screen
-    private static final String NATIVE_JOURNEY_SCREEN      = "nativeJourney.screen";
-    private static final String NATIVE_JOURNEY_MODE_NOTE   = "nativeJourney.mode.native.androidx";
-    private static final String NATIVE_JOURNEY_VIEW        = "nativeJourney.nativeView";
+    private static final String NATIVE_JOURNEY_SCREEN = "nativeJourney.screen";
+    private static final String NATIVE_JOURNEY_MODE_NOTE = "nativeJourney.mode.native.androidx";
+    private static final String NATIVE_JOURNEY_VIEW = "nativeJourney.nativeView";
     private static final String NATIVE_JOURNEY_CONTINUE_BTN = "nativeJourney.button.continue";
 
     // Native hybrid screen
-    private static final String NATIVE_HYBRID_SCREEN       = "nativeHybrid.screen";
-    private static final String NATIVE_HYBRID_MODE_NOTE    = "nativeHybrid.mode.hybrid.androidx";
-    private static final String NATIVE_HYBRID_VIEW         = "nativeHybrid.nativeView";
+    private static final String NATIVE_HYBRID_SCREEN = "nativeHybrid.screen";
+    private static final String NATIVE_HYBRID_MODE_NOTE = "nativeHybrid.mode.hybrid.androidx";
+    private static final String NATIVE_HYBRID_VIEW = "nativeHybrid.nativeView";
     private static final String NATIVE_HYBRID_CONTINUE_BTN = "nativeHybrid.button.continue";
 
     // Summary screen (native, scrollable)
-    private static final String SUMMARY_SCREEN             = "summary.screen";
-    private static final String SUMMARY_RESTART_BTN        = "summary.button.restart";       // "Start Again"
+    private static final String SUMMARY_SCREEN = "summary.screen";
+    private static final String SUMMARY_RESTART_BTN = "summary.button.restart"; // "Start Again"
 
     // ── WebView HTML element ID (inside inline CHECKLIST_HTML) ────────────────
-    private static final String WEB_CONFIRM_BTN            = "confirmButton";                // "Mark checklist as ready"
+    private static final String WEB_CONFIRM_BTN = "confirmButton"; // "Mark checklist as ready"
 
     // ══════════════════════════════════════════════════════════════════════════
 
@@ -120,7 +127,8 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
         String appPath = resolveAppPath("android");
         options.setApp(appPath);
-        // SplashActivity transitions immediately to MainActivity; tell Appium to wait for MainActivity.
+        // SplashActivity transitions immediately to MainActivity; tell Appium to wait
+        // for MainActivity.
         options.setAppWaitActivity("io.specmatic.e2edemo.MainActivity");
         System.out.printf("[Android] Using app: %s%n", appPath);
 
@@ -294,7 +302,7 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
             try {
                 driver.findElement(AppiumBy.androidUIAutomator(
                         "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
-                        ".scrollIntoView(new UiSelector().description(\"" + accessibilityId + "\"))"));
+                                ".scrollIntoView(new UiSelector().description(\"" + accessibilityId + "\"))"));
                 Wait.waitTillElementIsClickable(driver, locator, 5);
                 return;
             } catch (RuntimeException e) {
@@ -327,8 +335,7 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
         throw new RuntimeException(
                 "Unable to tap button and reach next screen: " + buttonId + " -> " + nextScreenId,
-                lastFailure
-        );
+                lastFailure);
     }
 
     /**
@@ -409,7 +416,8 @@ public class CommunityMeetingPlannerAndroidTest extends BaseTest {
 
     /** Switch Appium context to the first available WEBVIEW. */
     private void switchToWebViewContext() {
-        if (!(driver instanceof SupportsContextSwitching)) return;
+        if (!(driver instanceof SupportsContextSwitching))
+            return;
         SupportsContextSwitching ctx = (SupportsContextSwitching) driver;
         for (int attempt = 0; attempt < 10; attempt++) {
             for (String c : ctx.getContextHandles()) {

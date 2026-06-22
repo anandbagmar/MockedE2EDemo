@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
+import com.znsio.teswiz.tools.Wait;
 
 import io.appium.java_client.AppiumBy;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.SummaryScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
-import io.specmatic.utils.Wait;
 
 public class WebChecklistScreenAndroid extends WebChecklistScreen {
     private static final String APP_NAME = "Community Meeting Planner";

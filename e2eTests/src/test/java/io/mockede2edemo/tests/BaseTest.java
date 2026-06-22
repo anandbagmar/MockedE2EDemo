@@ -29,7 +29,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import io.specmatic.utils.Wait;
+import io.mockede2edemo.tests.Wait;
 
 /**
  * BaseTest – shared Appium + Applitools setup/teardown for all platform tests.
@@ -46,33 +46,28 @@ public abstract class BaseTest {
     /**
      * Set to true to enable Applitools visual checkpoints.
      */
-    protected static final boolean IS_EYES_ENABLED
-            = !"false".equalsIgnoreCase(System.getenv("IS_EYES_ENABLED"))
+    protected static final boolean IS_EYES_ENABLED = !"false".equalsIgnoreCase(System.getenv("IS_EYES_ENABLED"))
             && !"false".equalsIgnoreCase(System.getProperty("IS_EYES_ENABLED"));
 
     /**
      * Set to true to load the NML-instrumented app from builds/. When false the
      * standard (non-NML) app from builds/ is used.
      */
-    protected static final boolean IS_NML
-            = "true".equalsIgnoreCase(System.getenv("IS_NML"))
+    protected static final boolean IS_NML = "true".equalsIgnoreCase(System.getenv("IS_NML"))
             || "true".equalsIgnoreCase(System.getProperty("IS_NML"));
 
     /**
      * Android-only flag to load the NML "-r" APK variant from builds/.
      */
-    protected static final boolean IS_NML_R
-            = "true".equalsIgnoreCase(System.getenv("IS_NML_R"))
+    protected static final boolean IS_NML_R = "true".equalsIgnoreCase(System.getenv("IS_NML_R"))
             || "true".equalsIgnoreCase(System.getProperty("IS_NML_R"));
 
-    protected static final String APPLITOOLS_API_KEY
-            = System.getenv("APPLITOOLS_API_KEY") != null
+    protected static final String APPLITOOLS_API_KEY = System.getenv("APPLITOOLS_API_KEY") != null
             ? System.getenv("APPLITOOLS_API_KEY")
             : System.getProperty("APPLITOOLS_API_KEY", "");
 
     // Builds root (relative to project root / e2eTests module)
-    protected static final String BUILDS_ROOT
-            = projectRoot().getAbsolutePath()
+    protected static final String BUILDS_ROOT = projectRoot().getAbsolutePath()
             + File.separator + "builds";
 
     private static final String APP_BASE_NAME = "App Automation Playground";
@@ -235,10 +230,10 @@ public abstract class BaseTest {
 
     private static File findNodeExecutable() {
         String[] candidates = {
-            System.getenv("NODE_BINARY_PATH"),
-            System.getProperty("NODE_BINARY_PATH"),
-            "/opt/homebrew/bin/node",
-            "/usr/local/bin/node"
+                System.getenv("NODE_BINARY_PATH"),
+                System.getProperty("NODE_BINARY_PATH"),
+                "/opt/homebrew/bin/node",
+                "/usr/local/bin/node"
         };
 
         for (String candidate : candidates) {
@@ -333,11 +328,11 @@ public abstract class BaseTest {
 
     private File resolveAdbExecutable() {
         String[] candidates = {
-            System.getenv("ANDROID_ADB"),
-            System.getProperty("ANDROID_ADB"),
-            System.getenv("ANDROID_HOME"),
-            System.getenv("ANDROID_SDK_ROOT"),
-            "/Users/anand.bagmar/Library/Android/sdk/platform-tools/adb"
+                System.getenv("ANDROID_ADB"),
+                System.getProperty("ANDROID_ADB"),
+                System.getenv("ANDROID_HOME"),
+                System.getenv("ANDROID_SDK_ROOT"),
+                "/Users/anand.bagmar/Library/Android/sdk/platform-tools/adb"
         };
 
         for (String candidate : candidates) {
@@ -381,13 +376,12 @@ public abstract class BaseTest {
         }
         String buildsDir = System.getProperty(
                 buildsDirProperty,
-                System.getProperty("builds.dir", defaultPlatformDir)
-        );
+                System.getProperty("builds.dir", defaultPlatformDir));
         File appFile = new File(buildsDir, filename);
         if (!appFile.exists()) {
             throw new IllegalStateException(
                     "App not found in builds/: " + appFile.getAbsolutePath()
-                    + "\nRun scripts/build-android-apks.sh or scripts/build-ios-app.sh first.");
+                            + "\nRun scripts/build-android-apks.sh or scripts/build-ios-app.sh first.");
         }
         try {
             String canonicalPath = appFile.getCanonicalPath();
@@ -424,8 +418,7 @@ public abstract class BaseTest {
                 config.addMultiDeviceTarget(
                         // AndroidMultiDeviceTarget.Galaxy_S25(),
                         AndroidMultiDeviceTarget.Galaxy_S25_Ultra(),
-                        AndroidMultiDeviceTarget.Pixel_9()
-                );
+                        AndroidMultiDeviceTarget.Pixel_9());
                 eyes.setConfiguration(config);
             }
         } else if (appName.toLowerCase().contains("ios")) {
@@ -447,8 +440,7 @@ public abstract class BaseTest {
                         IosMultiDeviceTarget.iPhone_12_Pro_Max(),
                         IosMultiDeviceTarget.iPhone_11(),
                         IosMultiDeviceTarget.iPhone_11_Pro(),
-                        IosMultiDeviceTarget.iPhone_11_Pro_Max()
-                );
+                        IosMultiDeviceTarget.iPhone_11_Pro_Max());
                 eyes.setConfiguration(config);
             }
         }

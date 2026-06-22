@@ -7,11 +7,11 @@ import com.applitools.eyes.appium.AppiumCheckSettings;
 import com.applitools.eyes.appium.Target;
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
+import com.znsio.teswiz.tools.Wait;
 
 import io.appium.java_client.AppiumBy;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.GuestLookupScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
-import io.specmatic.utils.Wait;
 
 public class GuestLookupScreenAndroid extends GuestLookupScreen {
     private static final String APP_NAME = "Community Meeting Planner";

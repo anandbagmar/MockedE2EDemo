@@ -14,14 +14,13 @@ import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.mockede2edemo.tests.Wait;
 
 /**
  * CommunityMeetingPlannerWebTest
@@ -30,73 +29,75 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * (../../../webapp) through the same workflow using the shared, unique
  * {@code data-testid} locators that mirror the mobile {@code testID} scheme:
  *
- *   Home → flow selection → Planner → GuestLookup (with validation)
- *     → Checklist → Summary → back to Home
+ * Home → flow selection → Planner → GuestLookup (with validation)
+ * → Checklist → Summary → back to Home
  *
  * Unlike the mobile tests, this is a self-contained Selenium + TestNG test and
  * deliberately does NOT extend {@link io.specmatic.tests.BaseTest} (which boots
  * an Appium server and uses the Appium flavour of Applitools Eyes).
  *
  * Configuration (system properties / env vars):
- *   WEB_BASE_URL        base URL of the running webapp (default http://localhost:5173)
- *   USE_ALTERNATE_FLOW  "true" to exercise the alternate flow (default original)
- *   headless            "true" to run Chrome headless (default false / visible)
+ * WEB_BASE_URL base URL of the running webapp (default http://localhost:5173)
+ * USE_ALTERNATE_FLOW "true" to exercise the alternate flow (default original)
+ * headless "true" to run Chrome headless (default false / visible)
  *
  * Run:
- *   cd e2eTests
- *   ./gradlew runWeb                                   # against http://localhost:5173
- *   ./gradlew runWeb -DWEB_BASE_URL=https://anandbagmar.github.io/MockedE2EDemo/
- *   ./gradlew runWeb -DUSE_ALTERNATE_FLOW=true -Dheadless=true
+ * cd e2eTests
+ * ./gradlew runWeb # against http://localhost:5173
+ * ./gradlew runWeb -DWEB_BASE_URL=https://anandbagmar.github.io/MockedE2EDemo/
+ * ./gradlew runWeb -DUSE_ALTERNATE_FLOW=true -Dheadless=true
  */
 public class CommunityMeetingPlannerWebTest {
 
-    private static final String DEFAULT_BASE_URL = "http://localhost:5173";
+    private static final String DEFAULT_BASE_URL =
+            // "http://localhost:5173";
+            "https://essenceoftesting.com/MockedE2EDemo";
 
-    private static final boolean USE_ALTERNATE_FLOW =
-            flag("USE_ALTERNATE_FLOW");
+    private static final int WEB_TIMEOUT_SECONDS = 20;
+
+    private static final boolean USE_ALTERNATE_FLOW = flag("USE_ALTERNATE_FLOW");
     private static final boolean HEADLESS = flag("headless");
 
     private static final Pattern UNIQUE_ID_PATTERN = Pattern.compile("CMP-[A-Z0-9]+");
 
     // ── Locators (data-testid values shared with the mobile testID scheme) ────
-    private static final String HOME_SCREEN              = "home.screen";
-    private static final String HOME_NAME_INPUT          = "home.input.name";
-    private static final String HOME_FLOW_ORIGINAL_BTN   = "home.button.flow.original";
-    private static final String HOME_FLOW_ALTERNATE_BTN  = "home.button.flow.alternate";
+    private static final String HOME_SCREEN = "home.screen";
+    private static final String HOME_NAME_INPUT = "home.input.name";
+    private static final String HOME_FLOW_ORIGINAL_BTN = "home.button.flow.original";
+    private static final String HOME_FLOW_ALTERNATE_BTN = "home.button.flow.alternate";
 
-    private static final String PLANNER_SCREEN           = "planner.screen";
-    private static final String PLANNER_INTRO            = "planner.section.intro";
-    private static final String PLANNER_NEXT_BTN         = "planner.button.next";
+    private static final String PLANNER_SCREEN = "planner.screen";
+    private static final String PLANNER_INTRO = "planner.section.intro";
+    private static final String PLANNER_NEXT_BTN = "planner.button.next";
 
-    private static final String NATIVE_JOURNEY_SCREEN       = "nativeJourney.screen";
+    private static final String NATIVE_JOURNEY_SCREEN = "nativeJourney.screen";
     private static final String NATIVE_JOURNEY_CONTINUE_BTN = "nativeJourney.button.continue";
-    private static final String NATIVE_HYBRID_SCREEN        = "nativeHybrid.screen";
-    private static final String NATIVE_HYBRID_CONTINUE_BTN  = "nativeHybrid.button.continue";
+    private static final String NATIVE_HYBRID_SCREEN = "nativeHybrid.screen";
+    private static final String NATIVE_HYBRID_CONTINUE_BTN = "nativeHybrid.button.continue";
 
-    private static final String GUEST_LOOKUP_SCREEN      = "guestLookup.screen";
-    private static final String GUEST_LOOKUP_INPUT       = "guestLookup.input.count";
-    private static final String GUEST_LOOKUP_FETCH_BTN   = "guestLookup.button.fetch";
-    private static final String GUEST_LOOKUP_RESULTS     = "guestLookup.results";
-    private static final String GUEST_LOOKUP_FIRST_CARD  = "guestLookup.profile.1.card";
-    private static final String GUEST_LOOKUP_ALERT_CARD  = "guestLookup.alert.card";
+    private static final String GUEST_LOOKUP_SCREEN = "guestLookup.screen";
+    private static final String GUEST_LOOKUP_INPUT = "guestLookup.input.count";
+    private static final String GUEST_LOOKUP_FETCH_BTN = "guestLookup.button.fetch";
+    private static final String GUEST_LOOKUP_RESULTS = "guestLookup.results";
+    private static final String GUEST_LOOKUP_FIRST_CARD = "guestLookup.profile.1.card";
+    private static final String GUEST_LOOKUP_ALERT_CARD = "guestLookup.alert.card";
     private static final String GUEST_LOOKUP_ALERT_TITLE = "guestLookup.alert.title";
-    private static final String GUEST_LOOKUP_ALERT_OK    = "guestLookup.alert.ok";
-    private static final String GUEST_LOOKUP_NEXT_BTN    = "guestLookup.button.next";
+    private static final String GUEST_LOOKUP_ALERT_OK = "guestLookup.alert.ok";
+    private static final String GUEST_LOOKUP_NEXT_BTN = "guestLookup.button.next";
 
-    private static final String CHECKLIST_SCREEN         = "webChecklist.screen";
-    private static final String CHECKLIST_CONFIRM_BTN    = "webChecklist.button.confirm";
-    private static final String CHECKLIST_READY          = "webChecklist.ready";
-    private static final String CHECKLIST_CONTINUE_BTN   = "webChecklist.button.continue";
+    private static final String CHECKLIST_SCREEN = "webChecklist.screen";
+    private static final String CHECKLIST_CONFIRM_BTN = "webChecklist.button.confirm";
+    private static final String CHECKLIST_READY = "webChecklist.ready";
+    private static final String CHECKLIST_CONTINUE_BTN = "webChecklist.button.continue";
 
-    private static final String SUMMARY_SCREEN           = "summary.screen";
-    private static final String SUMMARY_THANKYOU_TEXT    = "summary.thankYou.text";
-    private static final String SUMMARY_UNIQUE_ID        = "summary.uniqueId";
-    private static final String SUMMARY_RESTART_BTN      = "summary.button.restart";
+    private static final String SUMMARY_SCREEN = "summary.screen";
+    private static final String SUMMARY_THANKYOU_TEXT = "summary.thankYou.text";
+    private static final String SUMMARY_UNIQUE_ID = "summary.uniqueId";
+    private static final String SUMMARY_RESTART_BTN = "summary.button.restart";
 
     private static final String TEST_NAME = "Test Automation";
 
     private WebDriver driver;
-    private WebDriverWait wait;
     private String baseUrl;
 
     @BeforeMethod
@@ -121,7 +122,6 @@ public class CommunityMeetingPlannerWebTest {
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ZERO);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
     @AfterMethod
@@ -276,15 +276,15 @@ public class CommunityMeetingPlannerWebTest {
     }
 
     private WebElement waitVisible(String testId) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(byTestId(testId)));
+        return Wait.waitTillElementIsPresent(driver, byTestId(testId), WEB_TIMEOUT_SECONDS);
     }
 
     private void waitInvisible(String testId) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(byTestId(testId)));
+        Wait.waitTillElementDisappears(driver, byTestId(testId));
     }
 
     private void click(String testId) {
-        wait.until(ExpectedConditions.elementToBeClickable(byTestId(testId))).click();
+        Wait.waitTillElementIsClickable(driver, byTestId(testId), WEB_TIMEOUT_SECONDS).click();
     }
 
     private void logStep(String step) {
