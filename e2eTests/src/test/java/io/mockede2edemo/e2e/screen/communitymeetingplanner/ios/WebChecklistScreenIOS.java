@@ -3,7 +3,8 @@ package io.mockede2edemo.e2e.screen.communitymeetingplanner.ios;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.znsio.teswiz.entities.Platform;
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
@@ -11,14 +12,10 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.SummaryScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.checkpointWebView;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.switchToNativeContext;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.switchToWebViewContext;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.tapAndWaitForScreen;
 import io.specmatic.utils.Wait;
 
 public class WebChecklistScreenIOS extends WebChecklistScreen {
-    private static final Platform PLATFORM = Platform.iOS;
+    private static final String APP_NAME = "Community Meeting Planner";
 
     private static final String WEB_CHECKLIST_SCREEN = "webChecklist.screen";
     private static final String WEB_CHECKLIST_WEBVIEW = "webChecklist.webview";
@@ -42,27 +39,27 @@ public class WebChecklistScreenIOS extends WebChecklistScreen {
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(WEB_CHECKLIST_READY), 30);
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(WEB_CHECKLIST_WEBVIEW), 20);
         try {
-            if (switchToWebViewContext(driver, PLATFORM)) {
+            if (switchToWebViewContext()) {
                 driver.waitForClickabilityOf(AppiumBy.cssSelector("#" + WEB_CONFIRM_BUTTON_ID), 20);
             }
         } catch (RuntimeException ignored) {
             // The iOS flow can fall back to the native accessibility tree.
         }
-        checkpointWebView(driver, visually, PLATFORM, "Web Checklist Screen");
+        checkpointWebView("Web Checklist Screen");
         return this;
     }
 
     @Override
     public WebChecklistScreen markChecklistReady() {
         tapConfirmButton();
-        checkpointWebView(driver, visually, PLATFORM, "Checklist Marked Ready");
+        checkpointWebView("Checklist Marked Ready");
         return this;
     }
 
     @Override
     public SummaryScreen completeWorkflow() {
-        switchToNativeContext(driver, PLATFORM);
-        tapAndWaitForScreen(driver, WEB_CHECKLIST_CONTINUE_BTN, SUMMARY_SCREEN);
+        switchToNativeContext();
+        tapAndWaitForScreen(WEB_CHECKLIST_CONTINUE_BTN, SUMMARY_SCREEN);
         return SummaryScreen.get().waitForScreen();
     }
 
@@ -73,7 +70,7 @@ public class WebChecklistScreenIOS extends WebChecklistScreen {
      */
     private void tapConfirmButton() {
         try {
-            if (switchToWebViewContext(driver, PLATFORM)) {
+            if (switchToWebViewContext()) {
                 driver.waitForClickabilityOf(AppiumBy.cssSelector("#" + WEB_CONFIRM_BUTTON_ID), 10).click();
                 return;
             }
@@ -82,7 +79,7 @@ public class WebChecklistScreenIOS extends WebChecklistScreen {
         }
 
         try {
-            switchToNativeContext(driver, PLATFORM);
+            switchToNativeContext();
             driver.waitForClickabilityOf(AppiumBy.accessibilityId(WEB_CONFIRM_NATIVE_LABEL), 10).click();
             return;
         } catch (RuntimeException ignored) {
@@ -94,5 +91,48 @@ public class WebChecklistScreenIOS extends WebChecklistScreen {
         args.put("x", 187);
         args.put("y", 560);
         ((AppiumDriver) driver.getInnerDriver()).executeScript("mobile: tap", args);
+    }
+
+    private void checkpointWebView(String tag) {
+        switchToWebViewContext();
+        Wait.waitFor(3);
+        visually.checkWindow(APP_NAME, tag);
+    }
+
+    /** Switch to the webview context; on iOS this is best-effort. */
+    private boolean switchToWebViewContext() {
+        try {
+            driver.setWebViewContext();
+            return true;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    /** Switch back to the native context; on iOS this is best-effort. */
+    private void switchToNativeContext() {
+        try {
+            driver.setNativeAppContext();
+        } catch (RuntimeException ignored) {
+            // Best-effort on iOS.
+        }
+    }
+
+    private void tapAndWaitForScreen(String buttonAccId, String nextScreenAccId) {
+        By button = AppiumBy.accessibilityId(buttonAccId);
+        By nextScreen = AppiumBy.accessibilityId(nextScreenAccId);
+        RuntimeException lastFailure = null;
+        for (int attempt = 0; attempt < 3; attempt++) {
+            try {
+                driver.waitForClickabilityOf(button, 10).click();
+                driver.waitTillElementIsPresent(nextScreen, 10);
+                return;
+            } catch (RuntimeException e) {
+                lastFailure = e;
+                Wait.waitFor(1);
+            }
+        }
+        throw new RuntimeException(
+                "Unable to tap button and reach next screen: " + buttonAccId + " -> " + nextScreenAccId, lastFailure);
     }
 }

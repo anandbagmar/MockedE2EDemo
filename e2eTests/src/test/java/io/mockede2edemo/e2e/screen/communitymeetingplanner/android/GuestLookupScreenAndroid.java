@@ -5,20 +5,16 @@ import org.openqa.selenium.WebElement;
 
 import com.applitools.eyes.appium.AppiumCheckSettings;
 import com.applitools.eyes.appium.Target;
-import com.znsio.teswiz.entities.Platform;
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
 import io.appium.java_client.AppiumBy;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.GuestLookupScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.APP_NAME;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.checkpointNative;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.tapAndWaitForScreen;
 import io.specmatic.utils.Wait;
 
 public class GuestLookupScreenAndroid extends GuestLookupScreen {
-    private static final Platform PLATFORM = Platform.android;
+    private static final String APP_NAME = "Community Meeting Planner";
 
     private static final String GUEST_LOOKUP_SCREEN = "guestLookup.screen";
     private static final String GUEST_LOOKUP_INPUT = "guestLookup.input.count";
@@ -45,7 +41,7 @@ public class GuestLookupScreenAndroid extends GuestLookupScreen {
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(GUEST_LOOKUP_SCREEN), 20);
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(GUEST_LOOKUP_INPUT), 20);
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(GUEST_LOOKUP_FETCH_BTN), 20);
-        checkpointNative(driver, visually, PLATFORM, "Guest Lookup Screen");
+        checkpointNative("Guest Lookup Screen");
         return this;
     }
 
@@ -54,7 +50,7 @@ public class GuestLookupScreenAndroid extends GuestLookupScreen {
         enterCount(count);
         driver.hideKeyboard();
         tapFetch();
-        checkpointNative(driver, visually, PLATFORM, "Invalid Guest Count - Alert");
+        checkpointNative("Invalid Guest Count - Alert");
         return this;
     }
 
@@ -81,8 +77,32 @@ public class GuestLookupScreenAndroid extends GuestLookupScreen {
 
     @Override
     public WebChecklistScreen openChecklist() {
-        tapAndWaitForScreen(driver, GUEST_LOOKUP_NEXT_BTN, WEB_CHECKLIST_SCREEN);
+        tapAndWaitForScreen(GUEST_LOOKUP_NEXT_BTN, WEB_CHECKLIST_SCREEN);
         return WebChecklistScreen.get().waitForScreen();
+    }
+
+    private void checkpointNative(String tag) {
+        driver.setNativeAppContext();
+        Wait.waitFor(3);
+        visually.checkWindow(APP_NAME, tag);
+    }
+
+    private void tapAndWaitForScreen(String buttonAccId, String nextScreenAccId) {
+        By button = AppiumBy.accessibilityId(buttonAccId);
+        By nextScreen = AppiumBy.accessibilityId(nextScreenAccId);
+        RuntimeException lastFailure = null;
+        for (int attempt = 0; attempt < 3; attempt++) {
+            try {
+                driver.waitForClickabilityOf(button, 10).click();
+                driver.waitTillElementIsPresent(nextScreen, 10);
+                return;
+            } catch (RuntimeException e) {
+                lastFailure = e;
+                Wait.waitFor(1);
+            }
+        }
+        throw new RuntimeException(
+                "Unable to tap button and reach next screen: " + buttonAccId + " -> " + nextScreenAccId, lastFailure);
     }
 
     private void enterCount(int count) {

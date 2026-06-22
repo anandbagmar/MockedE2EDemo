@@ -1,17 +1,15 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.android;
 
-import com.znsio.teswiz.entities.Platform;
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
 import io.appium.java_client.AppiumBy;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.HomeScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.PlannerScreen;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.checkpointNative;
 import io.specmatic.utils.Wait;
 
 public class HomeScreenAndroid extends HomeScreen {
-    private static final Platform PLATFORM = Platform.android;
+    private static final String APP_NAME = "Community Meeting Planner";
 
     private static final String HOME_SCREEN = "home.screen";
     private static final String HOME_PLANNER_BTN = "home.button.planner";
@@ -30,7 +28,7 @@ public class HomeScreenAndroid extends HomeScreen {
     public HomeScreen waitForScreen() {
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(HOME_SCREEN), 20);
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(HOME_PLANNER_BTN), 20);
-        checkpointNative(driver, visually, PLATFORM, "App Launch");
+        checkpointNative("App Launch");
         return this;
     }
 
@@ -54,5 +52,11 @@ public class HomeScreenAndroid extends HomeScreen {
     @Override
     public boolean isAtHome() {
         return driver.isElementPresentByAccessibilityId(HOME_SCREEN);
+    }
+
+    private void checkpointNative(String tag) {
+        driver.setNativeAppContext();
+        Wait.waitFor(3);
+        visually.checkWindow(APP_NAME, tag);
     }
 }

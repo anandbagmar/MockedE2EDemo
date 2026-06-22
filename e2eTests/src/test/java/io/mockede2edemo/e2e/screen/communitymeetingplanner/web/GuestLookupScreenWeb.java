@@ -1,5 +1,6 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.znsio.teswiz.runner.Driver;
@@ -32,8 +33,8 @@ public class GuestLookupScreenWeb extends GuestLookupScreen {
 
     @Override
     public GuestLookupScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, GUEST_LOOKUP_SCREEN);
-        CmpWeb.waitVisible(driver, GUEST_LOOKUP_INPUT);
+        driver.waitTillElementIsVisible(byTestId(GUEST_LOOKUP_SCREEN), 20);
+        driver.waitTillElementIsVisible(byTestId(GUEST_LOOKUP_INPUT), 20);
         visually.checkWindow(APP_NAME, "Guest Lookup Screen");
         return this;
     }
@@ -41,9 +42,9 @@ public class GuestLookupScreenWeb extends GuestLookupScreen {
     @Override
     public GuestLookupScreen fetchProfilesExpectingValidationError(int count) {
         enterCount(count);
-        CmpWeb.click(driver, GUEST_LOOKUP_FETCH_BTN);
+        driver.waitForClickabilityOf(byTestId(GUEST_LOOKUP_FETCH_BTN), 20).click();
 
-        WebElement alertTitle = CmpWeb.waitVisible(driver, GUEST_LOOKUP_ALERT_TITLE);
+        WebElement alertTitle = driver.waitTillElementIsVisible(byTestId(GUEST_LOOKUP_ALERT_TITLE), 20);
         visually.checkWindow(APP_NAME, "Invalid Guest Count - Alert");
         if (!EXPECTED_ALERT_TITLE.equalsIgnoreCase(alertTitle.getText().trim())) {
             throw new RuntimeException(
@@ -55,30 +56,34 @@ public class GuestLookupScreenWeb extends GuestLookupScreen {
 
     @Override
     public GuestLookupScreen dismissValidationAlert() {
-        CmpWeb.click(driver, GUEST_LOOKUP_ALERT_OK);
-        CmpWeb.waitInvisible(driver, GUEST_LOOKUP_ALERT_CARD);
+        driver.waitForClickabilityOf(byTestId(GUEST_LOOKUP_ALERT_OK), 20).click();
+        driver.waitTillElementIsInvisible(byTestId(GUEST_LOOKUP_ALERT_CARD), 20);
         return this;
     }
 
     @Override
     public GuestLookupScreen loadProfiles(int count) {
         enterCount(count);
-        CmpWeb.click(driver, GUEST_LOOKUP_FETCH_BTN);
-        CmpWeb.waitVisible(driver, GUEST_LOOKUP_RESULTS, 30);
-        CmpWeb.waitVisible(driver, GUEST_LOOKUP_FIRST_CARD, 30);
+        driver.waitForClickabilityOf(byTestId(GUEST_LOOKUP_FETCH_BTN), 20).click();
+        driver.waitTillElementIsVisible(byTestId(GUEST_LOOKUP_RESULTS), 30);
+        driver.waitTillElementIsVisible(byTestId(GUEST_LOOKUP_FIRST_CARD), 30);
         visually.checkWindow(APP_NAME, "Guest Profiles Loaded");
         return this;
     }
 
     @Override
     public WebChecklistScreen openChecklist() {
-        CmpWeb.click(driver, GUEST_LOOKUP_NEXT_BTN);
+        driver.waitForClickabilityOf(byTestId(GUEST_LOOKUP_NEXT_BTN), 20).click();
         return WebChecklistScreen.get().waitForScreen();
     }
 
     private void enterCount(int count) {
-        WebElement countInput = CmpWeb.waitVisible(driver, GUEST_LOOKUP_INPUT);
+        WebElement countInput = driver.waitTillElementIsVisible(byTestId(GUEST_LOOKUP_INPUT), 20);
         countInput.clear();
         countInput.sendKeys(String.valueOf(count));
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }

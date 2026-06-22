@@ -1,5 +1,7 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
@@ -23,15 +25,19 @@ public class NativeJourneyScreenWeb extends NativeJourneyScreen {
 
     @Override
     public NativeJourneyScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, NATIVE_JOURNEY_SCREEN);
-        CmpWeb.waitVisible(driver, NATIVE_JOURNEY_VIEW);
+        driver.waitTillElementIsVisible(byTestId(NATIVE_JOURNEY_SCREEN), 20);
+        driver.waitTillElementIsVisible(byTestId(NATIVE_JOURNEY_VIEW), 20);
         visually.checkWindow(APP_NAME, "Web Journey Screen");
         return this;
     }
 
     @Override
     public NativeHybridScreen continueToHybrid() {
-        CmpWeb.click(driver, NATIVE_JOURNEY_CONTINUE_BTN);
+        driver.waitForClickabilityOf(byTestId(NATIVE_JOURNEY_CONTINUE_BTN), 20).click();
         return NativeHybridScreen.get().waitForScreen();
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }

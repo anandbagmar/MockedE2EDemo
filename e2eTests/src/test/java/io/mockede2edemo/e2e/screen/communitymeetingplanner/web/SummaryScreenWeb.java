@@ -1,5 +1,7 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
@@ -24,24 +26,28 @@ public class SummaryScreenWeb extends SummaryScreen {
 
     @Override
     public SummaryScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, SUMMARY_SCREEN, 30);
+        driver.waitTillElementIsVisible(byTestId(SUMMARY_SCREEN), 30);
         visually.checkWindow(APP_NAME, "Summary Screen");
         return this;
     }
 
     @Override
     public String getThankYouText() {
-        return CmpWeb.waitVisible(driver, SUMMARY_THANKYOU_TEXT).getText().trim();
+        return driver.waitTillElementIsVisible(byTestId(SUMMARY_THANKYOU_TEXT), 20).getText().trim();
     }
 
     @Override
     public String getUniqueId() {
-        return CmpWeb.waitVisible(driver, SUMMARY_UNIQUE_ID).getText().trim();
+        return driver.waitTillElementIsVisible(byTestId(SUMMARY_UNIQUE_ID), 20).getText().trim();
     }
 
     @Override
     public HomeScreen restart() {
-        CmpWeb.click(driver, SUMMARY_RESTART_BTN);
+        driver.waitForClickabilityOf(byTestId(SUMMARY_RESTART_BTN), 20).click();
         return HomeScreen.get().waitForScreen();
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }

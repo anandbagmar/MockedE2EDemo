@@ -1,5 +1,7 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
@@ -23,15 +25,19 @@ public class NativeHybridScreenWeb extends NativeHybridScreen {
 
     @Override
     public NativeHybridScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, NATIVE_HYBRID_SCREEN);
-        CmpWeb.waitVisible(driver, NATIVE_HYBRID_VIEW);
+        driver.waitTillElementIsVisible(byTestId(NATIVE_HYBRID_SCREEN), 20);
+        driver.waitTillElementIsVisible(byTestId(NATIVE_HYBRID_VIEW), 20);
         visually.checkWindow(APP_NAME, "Web Hybrid Screen");
         return this;
     }
 
     @Override
     public GuestLookupScreen continueToGuestLookup() {
-        CmpWeb.click(driver, NATIVE_HYBRID_CONTINUE_BTN);
+        driver.waitForClickabilityOf(byTestId(NATIVE_HYBRID_CONTINUE_BTN), 20).click();
         return GuestLookupScreen.get().waitForScreen();
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }

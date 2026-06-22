@@ -1,18 +1,17 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.android;
 
-import com.znsio.teswiz.entities.Platform;
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
 import io.appium.java_client.AppiumBy;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.SummaryScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.checkpointWebView;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.switchToNativeContext;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.tapAndWaitForScreen;
+import io.specmatic.utils.Wait;
 
 public class WebChecklistScreenAndroid extends WebChecklistScreen {
-    private static final Platform PLATFORM = Platform.android;
+    private static final String APP_NAME = "Community Meeting Planner";
 
     private static final String WEB_CHECKLIST_SCREEN = "webChecklist.screen";
     private static final String WEB_CHECKLIST_WEBVIEW = "webChecklist.webview";
@@ -36,7 +35,7 @@ public class WebChecklistScreenAndroid extends WebChecklistScreen {
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(WEB_CHECKLIST_WEBVIEW), 20);
         driver.setWebViewContext();
         driver.waitForClickabilityOf(AppiumBy.cssSelector("#" + WEB_CONFIRM_BUTTON_ID), 20);
-        checkpointWebView(driver, visually, PLATFORM, "Web Checklist Screen");
+        checkpointWebView("Web Checklist Screen");
         return this;
     }
 
@@ -44,14 +43,38 @@ public class WebChecklistScreenAndroid extends WebChecklistScreen {
     public WebChecklistScreen markChecklistReady() {
         driver.setWebViewContext();
         driver.waitForClickabilityOf(AppiumBy.cssSelector("#" + WEB_CONFIRM_BUTTON_ID), 20).click();
-        checkpointWebView(driver, visually, PLATFORM, "Checklist Marked Ready");
+        checkpointWebView("Checklist Marked Ready");
         return this;
     }
 
     @Override
     public SummaryScreen completeWorkflow() {
-        switchToNativeContext(driver, PLATFORM);
-        tapAndWaitForScreen(driver, WEB_CHECKLIST_CONTINUE_BTN, SUMMARY_SCREEN);
+        driver.setNativeAppContext();
+        tapAndWaitForScreen(WEB_CHECKLIST_CONTINUE_BTN, SUMMARY_SCREEN);
         return SummaryScreen.get().waitForScreen();
+    }
+
+    private void checkpointWebView(String tag) {
+        driver.setWebViewContext();
+        Wait.waitFor(3);
+        visually.checkWindow(APP_NAME, tag);
+    }
+
+    private void tapAndWaitForScreen(String buttonAccId, String nextScreenAccId) {
+        By button = AppiumBy.accessibilityId(buttonAccId);
+        By nextScreen = AppiumBy.accessibilityId(nextScreenAccId);
+        RuntimeException lastFailure = null;
+        for (int attempt = 0; attempt < 3; attempt++) {
+            try {
+                driver.waitForClickabilityOf(button, 10).click();
+                driver.waitTillElementIsPresent(nextScreen, 10);
+                return;
+            } catch (RuntimeException e) {
+                lastFailure = e;
+                Wait.waitFor(1);
+            }
+        }
+        throw new RuntimeException(
+                "Unable to tap button and reach next screen: " + buttonAccId + " -> " + nextScreenAccId, lastFailure);
     }
 }

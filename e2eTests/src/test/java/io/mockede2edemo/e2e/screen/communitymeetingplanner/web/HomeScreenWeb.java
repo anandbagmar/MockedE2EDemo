@@ -1,5 +1,6 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.znsio.teswiz.runner.Driver;
@@ -26,15 +27,15 @@ public class HomeScreenWeb extends HomeScreen {
 
     @Override
     public HomeScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, HOME_SCREEN);
-        CmpWeb.waitVisible(driver, HOME_NAME_INPUT);
+        driver.waitTillElementIsVisible(byTestId(HOME_SCREEN), 20);
+        driver.waitTillElementIsVisible(byTestId(HOME_NAME_INPUT), 20);
         visually.checkWindow(APP_NAME, "App Launch");
         return this;
     }
 
     @Override
     public HomeScreen enterName(String name) {
-        WebElement nameInput = CmpWeb.waitVisible(driver, HOME_NAME_INPUT);
+        WebElement nameInput = driver.waitTillElementIsVisible(byTestId(HOME_NAME_INPUT), 20);
         nameInput.clear();
         nameInput.sendKeys(name);
         return this;
@@ -42,12 +43,17 @@ public class HomeScreenWeb extends HomeScreen {
 
     @Override
     public PlannerScreen startPlanner(boolean alternateFlow) {
-        CmpWeb.click(driver, alternateFlow ? HOME_FLOW_ALTERNATE_BTN : HOME_FLOW_ORIGINAL_BTN);
+        driver.waitForClickabilityOf(byTestId(alternateFlow ? HOME_FLOW_ALTERNATE_BTN : HOME_FLOW_ORIGINAL_BTN), 20)
+                .click();
         return PlannerScreen.get().waitForScreen();
     }
 
     @Override
     public boolean isAtHome() {
-        return driver.isElementPresent(CmpWeb.byTestId(HOME_SCREEN));
+        return driver.isElementPresent(byTestId(HOME_SCREEN));
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }

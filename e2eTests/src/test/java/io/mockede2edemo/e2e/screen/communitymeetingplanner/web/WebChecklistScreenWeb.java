@@ -1,5 +1,7 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
@@ -24,22 +26,26 @@ public class WebChecklistScreenWeb extends WebChecklistScreen {
 
     @Override
     public WebChecklistScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, CHECKLIST_SCREEN);
+        driver.waitTillElementIsVisible(byTestId(CHECKLIST_SCREEN), 20);
         visually.checkWindow(APP_NAME, "Web Checklist Screen");
         return this;
     }
 
     @Override
     public WebChecklistScreen markChecklistReady() {
-        CmpWeb.click(driver, CHECKLIST_CONFIRM_BTN);
-        CmpWeb.waitVisible(driver, CHECKLIST_READY);
+        driver.waitForClickabilityOf(byTestId(CHECKLIST_CONFIRM_BTN), 20).click();
+        driver.waitTillElementIsVisible(byTestId(CHECKLIST_READY), 20);
         visually.checkWindow(APP_NAME, "Checklist Marked Ready");
         return this;
     }
 
     @Override
     public SummaryScreen completeWorkflow() {
-        CmpWeb.click(driver, CHECKLIST_CONTINUE_BTN);
+        driver.waitForClickabilityOf(byTestId(CHECKLIST_CONTINUE_BTN), 20).click();
         return SummaryScreen.get().waitForScreen();
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }

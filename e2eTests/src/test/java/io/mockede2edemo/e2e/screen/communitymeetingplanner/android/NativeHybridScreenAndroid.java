@@ -1,17 +1,17 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.android;
 
-import com.znsio.teswiz.entities.Platform;
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
 import io.appium.java_client.AppiumBy;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.GuestLookupScreen;
 import io.mockede2edemo.e2e.screen.communitymeetingplanner.NativeHybridScreen;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.checkpointNative;
-import static io.mockede2edemo.e2e.screen.communitymeetingplanner.mobile.CmpMobileSupport.tapAndWaitForScreen;
+import io.specmatic.utils.Wait;
 
 public class NativeHybridScreenAndroid extends NativeHybridScreen {
-    private static final Platform PLATFORM = Platform.android;
+    private static final String APP_NAME = "Community Meeting Planner";
 
     private static final String NATIVE_HYBRID_SCREEN = "nativeHybrid.screen";
     private static final String NATIVE_HYBRID_MODE_NOTE = "nativeHybrid.mode.hybrid.androidx";
@@ -32,13 +32,37 @@ public class NativeHybridScreenAndroid extends NativeHybridScreen {
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(NATIVE_HYBRID_SCREEN), 30);
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(NATIVE_HYBRID_MODE_NOTE), 30);
         driver.waitTillElementIsVisible(AppiumBy.accessibilityId(NATIVE_HYBRID_VIEW), 30);
-        checkpointNative(driver, visually, PLATFORM, "AndroidX Hybrid Screen");
+        checkpointNative("AndroidX Hybrid Screen");
         return this;
     }
 
     @Override
     public GuestLookupScreen continueToGuestLookup() {
-        tapAndWaitForScreen(driver, NATIVE_HYBRID_CONTINUE_BTN, GUEST_LOOKUP_SCREEN);
+        tapAndWaitForScreen(NATIVE_HYBRID_CONTINUE_BTN, GUEST_LOOKUP_SCREEN);
         return GuestLookupScreen.get().waitForScreen();
+    }
+
+    private void checkpointNative(String tag) {
+        driver.setNativeAppContext();
+        Wait.waitFor(3);
+        visually.checkWindow(APP_NAME, tag);
+    }
+
+    private void tapAndWaitForScreen(String buttonAccId, String nextScreenAccId) {
+        By button = AppiumBy.accessibilityId(buttonAccId);
+        By nextScreen = AppiumBy.accessibilityId(nextScreenAccId);
+        RuntimeException lastFailure = null;
+        for (int attempt = 0; attempt < 3; attempt++) {
+            try {
+                driver.waitForClickabilityOf(button, 10).click();
+                driver.waitTillElementIsPresent(nextScreen, 10);
+                return;
+            } catch (RuntimeException e) {
+                lastFailure = e;
+                Wait.waitFor(1);
+            }
+        }
+        throw new RuntimeException(
+                "Unable to tap button and reach next screen: " + buttonAccId + " -> " + nextScreenAccId, lastFailure);
     }
 }

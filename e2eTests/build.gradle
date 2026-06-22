@@ -9,7 +9,7 @@ plugins {
     id 'java'
 }
 
-def teswizVersion = "1.0.24"
+def teswizVersion = "1.0.2401"
 
 group   = 'io.specmatic'
 version = '1.0.0'

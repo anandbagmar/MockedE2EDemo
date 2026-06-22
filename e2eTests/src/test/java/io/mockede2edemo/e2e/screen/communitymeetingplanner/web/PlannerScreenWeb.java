@@ -1,5 +1,7 @@
 package io.mockede2edemo.e2e.screen.communitymeetingplanner.web;
 
+import org.openqa.selenium.By;
+
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 
@@ -23,15 +25,19 @@ public class PlannerScreenWeb extends PlannerScreen {
 
     @Override
     public PlannerScreen waitForScreen() {
-        CmpWeb.waitVisible(driver, PLANNER_SCREEN);
-        CmpWeb.waitVisible(driver, PLANNER_INTRO);
+        driver.waitTillElementIsVisible(byTestId(PLANNER_SCREEN), 20);
+        driver.waitTillElementIsVisible(byTestId(PLANNER_INTRO), 20);
         visually.checkWindow(APP_NAME, "Planner Screen");
         return this;
     }
 
     @Override
     public NativeJourneyScreen proceedToNativeJourney() {
-        CmpWeb.click(driver, PLANNER_NEXT_BTN);
+        driver.waitForClickabilityOf(byTestId(PLANNER_NEXT_BTN), 20).click();
         return NativeJourneyScreen.get().waitForScreen();
+    }
+
+    private static By byTestId(String testId) {
+        return By.cssSelector("[data-testid='" + testId + "']");
     }
 }
