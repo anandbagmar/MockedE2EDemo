@@ -1,6 +1,6 @@
 {
   "iOS": {
-    "app": "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/builds/latest-ios/App Automation Playground-debug-nml.app.zip",
+    "app": "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/builds/latest-ios/App Automation Playground-debug.app.zip",
     "iPhoneOnly": true,
     "automationName": "XCUITest",
     "clearSystemFiles": true,

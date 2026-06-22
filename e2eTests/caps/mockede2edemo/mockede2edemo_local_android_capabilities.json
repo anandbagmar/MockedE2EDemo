@@ -12,7 +12,7 @@
     "enablePerformanceLogging": true,
     "printPageSourceOnFindFailure": true,
     "enforceAppInstall": true,
-    "app": "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/builds/latest-android/App Automation Playground-debug-nml-r.apk",
+    "app": "/Users/anand.bagmar/projects/specmatic/MockedE2EDemo/builds/latest-android/App Automation Playground-debug.apk",
     "deviceName": "android",
     "noSign": true
   },
