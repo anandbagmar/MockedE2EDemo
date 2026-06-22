@@ -1288,7 +1288,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
    */
 
   _reactNative.AppRegistry.registerComponent(_$$_REQUIRE(_dependencyMap[3], "./app.json").name, () => _App.default);
-},0,[1,2,605,851],"index.js");
+},0,[1,2,605,852],"index.js");
 __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
   function _interopRequireDefault(e) {
     return e && e.__esModule ? e : {
@@ -100052,8 +100052,16 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     homeHeroEyebrow: 'home.hero.eyebrow',
     homeHeroTitle: 'home.hero.title',
     homeHeroBody: 'home.hero.body',
+    homeHeroBadge: 'home.hero.badge',
     homeWorkflowPanel: 'home.panel.workflows',
+    homeNamePanel: 'home.panel.name',
+    homeNameLabel: 'home.label.name',
+    homeNameInput: 'home.input.name',
+    homeNameHelper: 'home.helper.name',
     homeVersion: 'home.version',
+    brandCredit: 'brand.credit',
+    brandCreditLogo: 'brand.credit.logo',
+    brandCreditText: 'brand.credit.text',
     homeRechargeButton: 'home.button.recharge',
     homePlannerButton: 'home.button.planner',
     plannerModeModal: 'planner.mode.modal',
@@ -100106,7 +100114,18 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     summaryEyebrow: 'summary.eyebrow',
     summaryTitle: 'summary.title',
     summaryBody: 'summary.body',
+    summaryThankYou: 'summary.thankYou',
+    summaryUniqueId: 'summary.uniqueId',
     summaryRestartButton: 'summary.button.restart'
+  };
+  var generateUniqueId = () => {
+    var random = Math.random().toString(36).slice(2, 6).toUpperCase();
+    var stamp = Date.now().toString(36).slice(-4).toUpperCase();
+    return `CMP-${stamp}${random}`;
+  };
+  var normalizeName = value => {
+    var trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : 'Guest';
   };
   var getHighlightId = index => `home.highlight.${index + 1}`;
   var getSectionTitleId = (scope, part) => `${scope}.${part}`;
@@ -100181,8 +100200,8 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       body {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(180deg, #fff8e7 0%, #f4f9ff 100%);
-        color: #17324d;
+        background: linear-gradient(180deg, #eef1fa 0%, #f4f9ff 100%);
+        color: #21309B;
       }
       .wrap {
         padding: 24px 18px 40px;
@@ -100191,7 +100210,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         background: #ffffff;
         border-radius: 18px;
         padding: 18px;
-        box-shadow: 0 10px 30px rgba(23, 50, 77, 0.08);
+        box-shadow: 0 10px 30px rgba(33, 48, 155, 0.08);
       }
       h1 {
         margin: 0 0 10px;
@@ -100209,15 +100228,15 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         font-size: 16px;
         font-weight: 700;
         color: #ffffff;
-        background: #ef6c3d;
+        background: #C8202E;
       }
       .done {
         margin-top: 16px;
         display: none;
         padding: 14px;
         border-radius: 14px;
-        background: #e7f7ee;
-        color: #1b6b42;
+        background: #e4f6ea;
+        color: #0f7a35;
         font-weight: 600;
       }
     </style>
@@ -100238,13 +100257,32 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         doneMessage.style.display = 'block';
         button.textContent = 'Ready';
         button.disabled = true;
-        button.style.background = '#1b6b42';
+        button.style.background = '#0f7a35';
         window.ReactNativeWebView && window.ReactNativeWebView.postMessage('checklist-complete');
       });
     </script>
   </body>
 </html>
 `;
+  function PoweredByEssence({
+    testID
+  }) {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
+      accessibilityLabel: UI.brandCredit,
+      style: styles.brandCredit,
+      testID: testID ?? UI.brandCredit,
+      children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Image, {
+        source: _$$_REQUIRE(_dependencyMap[9], "./assets/images/eot-logo.jpg"),
+        style: styles.brandCreditLogo,
+        resizeMode: "contain",
+        testID: UI.brandCreditLogo
+      }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
+        style: styles.brandCreditText,
+        testID: UI.brandCreditText,
+        children: "Powered by Essence of Testing"
+      })]
+    });
+  }
   function PrimaryButton({
     label,
     onPress,
@@ -100332,6 +100370,10 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       _useState2 = (0, _slicedToArray2.default)(_useState, 2),
       isPlannerModeVisible = _useState2[0],
       setIsPlannerModeVisible = _useState2[1];
+    var _useState3 = (0, _react.useState)(''),
+      _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
+      name = _useState4[0],
+      setName = _useState4[1];
     var openPlannerModeChooser = (0, _react.useCallback)(() => {
       setIsPlannerModeVisible(true);
     }, []);
@@ -100341,16 +100383,18 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     var startPlannerFlow = (0, _react.useCallback)(variant => {
       setIsPlannerModeVisible(false);
       navigation.navigate('Planner', {
-        variant
+        variant,
+        name: normalizeName(name),
+        uniqueId: generateUniqueId()
       });
-    }, [navigation]);
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    }, [navigation, name]);
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.homeScreen,
       testID: UI.homeScreen,
       children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.StatusBar, {
         barStyle: "dark-content",
-        backgroundColor: "#fff8e7"
+        backgroundColor: "#eef1fa"
       }), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
         style: styles.screenTopActions,
         children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
@@ -100373,10 +100417,18 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
           style: styles.heroCard,
           testID: UI.homeHero,
           children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Image, {
-            source: _$$_REQUIRE(_dependencyMap[10], "./assets/images/jio-logo.jpg"),
+            source: _$$_REQUIRE(_dependencyMap[11], "./assets/images/jio-logo.jpg"),
             style: styles.heroLogo,
             testID: UI.homeHeroImage,
             resizeMode: "cover"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.View, {
+            style: styles.heroBadge,
+            testID: UI.homeHeroBadge,
+            children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Image, {
+              source: _$$_REQUIRE(_dependencyMap[9], "./assets/images/eot-logo.jpg"),
+              style: styles.heroBadgeLogo,
+              resizeMode: "contain"
+            })
           }), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
             style: styles.heroOverlay,
             children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
@@ -100392,6 +100444,28 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
               testID: UI.homeHeroBody,
               children: "A small native workflow for Android and iOS with scrolling, validation, API data, and a webview step."
             })]
+          })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
+          accessibilityLabel: UI.homeNamePanel,
+          style: styles.panel,
+          testID: UI.homeNamePanel,
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: styles.inputLabel,
+            testID: UI.homeNameLabel,
+            children: "Your name"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.TextInput, {
+            accessibilityLabel: UI.homeNameInput,
+            autoCapitalize: "words",
+            onChangeText: setName,
+            placeholder: "Enter your name",
+            placeholderTextColor: "#7f8b97",
+            style: styles.input,
+            testID: UI.homeNameInput,
+            value: name
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: styles.helperText,
+            testID: UI.homeNameHelper,
+            children: "Used to personalize your summary at the end of the workflow."
           })]
         }), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
           accessibilityLabel: UI.homeWorkflowPanel,
@@ -100421,6 +100495,8 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
           style: styles.versionText,
           testID: UI.homeVersion,
           children: APP_VERSION
+        }), /*#__PURE__*/(0, _jsxRuntime.jsx)(PoweredByEssence, {
+          testID: "home.brand.credit"
         })]
       }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Modal, {
         animationType: "fade",
@@ -100465,7 +100541,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     });
   }
   function RechargeScreen() {
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.rechargeScreen,
       testID: UI.rechargeScreen,
@@ -100498,8 +100574,10 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     route
   }) {
     var variant = route.params?.variant ?? 'original';
+    var name = route.params?.name ?? 'Guest';
+    var uniqueId = route.params?.uniqueId ?? '';
     var isAlternate = variant === 'alternate';
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.nativeJourneyScreen,
       testID: UI.nativeJourneyScreen,
@@ -100508,7 +100586,9 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         children: /*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
           label: "Next: Hybrid Native Views",
           onPress: () => navigation.push('NativeHybrid', {
-            variant
+            variant,
+            name,
+            uniqueId
           }),
           testID: UI.nativeJourneyContinue
         })
@@ -100540,8 +100620,10 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     route
   }) {
     var variant = route.params?.variant ?? 'original';
+    var name = route.params?.name ?? 'Guest';
+    var uniqueId = route.params?.uniqueId ?? '';
     var isAlternate = variant === 'alternate';
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.nativeHybridScreen,
       testID: UI.nativeHybridScreen,
@@ -100550,7 +100632,9 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         children: /*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
           label: "Next: Load Guest Profiles",
           onPress: () => navigation.navigate('GuestLookup', {
-            variant
+            variant,
+            name,
+            uniqueId
           }),
           testID: UI.nativeHybridContinue
         })
@@ -100580,9 +100664,11 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     route
   }) {
     var variant = route.params?.variant ?? 'original';
+    var name = route.params?.name ?? 'Guest';
+    var uniqueId = route.params?.uniqueId ?? '';
     var isAlternate = variant === 'alternate';
     var agendaSteps = isAlternate ? ALTERNATE_AGENDA_STEPS : AGENDA_STEPS;
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.plannerScreen,
       testID: UI.plannerScreen,
@@ -100591,7 +100677,9 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         children: /*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
           label: "Next: Native Detail",
           onPress: () => navigation.push('NativeJourney', {
-            variant
+            variant,
+            name,
+            uniqueId
           }),
           testID: UI.plannerNextNativeButton
         })
@@ -100646,23 +100734,25 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     route
   }) {
     var variant = route.params?.variant ?? 'original';
+    var name = route.params?.name ?? 'Guest';
+    var uniqueId = route.params?.uniqueId ?? '';
     var isAlternate = variant === 'alternate';
-    var _useState3 = (0, _react.useState)(''),
-      _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
-      guestCount = _useState4[0],
-      setGuestCount = _useState4[1];
-    var _useState5 = (0, _react.useState)([]),
+    var _useState5 = (0, _react.useState)(''),
       _useState6 = (0, _slicedToArray2.default)(_useState5, 2),
-      guests = _useState6[0],
-      setGuests = _useState6[1];
-    var _useState7 = (0, _react.useState)(false),
+      guestCount = _useState6[0],
+      setGuestCount = _useState6[1];
+    var _useState7 = (0, _react.useState)([]),
       _useState8 = (0, _slicedToArray2.default)(_useState7, 2),
-      isLoading = _useState8[0],
-      setIsLoading = _useState8[1];
-    var _useState9 = (0, _react.useState)(null),
+      guests = _useState8[0],
+      setGuests = _useState8[1];
+    var _useState9 = (0, _react.useState)(false),
       _useState0 = (0, _slicedToArray2.default)(_useState9, 2),
-      activeAlert = _useState0[0],
-      setActiveAlert = _useState0[1];
+      isLoading = _useState0[0],
+      setIsLoading = _useState0[1];
+    var _useState1 = (0, _react.useState)(null),
+      _useState10 = (0, _slicedToArray2.default)(_useState1, 2),
+      activeAlert = _useState10[0],
+      setActiveAlert = _useState10[1];
     var dismissActiveAlert = (0, _react.useCallback)(() => {
       setActiveAlert(null);
     }, []);
@@ -100704,7 +100794,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         setIsLoading(false);
       }
     }), [guestCount, validateGuestCount]);
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.guestLookupScreen,
       testID: UI.guestLookupScreen,
@@ -100713,14 +100803,16 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
           label: isLoading ? 'Loading Profiles...' : 'Load Profiles',
           onPress: loadGuests,
-          disabled: isLoading,
+          disabled: isLoading || guests.length > 0,
           testID: UI.guestLookupFetchButton
         }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.View, {
           style: styles.actionSpacer
         }), /*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
           label: "Next: Open Web Checklist",
           onPress: () => navigation.navigate('WebChecklist', {
-            variant
+            variant,
+            name,
+            uniqueId
           }),
           disabled: guests.length === 0,
           testID: UI.guestLookupResultsNextButton
@@ -100777,12 +100869,13 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
             children: isAlternate ? 'Attendee count' : 'Number of guests'
           }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.TextInput, {
             accessibilityLabel: UI.guestLookupInput,
+            editable: guests.length === 0,
             keyboardType: "number-pad",
             maxLength: 2,
             onChangeText: setGuestCount,
             placeholder: "Enter 1 to 15",
             placeholderTextColor: "#7f8b97",
-            style: [styles.input, isAlternate && styles.inputAlternate],
+            style: [styles.input, isAlternate && styles.inputAlternate, guests.length > 0 && styles.inputDisabled],
             testID: UI.guestLookupInput,
             value: guestCount
           }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
@@ -100795,7 +100888,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
           testID: UI.guestLookupLoader,
           children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.ActivityIndicator, {
             size: "large",
-            color: "#ef6c3d"
+            color: "#C8202E"
           }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
             style: styles.loaderText,
             testID: UI.guestLookupLoaderText,
@@ -100858,21 +100951,23 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     route
   }) {
     var variant = route.params?.variant ?? 'original';
+    var name = route.params?.name ?? 'Guest';
+    var uniqueId = route.params?.uniqueId ?? '';
     var isAlternate = variant === 'alternate';
-    var _useState1 = (0, _react.useState)(false),
-      _useState10 = (0, _slicedToArray2.default)(_useState1, 2),
-      checklistCompleted = _useState10[0],
-      setChecklistCompleted = _useState10[1];
     var _useState11 = (0, _react.useState)(false),
       _useState12 = (0, _slicedToArray2.default)(_useState11, 2),
-      webViewReady = _useState12[0],
-      setWebViewReady = _useState12[1];
+      checklistCompleted = _useState12[0],
+      setChecklistCompleted = _useState12[1];
+    var _useState13 = (0, _react.useState)(false),
+      _useState14 = (0, _slicedToArray2.default)(_useState13, 2),
+      webViewReady = _useState14[0],
+      setWebViewReady = _useState14[1];
     var onMessage = (0, _react.useCallback)(event => {
       if (event?.nativeEvent?.data === 'checklist-complete') {
         setChecklistCompleted(true);
       }
     }, []);
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.webChecklistScreen,
       testID: UI.webChecklistScreen,
@@ -100901,7 +100996,9 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
         children: /*#__PURE__*/(0, _jsxRuntime.jsx)(PrimaryButton, {
           label: checklistCompleted ? 'Complete Workflow' : 'Complete the web checklist first',
           onPress: () => navigation.navigate('Summary', {
-            variant
+            variant,
+            name,
+            uniqueId
           }),
           disabled: !checklistCompleted,
           testID: UI.webChecklistContinue
@@ -100927,7 +101024,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
           testID: UI.webChecklistLoading,
           children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.ActivityIndicator, {
             size: "small",
-            color: "#ef6c3d"
+            color: "#C8202E"
           }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
             style: styles.webChecklistLoadingText,
             children: "Loading web checklist..."
@@ -100941,9 +101038,14 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     route
   }) {
     var variant = route.params?.variant ?? 'original';
+    var name = route.params?.name ?? 'Guest';
+    var uniqueId = route.params?.uniqueId ?? generateUniqueId();
     var isAlternate = variant === 'alternate';
+    (0, _react.useEffect)(() => {
+      console.log(`[CommunityMeetingPlanner] Workflow complete for ${name} - uniqueId=${uniqueId}`);
+    }, [name, uniqueId]);
     var recapItems = (0, _react.useMemo)(() => ['Native stack navigation across multiple screens', 'Vertical scrolling in the agenda and results experience', 'User input validation with an Ok-dismiss alert dialog', 'Live API rendering from randomuser.me', 'A simple webview interaction built into the flow'], []);
-    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaView, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsxs)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaView, {
       style: styles.screen,
       accessibilityLabel: UI.summaryScreen,
       testID: UI.summaryScreen,
@@ -100977,6 +101079,21 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
             testID: UI.summaryBody,
             children: isAlternate ? 'This flow keeps the same journey while introducing intentional visual differences for comparison testing.' : 'This flow is intentionally simple, visually clean, and easy to use in presentations or automation demos.'
           })]
+        }), /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.thankYouCard,
+          testID: UI.summaryThankYou,
+          children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.Text, {
+            style: styles.thankYouText,
+            testID: `${UI.summaryThankYou}.text`,
+            children: ["Thank you ", name, "."]
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: styles.thankYouLabel,
+            children: "Your unique id is:"
+          }), /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: styles.thankYouId,
+            testID: UI.summaryUniqueId,
+            children: uniqueId
+          })]
         }), recapItems.map((item, index) => /*#__PURE__*/(0, _jsxRuntime.jsxs)(_reactNative.View, {
           style: [styles.bulletRow, isAlternate && styles.bulletRowAlternate],
           testID: getRecapId(index),
@@ -100987,25 +101104,27 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
             testID: `${getRecapId(index)}.text`,
             children: item
           })]
-        }, item))]
+        }, item)), /*#__PURE__*/(0, _jsxRuntime.jsx)(PoweredByEssence, {
+          testID: "summary.brand.credit"
+        })]
       })]
     });
   }
   function App() {
-    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[9], "react-native-safe-area-context").SafeAreaProvider, {
-      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[11], "@react-navigation/native").NavigationContainer, {
+    return /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[10], "react-native-safe-area-context").SafeAreaProvider, {
+      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_$$_REQUIRE(_dependencyMap[12], "@react-navigation/native").NavigationContainer, {
         children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(Stack.Navigator, {
           screenOptions: {
             headerStyle: {
-              backgroundColor: '#fff8e7'
+              backgroundColor: '#eef1fa'
             },
             headerShadowVisible: false,
-            headerTintColor: '#17324d',
+            headerTintColor: '#21309B',
             headerTitleStyle: {
               fontWeight: '700'
             },
             contentStyle: {
-              backgroundColor: '#fff8e7'
+              backgroundColor: '#eef1fa'
             }
           },
           children: [/*#__PURE__*/(0, _jsxRuntime.jsx)(Stack.Screen, {
@@ -101064,7 +101183,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   var styles = _reactNative.StyleSheet.create({
     screen: {
       flex: 1,
-      backgroundColor: '#fff8e7'
+      backgroundColor: '#eef1fa'
     },
     screenTopActions: {
       paddingHorizontal: 20,
@@ -101083,8 +101202,8 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     modeNote: {
       alignSelf: 'flex-start',
-      backgroundColor: '#fff0df',
-      borderColor: '#f5c7a8',
+      backgroundColor: '#fdecee',
+      borderColor: '#f1bbc0',
       borderWidth: 1,
       borderRadius: 999,
       paddingHorizontal: 12,
@@ -101092,7 +101211,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       marginBottom: 14
     },
     modeNoteText: {
-      color: '#8a3f18',
+      color: '#991320',
       fontSize: 11,
       fontWeight: '800',
       letterSpacing: 0.8,
@@ -101103,11 +101222,28 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       borderRadius: 28,
       overflow: 'hidden',
       marginBottom: 20,
-      backgroundColor: '#17324d'
+      backgroundColor: '#21309B'
     },
     heroLogo: {
       width: '100%',
       height: '100%'
+    },
+    heroBadge: {
+      position: 'absolute',
+      top: 16,
+      right: 16,
+      width: 64,
+      height: 64,
+      borderRadius: 32,
+      backgroundColor: '#ffffff',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 2,
+      borderColor: '#ffffff'
+    },
+    heroBadgeLogo: {
+      width: 52,
+      height: 52
     },
     heroOverlay: {
       position: 'absolute',
@@ -101115,10 +101251,10 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       right: 0,
       bottom: 0,
       padding: 20,
-      backgroundColor: 'rgba(23, 50, 77, 0.78)'
+      backgroundColor: 'rgba(33, 48, 155, 0.78)'
     },
     heroEyebrow: {
-      color: '#ffd166',
+      color: '#5fd896',
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 1.1,
@@ -101132,7 +101268,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       marginBottom: 10
     },
     heroBody: {
-      color: '#f4f7fb',
+      color: '#eef0fb',
       fontSize: 15,
       lineHeight: 22
     },
@@ -101146,7 +101282,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       marginBottom: 18
     },
     eyebrow: {
-      color: '#ef6c3d',
+      color: '#C8202E',
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 1,
@@ -101154,13 +101290,13 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       textTransform: 'uppercase'
     },
     sectionTitle: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 28,
       fontWeight: '800',
       marginBottom: 8
     },
     sectionBody: {
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 15,
       lineHeight: 22
     },
@@ -101173,25 +101309,25 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       width: 10,
       height: 10,
       borderRadius: 5,
-      backgroundColor: '#ef6c3d',
+      backgroundColor: '#C8202E',
       marginTop: 6,
       marginRight: 12
     },
     bulletText: {
       flex: 1,
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 15,
       lineHeight: 22
     },
     primaryButton: {
-      backgroundColor: '#ef6c3d',
+      backgroundColor: '#C8202E',
       borderRadius: 18,
       paddingVertical: 16,
       paddingHorizontal: 20,
       alignItems: 'center'
     },
     primaryButtonDisabled: {
-      backgroundColor: '#e4b09c'
+      backgroundColor: '#e6a6ab'
     },
     primaryButtonText: {
       color: '#ffffff',
@@ -101200,7 +101336,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     secondaryButton: {
       borderWidth: 1,
-      borderColor: '#d6dee6',
+      borderColor: '#d3d8ec',
       borderRadius: 18,
       paddingVertical: 16,
       paddingHorizontal: 20,
@@ -101208,7 +101344,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       backgroundColor: '#ffffff'
     },
     secondaryButtonText: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 16,
       fontWeight: '700'
     },
@@ -101217,10 +101353,27 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     versionText: {
       marginTop: 20,
-      color: '#66788a',
+      color: '#6b7290',
       fontSize: 14,
       fontWeight: '600',
       textAlign: 'center'
+    },
+    brandCredit: {
+      marginTop: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    brandCreditLogo: {
+      width: 28,
+      height: 28,
+      marginRight: 8
+    },
+    brandCreditText: {
+      color: '#21309B',
+      fontSize: 13,
+      fontWeight: '700',
+      letterSpacing: 0.3
     },
     agendaCard: {
       backgroundColor: '#ffffff',
@@ -101229,20 +101382,20 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       marginBottom: 16
     },
     agendaIndex: {
-      color: '#ef6c3d',
+      color: '#C8202E',
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 1.1,
       marginBottom: 8
     },
     agendaTitle: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 20,
       fontWeight: '800',
       marginBottom: 8
     },
     agendaSubtitle: {
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 15,
       lineHeight: 22
     },
@@ -101252,93 +101405,97 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     agendaCardAlternate: {
       borderWidth: 1,
-      borderColor: '#b7d4c9',
+      borderColor: '#bfe0c9',
       paddingVertical: 22,
       paddingHorizontal: 24,
       marginLeft: 8
     },
     agendaIndexAlternate: {
-      color: '#0f766e',
+      color: '#0f7a35',
       fontSize: 13,
       letterSpacing: 1.4
     },
     agendaTitleAlternate: {
-      color: '#124559',
+      color: '#0d5826',
       fontSize: 22,
       fontStyle: 'italic'
     },
     agendaSubtitleAlternate: {
-      color: '#516b76',
+      color: '#456b50',
       fontSize: 16
     },
     tipBanner: {
-      backgroundColor: '#17324d',
+      backgroundColor: '#21309B',
       borderRadius: 22,
       padding: 20,
       marginBottom: 20
     },
     tipTitle: {
-      color: '#ffd166',
+      color: '#5fd896',
       fontSize: 16,
       fontWeight: '800',
       marginBottom: 8
     },
     tipText: {
-      color: '#f4f7fb',
+      color: '#eef0fb',
       fontSize: 15,
       lineHeight: 22
     },
     tipBannerAlternate: {
-      backgroundColor: '#e3f5ef',
+      backgroundColor: '#e4f6ea',
       borderWidth: 1,
-      borderColor: '#9ac8ba'
+      borderColor: '#a6d9b4'
     },
     tipTitleAlternate: {
-      color: '#0f766e',
+      color: '#0f7a35',
       fontSize: 17
     },
     tipTextAlternate: {
-      color: '#295769'
+      color: '#1f6b39'
     },
     inputLabel: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 16,
       fontWeight: '700',
       marginBottom: 8
     },
     input: {
       borderWidth: 1,
-      borderColor: '#d6dee6',
+      borderColor: '#d3d8ec',
       backgroundColor: '#fdfdfd',
       borderRadius: 16,
       paddingHorizontal: 16,
       paddingVertical: 14,
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 18,
       marginBottom: 8
     },
+    inputDisabled: {
+      backgroundColor: '#eef1fa',
+      color: '#8a93b5'
+    },
     helperText: {
-      color: '#66788a',
+      color: '#6b7290',
       fontSize: 13,
       lineHeight: 18,
       marginBottom: 16
     },
     panelAlternate: {
       borderWidth: 1,
-      borderColor: '#d9e7df',
+      borderColor: '#dbeede',
       paddingTop: 24
     },
     inputLabelAlternate: {
-      color: '#0f766e',
+      color: '#0f7a35',
       fontSize: 17,
       fontStyle: 'italic'
     },
     inputAlternate: {
-      borderColor: '#b6d3c8',
+      borderColor: '#bcdcc6',
       backgroundColor: '#fbfefd'
     },
     helperTextAlternate: {
-      color: '#5b7a72'
+      color: '#4f7a5f'
     },
     loaderWrap: {
       paddingVertical: 20,
@@ -101346,7 +101503,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     loaderText: {
       marginTop: 10,
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 14
     },
     profileCard: {
@@ -101361,7 +101518,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     profileCardAlternate: {
       borderWidth: 1,
-      borderColor: '#d2e3db',
+      borderColor: '#d6ebdc',
       padding: 18,
       marginLeft: 6
     },
@@ -101370,7 +101527,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       height: 74,
       borderRadius: 37,
       marginRight: 14,
-      backgroundColor: '#e8edf2'
+      backgroundColor: '#e6e9f5'
     },
     avatarAlternate: {
       width: 78,
@@ -101381,23 +101538,23 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       flex: 1
     },
     profileName: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 17,
       fontWeight: '800',
       marginBottom: 6
     },
     profileMeta: {
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 13,
       lineHeight: 18,
       marginBottom: 3
     },
     profileNameAlternate: {
-      color: '#124559',
+      color: '#0d5826',
       fontStyle: 'italic'
     },
     profileMetaAlternate: {
-      color: '#5f727c',
+      color: '#557a60',
       fontSize: 14
     },
     webScreenTop: {
@@ -101419,12 +101576,12 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       backgroundColor: 'rgba(255, 255, 255, 0.88)'
     },
     webChecklistLoadingText: {
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 13,
       fontWeight: '600'
     },
     webChecklistReadyText: {
-      color: '#0f766e',
+      color: '#0f7a35',
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 0.8,
@@ -101432,8 +101589,8 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     },
     webChecklistReadyBadge: {
       alignSelf: 'flex-start',
-      backgroundColor: '#e2fbf4',
-      borderColor: '#9be1cd',
+      backgroundColor: '#e4f6ea',
+      borderColor: '#a6d9b4',
       borderRadius: 999,
       borderWidth: 1,
       paddingHorizontal: 12,
@@ -101462,13 +101619,13 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       backgroundColor: '#ffffff'
     },
     summaryCard: {
-      backgroundColor: '#17324d',
+      backgroundColor: '#21309B',
       borderRadius: 28,
       padding: 24,
       marginBottom: 20
     },
     summaryEyebrow: {
-      color: '#ffd166',
+      color: '#5fd896',
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 1,
@@ -101482,42 +101639,67 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       marginBottom: 10
     },
     summaryBody: {
-      color: '#eef5fb',
+      color: '#eef0fb',
       fontSize: 15,
       lineHeight: 22
     },
     summaryCardAlternate: {
-      backgroundColor: '#e3f5ef',
+      backgroundColor: '#e4f6ea',
       borderWidth: 1,
-      borderColor: '#9ac8ba'
+      borderColor: '#a6d9b4'
     },
     summaryEyebrowAlternate: {
-      color: '#0f766e'
+      color: '#0f7a35'
     },
     summaryTitleAlternate: {
-      color: '#124559',
+      color: '#0d5826',
       fontStyle: 'italic',
       fontSize: 30
     },
     summaryBodyAlternate: {
-      color: '#376071'
+      color: '#2f7544'
+    },
+    thankYouCard: {
+      backgroundColor: '#e4f6ea',
+      borderColor: '#a6d9b4',
+      borderWidth: 1,
+      borderRadius: 22,
+      padding: 20,
+      marginBottom: 20
+    },
+    thankYouText: {
+      color: '#0f7a35',
+      fontSize: 18,
+      fontWeight: '800',
+      marginBottom: 6
+    },
+    thankYouLabel: {
+      color: '#0f7a35',
+      fontSize: 14,
+      marginBottom: 4
+    },
+    thankYouId: {
+      color: '#0d5826',
+      fontSize: 18,
+      fontWeight: '800',
+      letterSpacing: 0.5
     },
     bulletRowAlternate: {
       marginLeft: 8
     },
     bulletDotAlternate: {
-      backgroundColor: '#0f766e',
+      backgroundColor: '#0f7a35',
       width: 12,
       height: 12,
       borderRadius: 3
     },
     bulletTextAlternate: {
-      color: '#295769',
+      color: '#1f6b39',
       fontSize: 16
     },
     modalBackdrop: {
       flex: 1,
-      backgroundColor: 'rgba(23, 50, 77, 0.45)',
+      backgroundColor: 'rgba(33, 48, 155, 0.45)',
       justifyContent: 'center',
       padding: 20
     },
@@ -101529,7 +101711,7 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     alertBackdrop: {
       flex: 1,
       alignItems: 'center',
-      backgroundColor: 'rgba(23, 50, 77, 0.45)',
+      backgroundColor: 'rgba(33, 48, 155, 0.45)',
       justifyContent: 'center',
       padding: 20
     },
@@ -101540,19 +101722,19 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       width: '100%'
     },
     alertTitle: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 22,
       fontWeight: '800',
       marginBottom: 10
     },
     alertBody: {
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 15,
       lineHeight: 22,
       marginBottom: 20
     },
     modalEyebrow: {
-      color: '#ef6c3d',
+      color: '#C8202E',
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 1.1,
@@ -101560,19 +101742,19 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
       textTransform: 'uppercase'
     },
     modalTitle: {
-      color: '#17324d',
+      color: '#21309B',
       fontSize: 26,
       fontWeight: '800',
       marginBottom: 10
     },
     modalBody: {
-      color: '#4d6378',
+      color: '#5b6488',
       fontSize: 15,
       lineHeight: 22,
       marginBottom: 20
     }
   });
-},605,[1,178,14,71,2,606,182,2,613,740,850,615],"App.tsx");
+},605,[1,178,14,71,2,606,182,2,613,850,740,851,615],"App.tsx");
 __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
   var _interopRequireDefault = _$$_REQUIRE(_dependencyMap[0], "@babel/runtime/helpers/interopRequireDefault");
   Object.defineProperty(exports, "__esModule", {
@@ -119298,6 +119480,18 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
   module.exports = _$$_REQUIRE(_dependencyMap[0], "react-native/Libraries/Image/AssetRegistry").registerAsset({
     "__packager_asset": true,
     "httpServerLocation": "/assets/assets/images",
+    "width": 2083,
+    "height": 2083,
+    "scales": [1],
+    "hash": "38c732435d5ea83a190c7dadc790570e",
+    "name": "eot-logo",
+    "type": "jpg"
+  });
+},850,[357],"assets/images/eot-logo.jpg");
+__d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+  module.exports = _$$_REQUIRE(_dependencyMap[0], "react-native/Libraries/Image/AssetRegistry").registerAsset({
+    "__packager_asset": true,
+    "httpServerLocation": "/assets/assets/images",
     "width": 960,
     "height": 960,
     "scales": [1],
@@ -119305,13 +119499,13 @@ __d(function (global, _$$_REQUIRE, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, e
     "name": "jio-logo",
     "type": "jpg"
   });
-},850,[357],"assets/images/jio-logo.jpg");
+},851,[357],"assets/images/jio-logo.jpg");
 __d(function(global, require, _importDefaultUnused, _importAllUnused, module, exports, _dependencyMapUnused) {
   module.exports = {
   "name": "MockedE2EDemo",
   "displayName": "App Automation Playground"
 }
 ;
-},851,[],"app.json");
+},852,[],"app.json");
 __r(109);
 __r(0);
