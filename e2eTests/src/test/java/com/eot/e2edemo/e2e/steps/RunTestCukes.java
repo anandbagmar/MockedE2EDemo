@@ -7,9 +7,7 @@ import org.testng.annotations.DataProvider;
 import com.applitools.eyes.selenium.BrowserType;
 import com.applitools.eyes.selenium.Configuration;
 import com.applitools.eyes.visualgrid.model.AndroidMultiDeviceTarget;
-import com.applitools.eyes.visualgrid.model.DeviceName;
 import com.applitools.eyes.visualgrid.model.IosMultiDeviceTarget;
-import com.applitools.eyes.visualgrid.model.ScreenOrientation;
 import com.znsio.teswiz.context.SessionContext;
 import com.znsio.teswiz.context.TestExecutionContext;
 import com.znsio.teswiz.entities.APPLITOOLS;
@@ -66,10 +64,14 @@ public class RunTestCukes
 
     private void addApplitoolsUFGConfigurationToContext() {
         Configuration ufgConfig = new Configuration();
-        ufgConfig.addBrowser(1024, 1024, BrowserType.CHROME);
-        ufgConfig.addBrowser(1024, 1024, BrowserType.FIREFOX);
-        ufgConfig.addDeviceEmulation(DeviceName.iPhone_X, ScreenOrientation.PORTRAIT);
-        ufgConfig.addDeviceEmulation(DeviceName.OnePlus_7T_Pro, ScreenOrientation.LANDSCAPE);
+        ufgConfig.addBrowser(1280, 900, BrowserType.CHROME);
+        ufgConfig.addBrowser(1280, 900, BrowserType.FIREFOX);
+        ufgConfig.addBrowser(1280, 900, BrowserType.EDGE_CHROMIUM);
+        ufgConfig.addBrowser(1280, 900, BrowserType.SAFARI);
+        ufgConfig.addBrowser(1280, 900, BrowserType.CHROME_ONE_VERSION_BACK);
+        ufgConfig.addBrowser(1280, 900, BrowserType.FIREFOX_ONE_VERSION_BACK);
+        ufgConfig.addBrowser(1280, 900, BrowserType.EDGE_CHROMIUM_ONE_VERSION_BACK);
+        ufgConfig.addBrowser(1280, 900, BrowserType.SAFARI_ONE_VERSION_BACK);
         LOGGER.info("Use the following Browsers and devices in UFG config: "
                 + JsonPrettyPrinter.prettyPrint(ufgConfig.getBrowsersInfo()));
         context.addTestState(APPLITOOLS.UFG_CONFIG, ufgConfig);
