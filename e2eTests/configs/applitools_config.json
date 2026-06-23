@@ -6,7 +6,7 @@
   "stitchMode": "css",
   "takeFullPageScreenShot": false,
   "viewportSize": "1280x900",
-  "useUFG": true,
+  "useUFG": false,
   "useNML": false,
   "testConcurrency": 10,
   "showLogs": true,
