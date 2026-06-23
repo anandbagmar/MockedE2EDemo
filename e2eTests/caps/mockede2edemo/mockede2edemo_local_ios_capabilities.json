@@ -5,7 +5,7 @@
     "automationName": "XCUITest",
     "clearSystemFiles": true,
     "deviceName": "iPhone 17 Pro",
-    "platformVersion": "26.4",
+    "platformVersion": "26.5",
     "maxTypingFrequency": 10,
     "fullReset": false,
     "noReset": false,
