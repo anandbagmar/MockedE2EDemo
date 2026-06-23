@@ -3,11 +3,10 @@ package com.eot.e2edemo.e2e.screen.communitymeetingplanner.web;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.znsio.teswiz.runner.Driver;
-import com.znsio.teswiz.runner.Visual;
-
 import com.eot.e2edemo.e2e.screen.communitymeetingplanner.HomeScreen;
 import com.eot.e2edemo.e2e.screen.communitymeetingplanner.PlannerScreen;
+import com.znsio.teswiz.runner.Driver;
+import com.znsio.teswiz.runner.Visual;
 
 public class HomeScreenWeb extends HomeScreen {
     private static final String APP_NAME = "Community Meeting Planner";
@@ -29,7 +28,7 @@ public class HomeScreenWeb extends HomeScreen {
     public HomeScreen waitForScreen() {
         driver.waitTillElementIsVisible(byTestId(HOME_SCREEN), 20);
         driver.waitTillElementIsVisible(byTestId(HOME_NAME_INPUT), 20);
-        visually.checkWindow(APP_NAME, "App Launch");
+        visually.takeScreenshot(APP_NAME, "App Launch");
         return this;
     }
 

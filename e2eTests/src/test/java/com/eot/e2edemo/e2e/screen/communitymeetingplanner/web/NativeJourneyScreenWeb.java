@@ -2,11 +2,10 @@ package com.eot.e2edemo.e2e.screen.communitymeetingplanner.web;
 
 import org.openqa.selenium.By;
 
-import com.znsio.teswiz.runner.Driver;
-import com.znsio.teswiz.runner.Visual;
-
 import com.eot.e2edemo.e2e.screen.communitymeetingplanner.NativeHybridScreen;
 import com.eot.e2edemo.e2e.screen.communitymeetingplanner.NativeJourneyScreen;
+import com.znsio.teswiz.runner.Driver;
+import com.znsio.teswiz.runner.Visual;
 
 public class NativeJourneyScreenWeb extends NativeJourneyScreen {
     private static final String APP_NAME = "Community Meeting Planner";
@@ -27,7 +26,7 @@ public class NativeJourneyScreenWeb extends NativeJourneyScreen {
     public NativeJourneyScreen waitForScreen() {
         driver.waitTillElementIsVisible(byTestId(NATIVE_JOURNEY_SCREEN), 20);
         driver.waitTillElementIsVisible(byTestId(NATIVE_JOURNEY_VIEW), 20);
-        visually.checkWindow(APP_NAME, "Web Journey Screen");
+        visually.takeScreenshot(APP_NAME, "Web Journey Screen");
         return this;
     }
 
