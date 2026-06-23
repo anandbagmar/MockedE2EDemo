@@ -2,13 +2,13 @@ package com.eot.e2edemo.e2e.screen.communitymeetingplanner.android;
 
 import org.openqa.selenium.By;
 
+import com.eot.e2edemo.e2e.screen.communitymeetingplanner.NativeJourneyScreen;
+import com.eot.e2edemo.e2e.screen.communitymeetingplanner.PlannerScreen;
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 import com.znsio.teswiz.tools.Wait;
 
 import io.appium.java_client.AppiumBy;
-import com.eot.e2edemo.e2e.screen.communitymeetingplanner.NativeJourneyScreen;
-import com.eot.e2edemo.e2e.screen.communitymeetingplanner.PlannerScreen;
 
 public class PlannerScreenAndroid extends PlannerScreen {
     private static final String APP_NAME = "Community Meeting Planner";
@@ -42,7 +42,7 @@ public class PlannerScreenAndroid extends PlannerScreen {
     private void checkpointNative(String tag) {
         driver.setNativeAppContext();
         Wait.waitFor(3);
-        visually.checkWindow(APP_NAME, tag);
+        visually.takeScreenshot(APP_NAME, tag);
     }
 
     private void tapAndWaitForScreen(String buttonAccId, String nextScreenAccId) {

@@ -14,7 +14,7 @@ Feature: Scenarios for "Community Meeting Planner" app
   # CONFIG=./configs/mockede2edemo/mockede2edemo_local_ios_config.properties PLATFORM=iOS TAG=@figma ./gradlew runTeswiz
   @communityMeetingPlanner @android @figma
   Scenario: Verify Community Meeting Planner workflow against Figma design
-    Given I have my Figma design with app name "Applitools website", test name "Applitools Full Pages" and baseline name "Applitools Full Pages_1506" available in Applitools
+    Given I have my Figma design with app name "App Automation Playground", test name "Community Meeting Planner-5-11" and baseline name "Community Meeting Planner-5-11_427" available in Applitools
     When I launch the Community Meeting Planner app
     And I run the Community Meeting Planner workflow
     Then I should be back on the home screen

@@ -5,13 +5,13 @@ import org.openqa.selenium.WebElement;
 
 import com.applitools.eyes.appium.AppiumCheckSettings;
 import com.applitools.eyes.appium.Target;
+import com.eot.e2edemo.e2e.screen.communitymeetingplanner.GuestLookupScreen;
+import com.eot.e2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
 import com.znsio.teswiz.runner.Driver;
 import com.znsio.teswiz.runner.Visual;
 import com.znsio.teswiz.tools.Wait;
 
 import io.appium.java_client.AppiumBy;
-import com.eot.e2edemo.e2e.screen.communitymeetingplanner.GuestLookupScreen;
-import com.eot.e2edemo.e2e.screen.communitymeetingplanner.WebChecklistScreen;
 
 public class GuestLookupScreenAndroid extends GuestLookupScreen {
     private static final String APP_NAME = "Community Meeting Planner";
