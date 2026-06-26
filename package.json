@@ -36,7 +36,7 @@
     "eslint": "^9.0.0",
     "jest": "^30.4.2",
     "patch-package": "^8.0.1",
-    "prettier": "3.8.4",
+    "prettier": "3.8.5",
     "react-test-renderer": "19.2.7",
     "typescript": "^6.0.3",
     "@appium/doctor": "2.1.15",
