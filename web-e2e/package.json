@@ -1,0 +1,21 @@
+{
+  "name": "web-e2e",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Playwright + Applitools Eyes tests for the Community Meeting Planner webapp, running against the Specmatic stub.",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:service": "API_TARGET=service playwright test",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@applitools/eyes-playwright": "1.49.3",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=24.16"
+  }
+}

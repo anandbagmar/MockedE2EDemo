@@ -177,3 +177,6 @@ builds/
 .claude/
 .project*
 reports/
+# Playwright (web-e2e)
+test-results/
+playwright-report/
