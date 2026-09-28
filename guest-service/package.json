@@ -1,0 +1,29 @@
+{
+  "name": "guest-service",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Reference implementation of specs/guest-service.yaml for the Community Meeting Planner webapp.",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "stub": "cd .. && specmatic stub",
+    "test:contract": "cd .. && specmatic test",
+    "examples:generate": "node scripts/generate-examples.mjs",
+    "examples:validate": "cd .. && specmatic examples validate --spec-file specs/guest-service.yaml --examples-dir specs/guest-service_examples && specmatic examples validate --spec-file specs/guest-service.yaml --examples-dir specs/ui-states"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.0.0",
+    "specmatic": "2.54.1",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=24.16"
+  }
+}
