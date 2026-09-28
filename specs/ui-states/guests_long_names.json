@@ -1,0 +1,77 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/guests?count=5"
+  },
+  "http-response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "guests": [
+        {
+          "id": "g-001",
+          "title": "Ms",
+          "firstName": "Maximiliana-Alexandrina",
+          "lastName": "Featherstonehaugh-Montgomery",
+          "email": "maximiliana.alexandrina@a-very-long-company-domain.example.com",
+          "phone": "020-5550-0101",
+          "cell": "98200-10101",
+          "city": "Llanfairpwllgwyngyll",
+          "country": "India",
+          "avatarUrl": "avatars/g-001.svg"
+        },
+        {
+          "id": "g-002",
+          "title": "Mr",
+          "firstName": "Bartholomew-Christopher",
+          "lastName": "Vandenberghe-Oppenheimer",
+          "email": "bartholomew.christopher@a-very-long-company-domain.example.com",
+          "phone": "030-5550-0102",
+          "cell": "0151-5550102",
+          "city": "Oberschleissheim-Nord",
+          "country": "Germany",
+          "avatarUrl": "avatars/g-002.svg"
+        },
+        {
+          "id": "g-003",
+          "title": "Mrs",
+          "firstName": "Anastasiya-Konstantina",
+          "lastName": "Papadopoulou-Karamanlis",
+          "email": "anastasiya.konstantina@a-very-long-company-domain.example.com",
+          "phone": "02-5550-0103",
+          "cell": "347-5550103",
+          "city": "Thessaloniki",
+          "country": "Italy",
+          "avatarUrl": "avatars/g-003.svg"
+        },
+        {
+          "id": "g-004",
+          "title": "Mr",
+          "firstName": "Venkataraghavan",
+          "lastName": "Subramaniam-Ramachandran",
+          "email": "venkataraghavan.subramaniam@a-very-long-company-domain.example.com",
+          "phone": "03-5550-0104",
+          "cell": "090-5550-0104",
+          "city": "Thiruvananthapuram",
+          "country": "Japan",
+          "avatarUrl": "avatars/g-004.svg"
+        },
+        {
+          "id": "g-005",
+          "title": "Ms",
+          "firstName": "Wolfeschlegelsteinhausen",
+          "lastName": "Bergerdorff-Lindqvist",
+          "email": "wolfeschlegelsteinhausen@a-very-long-company-domain.example.com",
+          "phone": "01-5550-0105",
+          "cell": "0803-555-0105",
+          "city": "Garmisch-Partenkirchen",
+          "country": "Nigeria",
+          "avatarUrl": "avatars/g-005.svg"
+        }
+      ]
+    }
+  },
+  "transient": true
+}

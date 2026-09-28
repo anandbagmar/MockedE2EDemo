@@ -1,0 +1,248 @@
+openapi: 3.0.3
+info:
+  title: Guest Service
+  version: 1.0.0
+  description: |
+    Backend for the Community Meeting Planner webapp. This contract is the single
+    source of truth for the agenda, guest profiles, meetings and the checklist.
+
+    - The Specmatic stub serves it on http://localhost:9000/api/v1.
+    - The real implementation lives in `guest-service/` on http://localhost:3001/api/v1.
+servers:
+  - url: http://localhost:9000/api/v1
+    description: Specmatic stub
+  - url: http://localhost:3001/api/v1
+    description: guest-service
+paths:
+  /agenda:
+    get:
+      operationId: getAgenda
+      summary: Agenda steps shown on the Planner screen
+      parameters:
+        - name: variant
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/FlowVariant'
+      responses:
+        '200':
+          description: Agenda for the requested variant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agenda'
+        '400':
+          description: Unknown variant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /guests:
+    get:
+      operationId: listGuests
+      summary: Sample guest profiles shown on the GuestLookup screen
+      parameters:
+        - name: count
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 15
+      responses:
+        '200':
+          description: Up to `count` guests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuestList'
+        '400':
+          description: Count is missing or outside 1..15
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: The guest source is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /meetings:
+    post:
+      operationId: createMeeting
+      summary: Create a meeting once guests are loaded
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMeeting'
+      responses:
+        '201':
+          description: Meeting created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '400':
+          description: Invalid meeting request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /meetings/{meetingId}:
+    get:
+      operationId: getMeeting
+      summary: Meeting shown on the Summary screen
+      parameters:
+        - $ref: '#/components/parameters/MeetingId'
+      responses:
+        '200':
+          description: The meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '404':
+          description: Unknown meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /meetings/{meetingId}/checklist:
+    patch:
+      operationId: updateChecklist
+      summary: Update the venue checklist from the Checklist screen
+      parameters:
+        - $ref: '#/components/parameters/MeetingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+      responses:
+        '200':
+          description: The updated meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '404':
+          description: Unknown meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    MeetingId:
+      name: meetingId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^CMP-[A-Z0-9]{8}$'
+  schemas:
+    FlowVariant:
+      type: string
+      enum: [original, alternate]
+    AgendaStep:
+      type: object
+      required: [title, subtitle]
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+    Agenda:
+      type: object
+      required: [variant, steps]
+      properties:
+        variant:
+          $ref: '#/components/schemas/FlowVariant'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgendaStep'
+    Guest:
+      type: object
+      required: [id, title, firstName, lastName, email, phone, cell, city, country, avatarUrl]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        cell:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        avatarUrl:
+          type: string
+          description: Relative paths (e.g. `avatars/g-001.svg`) are served by the webapp itself.
+    GuestList:
+      type: object
+      required: [guests]
+      properties:
+        guests:
+          type: array
+          maxItems: 15
+          items:
+            $ref: '#/components/schemas/Guest'
+    NewMeeting:
+      type: object
+      required: [organizerName, variant, guestIds]
+      properties:
+        organizerName:
+          type: string
+          minLength: 1
+        variant:
+          $ref: '#/components/schemas/FlowVariant'
+        guestIds:
+          type: array
+          minItems: 1
+          maxItems: 15
+          items:
+            type: string
+    Checklist:
+      type: object
+      required: [venueReviewed]
+      properties:
+        venueReviewed:
+          type: boolean
+    Meeting:
+      type: object
+      required: [meetingId, organizerName, variant, guestIds, checklist]
+      properties:
+        meetingId:
+          type: string
+          pattern: '^CMP-[A-Z0-9]{8}$'
+        organizerName:
+          type: string
+        variant:
+          $ref: '#/components/schemas/FlowVariant'
+        guestIds:
+          type: array
+          items:
+            type: string
+        checklist:
+          $ref: '#/components/schemas/Checklist'
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string

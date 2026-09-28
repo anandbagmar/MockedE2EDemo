@@ -1,0 +1,25 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/meetings/CMP-DEMO0002"
+  },
+  "http-response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "meetingId": "CMP-DEMO0002",
+      "organizerName": "Anand",
+      "variant": "alternate",
+      "guestIds": [
+        "g-001",
+        "g-002",
+        "g-003"
+      ],
+      "checklist": {
+        "venueReviewed": true
+      }
+    }
+  }
+}

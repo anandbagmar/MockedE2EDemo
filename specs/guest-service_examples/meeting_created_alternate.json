@@ -1,0 +1,37 @@
+{
+  "http-request": {
+    "method": "POST",
+    "path": "/meetings",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "organizerName": "Anand",
+      "variant": "alternate",
+      "guestIds": [
+        "g-001",
+        "g-002",
+        "g-003"
+      ]
+    }
+  },
+  "http-response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "meetingId": "CMP-DEMO0002",
+      "organizerName": "Anand",
+      "variant": "alternate",
+      "guestIds": [
+        "g-001",
+        "g-002",
+        "g-003"
+      ],
+      "checklist": {
+        "venueReviewed": false
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/meetings/CMP-NOTFOUND"
+  },
+  "http-response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "code": "MEETING_NOT_FOUND",
+      "message": "No meeting with id CMP-NOTFOUND"
+    }
+  }
+}

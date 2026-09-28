@@ -1,0 +1,31 @@
+{
+  "http-request": {
+    "method": "PATCH",
+    "path": "/meetings/CMP-DEMO0001/checklist",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "venueReviewed": true
+    }
+  },
+  "http-response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "meetingId": "CMP-DEMO0001",
+      "organizerName": "Anand",
+      "variant": "original",
+      "guestIds": [
+        "g-001",
+        "g-002",
+        "g-003"
+      ],
+      "checklist": {
+        "venueReviewed": true
+      }
+    }
+  }
+}

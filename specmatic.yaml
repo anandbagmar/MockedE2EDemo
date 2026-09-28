@@ -1,0 +1,15 @@
+# Specmatic configuration for the guest-service contract (specs/guest-service.yaml).
+#   stub: serves the contract + specs/guest-service_examples on :9000 for the webapp and Playwright
+#   test: runs the contract as tests against the real guest-service on :3001
+version: 2
+contracts:
+  - filesystem:
+      directory: specs
+    provides:
+      - baseUrl: http://localhost:3001/api/v1
+        specs:
+          - guest-service.yaml
+    consumes:
+      - baseUrl: http://localhost:9000/api/v1
+        specs:
+          - guest-service.yaml

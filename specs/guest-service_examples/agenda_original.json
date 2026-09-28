@@ -1,0 +1,49 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/agenda?variant=original"
+  },
+  "http-response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "variant": "original",
+      "steps": [
+        {
+          "title": "Welcome Wall",
+          "subtitle": "Guests arrive, scan the day plan, and pick their pace."
+        },
+        {
+          "title": "Snack Voting",
+          "subtitle": "The team chooses between coffee, juices, and street food."
+        },
+        {
+          "title": "Icebreaker Sprint",
+          "subtitle": "Each group shares one app idea they would build in a weekend."
+        },
+        {
+          "title": "Mini Demos",
+          "subtitle": "Product, QA, and automation folks each show a tiny win."
+        },
+        {
+          "title": "Wrap-up Notes",
+          "subtitle": "Attendees leave with contacts and follow-up actions."
+        },
+        {
+          "title": "Photo Wall",
+          "subtitle": "A slow stroll past a few snapshots from the day before everyone moves on."
+        },
+        {
+          "title": "Team Kudos",
+          "subtitle": "A calm moment for a couple of shout-outs and small celebrations."
+        },
+        {
+          "title": "Exit Snacks",
+          "subtitle": "A final friendly stop for refreshments, quick goodbyes, and the last scroll of the page."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "http-request": {
+    "method": "GET",
+    "path": "/guests?count=5"
+  },
+  "http-response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "guests": [
+        {
+          "id": "g-001",
+          "title": "Ms",
+          "firstName": "Asha",
+          "lastName": "Kulkarni",
+          "email": "asha.kulkarni@example.com",
+          "phone": "020-5550-0101",
+          "cell": "98200-10101",
+          "city": "Pune",
+          "country": "India",
+          "avatarUrl": "avatars/g-001.svg"
+        },
+        {
+          "id": "g-002",
+          "title": "Mr",
+          "firstName": "Lukas",
+          "lastName": "Becker",
+          "email": "lukas.becker@example.com",
+          "phone": "030-5550-0102",
+          "cell": "0151-5550102",
+          "city": "Berlin",
+          "country": "Germany",
+          "avatarUrl": "avatars/g-002.svg"
+        },
+        {
+          "id": "g-003",
+          "title": "Mrs",
+          "firstName": "Sofia",
+          "lastName": "Rossi",
+          "email": "sofia.rossi@example.com",
+          "phone": "02-5550-0103",
+          "cell": "347-5550103",
+          "city": "Milan",
+          "country": "Italy",
+          "avatarUrl": "avatars/g-003.svg"
+        },
+        {
+          "id": "g-004",
+          "title": "Mr",
+          "firstName": "Kenji",
+          "lastName": "Tanaka",
+          "email": "kenji.tanaka@example.com",
+          "phone": "03-5550-0104",
+          "cell": "090-5550-0104",
+          "city": "Tokyo",
+          "country": "Japan",
+          "avatarUrl": "avatars/g-004.svg"
+        },
+        {
+          "id": "g-005",
+          "title": "Ms",
+          "firstName": "Amara",
+          "lastName": "Okafor",
+          "email": "amara.okafor@example.com",
+          "phone": "01-5550-0105",
+          "cell": "0803-555-0105",
+          "city": "Lagos",
+          "country": "Nigeria",
+          "avatarUrl": "avatars/g-005.svg"
+        }
+      ]
+    }
+  },
+  "delay-in-milliseconds": 3000,
+  "transient": true
+}
