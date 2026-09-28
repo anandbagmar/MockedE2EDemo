@@ -342,6 +342,31 @@ input.text-input:disabled {
   color: var(--text-muted);
 }
 
+/* Empty and error states (driven by the guest-service contract) */
+.empty-state {
+  text-align: center;
+}
+.empty-title,
+.error-title {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+.empty-title {
+  color: var(--eot-blue);
+}
+.error-panel {
+  border-color: var(--eot-red-disabled);
+}
+.error-title,
+.error-text {
+  color: var(--eot-red-dark);
+}
+.error-text {
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+
 /* Ready badge */
 .ready-badge {
   display: inline-block;

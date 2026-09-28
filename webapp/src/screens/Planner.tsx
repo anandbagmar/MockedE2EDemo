@@ -1,10 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  AGENDA_STEPS,
-  ALTERNATE_AGENDA_STEPS,
-  FlowState,
-  fallbackFlow,
-} from '../lib';
+import { FlowState, fallbackFlow } from '../lib';
+import { getAgenda } from '../api';
+import { useApi } from '../useApi';
 import { SectionTitle } from '../components';
 
 export default function Planner() {
@@ -12,7 +9,7 @@ export default function Planner() {
   const location = useLocation();
   const flow: FlowState = fallbackFlow(location.state as Partial<FlowState>);
   const isAlternate = flow.variant === 'alternate';
-  const steps = isAlternate ? ALTERNATE_AGENDA_STEPS : AGENDA_STEPS;
+  const agenda = useApi(() => getAgenda(flow.variant), [flow.variant]);
 
   return (
     <main className={isAlternate ? 'alternate' : ''} data-testid="planner.screen">
@@ -39,15 +36,30 @@ export default function Planner() {
         testid="planner.section.intro"
       />
 
-      {steps.map((step, index) => (
-        <div className="agenda-card" key={step.title} data-testid={`planner.agenda.${index + 1}.card`}>
-          <p className="idx" data-testid={`planner.agenda.${index + 1}.index`}>
-            0{index + 1}
-          </p>
-          <h3 data-testid={`planner.agenda.${index + 1}.title`}>{step.title}</h3>
-          <p data-testid={`planner.agenda.${index + 1}.body`}>{step.subtitle}</p>
+      {agenda.status === 'loading' ? (
+        <div className="loader" data-testid="planner.loader">
+          Loading the agenda…
         </div>
-      ))}
+      ) : null}
+
+      {agenda.status === 'error' ? (
+        <div className="panel error-panel" data-testid="planner.error">
+          <p className="error-title">Unable to load the agenda</p>
+          <p className="section-body">{agenda.message}</p>
+        </div>
+      ) : null}
+
+      {agenda.status === 'ready'
+        ? agenda.data.steps.map((step, index) => (
+            <div className="agenda-card" key={step.title} data-testid={`planner.agenda.${index + 1}.card`}>
+              <p className="idx" data-testid={`planner.agenda.${index + 1}.index`}>
+                0{index + 1}
+              </p>
+              <h3 data-testid={`planner.agenda.${index + 1}.title`}>{step.title}</h3>
+              <p data-testid={`planner.agenda.${index + 1}.body`}>{step.subtitle}</p>
+            </div>
+          ))
+        : null}
 
       <div className="tip-banner" data-testid="planner.tipBanner">
         <p className="tip-title" data-testid="planner.tipBanner.title">

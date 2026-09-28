@@ -1,26 +1,16 @@
 export type FlowVariant = 'original' | 'alternate';
 
+// uniqueId is the meetingId returned by POST /meetings; it is only known after GuestLookup.
 export type FlowState = {
   variant: FlowVariant;
   name: string;
-  uniqueId: string;
+  uniqueId?: string;
 };
 
-export type PlannerGuest = {
-  login: { uuid: string };
-  name: { title: string; first: string; last: string };
-  email: string;
-  phone: string;
-  cell: string;
-  picture: { large: string; medium: string; thumbnail: string };
-  location: { city: string; country: string };
-};
-
-// Mirrors the mobile app's id format (App.tsx): CMP-<stamp><random>.
-export const generateUniqueId = (): string => {
-  const random = Math.random().toString(36).slice(2, 6).toUpperCase();
-  const stamp = Date.now().toString(36).slice(-4).toUpperCase();
-  return `CMP-${stamp}${random}`;
+// Demo meetings that both the Specmatic stub and guest-service know about.
+export const DEMO_MEETING_IDS: Record<FlowVariant, string> = {
+  original: 'CMP-DEMO0001',
+  alternate: 'CMP-DEMO0002',
 };
 
 export const normalizeName = (value: string): string => {
@@ -51,40 +41,21 @@ export const FEATURE_HIGHLIGHTS = [
   'Complete one lightweight checklist interaction',
 ];
 
-export const AGENDA_STEPS = [
-  { title: 'Welcome Wall', subtitle: 'Guests arrive, scan the day plan, and pick their pace.' },
-  { title: 'Snack Voting', subtitle: 'The team chooses between coffee, juices, and street food.' },
-  { title: 'Icebreaker Sprint', subtitle: 'Each group shares one app idea they would build in a weekend.' },
-  { title: 'Mini Demos', subtitle: 'Product, QA, and automation folks each show a tiny win.' },
-  { title: 'Wrap-up Notes', subtitle: 'Attendees leave with contacts and follow-up actions.' },
-  { title: 'Photo Wall', subtitle: 'A slow stroll past a few snapshots from the day before everyone moves on.' },
-  { title: 'Team Kudos', subtitle: 'A calm moment for a couple of shout-outs and small celebrations.' },
-  { title: 'Exit Snacks', subtitle: 'A final friendly stop for refreshments, quick goodbyes, and the last scroll of the page.' },
-];
-
-export const ALTERNATE_AGENDA_STEPS = [
-  { title: 'Welcome Wall', subtitle: 'Guests arrive, scan the updated day plan, and settle into a relaxed pace.' },
-  { title: 'Snack Voting', subtitle: 'The team picks between coffee, juices, and neighborhood snacks.' },
-  { title: 'Icebreaker Sprint', subtitle: 'Each group shares one app idea they would happily prototype over a weekend.' },
-  { title: 'Mini Demos', subtitle: 'Product, QA, and automation folks each highlight one tiny win.' },
-  { title: 'Wrap-up Notes', subtitle: 'Attendees leave with fresh contacts and a few follow-up actions.' },
-  { title: 'Photo Wall', subtitle: 'A longer, slower pass where guests can browse snapshots from the day.' },
-  { title: 'Team Kudos', subtitle: 'A final stretch for shout-outs, quick thank-yous, and a couple of small wins.' },
-  { title: 'Exit Snacks', subtitle: 'One last scroll-friendly stop with refreshments and a quiet finish.' },
-];
-
 export const SUMMARY_RECAP = [
   'Multi-screen navigation across the workflow',
   'Vertical scrolling in the agenda and results',
   'User input validation with a dismissible alert dialog',
-  'Live API rendering from randomuser.me',
+  'Live API rendering from the guest-service contract',
   'A simple checklist interaction built into the flow',
 ];
 
 // Default flow state when a screen is opened directly (e.g. deep link / refresh)
-// without having walked the flow from Home.
-export const fallbackFlow = (state: Partial<FlowState> | null | undefined): FlowState => ({
-  variant: state?.variant ?? 'original',
-  name: state?.name ?? 'Guest',
-  uniqueId: state?.uniqueId ?? generateUniqueId(),
-});
+// without having walked the flow from Home. Falls back to the demo meeting for the variant.
+export const fallbackFlow = (state: Partial<FlowState> | null | undefined): Required<FlowState> => {
+  const variant = state?.variant ?? 'original';
+  return {
+    variant,
+    name: state?.name ?? 'Guest',
+    uniqueId: state?.uniqueId ?? DEMO_MEETING_IDS[variant],
+  };
+};

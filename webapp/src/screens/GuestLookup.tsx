@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  FlowState,
-  PlannerGuest,
-  fallbackFlow,
-  validateGuestCount,
-} from '../lib';
+import { FlowState, fallbackFlow, validateGuestCount } from '../lib';
+import { Guest, createMeeting, listGuests } from '../api';
 import { SectionTitle } from '../components';
 
 export default function GuestLookup() {
@@ -14,8 +10,9 @@ export default function GuestLookup() {
   const flow: FlowState = fallbackFlow(location.state as Partial<FlowState>);
 
   const [guestCount, setGuestCount] = useState('');
-  const [guests, setGuests] = useState<PlannerGuest[]>([]);
+  const [guests, setGuests] = useState<Guest[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const [alert, setAlert] = useState<{ title: string; message: string } | null>(null);
 
   const loadGuests = async () => {
@@ -26,16 +23,29 @@ export default function GuestLookup() {
     }
     setIsLoading(true);
     try {
-      const res = await fetch(`https://randomuser.me/api/?results=${guestCount.trim()}`);
-      if (!res.ok) {
-        throw new Error(`Request failed with status ${res.status}`);
-      }
-      const payload = await res.json();
-      setGuests(Array.isArray(payload?.results) ? payload.results : []);
+      setGuests(await listGuests(Number(guestCount.trim())));
     } catch {
       setAlert({ title: 'Unable to load profiles', message: 'Please try again in a moment.' });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const hasGuests = guests !== null && guests.length > 0;
+
+  const continueToChecklist = async () => {
+    if (!guests) return;
+    setIsCreating(true);
+    try {
+      const meeting = await createMeeting({
+        organizerName: flow.name,
+        variant: flow.variant,
+        guestIds: guests.map((guest) => guest.id),
+      });
+      navigate('/checklist', { state: { ...flow, uniqueId: meeting.meetingId } });
+    } catch {
+      setAlert({ title: 'Unable to create the meeting', message: 'Please try again in a moment.' });
+      setIsCreating(false);
     }
   };
 
@@ -46,7 +56,7 @@ export default function GuestLookup() {
           type="button"
           className="btn btn-primary"
           onClick={loadGuests}
-          disabled={isLoading || guests.length > 0}
+          disabled={isLoading || hasGuests}
           data-testid="guestLookup.button.fetch"
         >
           {isLoading ? 'Loading Profiles…' : 'Load Profiles'}
@@ -54,11 +64,11 @@ export default function GuestLookup() {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => navigate('/checklist', { state: flow })}
-          disabled={guests.length === 0}
+          onClick={continueToChecklist}
+          disabled={!hasGuests || isCreating}
           data-testid="guestLookup.button.next"
         >
-          Next: Open Checklist
+          {isCreating ? 'Creating Meeting…' : 'Next: Open Checklist'}
         </button>
       </div>
 
@@ -83,7 +93,7 @@ export default function GuestLookup() {
           placeholder="Enter 1 to 15"
           value={guestCount}
           onChange={(e) => setGuestCount(e.target.value)}
-          disabled={guests.length > 0}
+          disabled={hasGuests}
           data-testid="guestLookup.input.count"
         />
         <p className="helper-text" data-testid="guestLookup.helper.count">
@@ -97,32 +107,43 @@ export default function GuestLookup() {
         </div>
       ) : null}
 
-      {guests.length > 0 ? (
+      {guests !== null && guests.length === 0 ? (
+        <div className="panel empty-state" data-testid="guestLookup.empty">
+          <p className="empty-title" data-testid="guestLookup.empty.title">
+            No guests found
+          </p>
+          <p className="section-body" data-testid="guestLookup.empty.body">
+            The guest list came back empty. Try a different number of guests.
+          </p>
+        </div>
+      ) : null}
+
+      {guests !== null && guests.length > 0 ? (
         <div data-testid="guestLookup.results">
           <SectionTitle
             eyebrow="Results"
             title={`Loaded ${guests.length} sample guest${guests.length > 1 ? 's' : ''}`}
-            body="Each card below is rendered from the live API response."
+            body="Each card below is rendered from the guest-service API response."
             testid="guestLookup.section.results"
           />
           <div className="profile-grid" data-testid="guestLookup.cards.list">
             {guests.map((guest, index) => (
-              <div className="profile-card" key={guest.login.uuid} data-testid={`guestLookup.profile.${index + 1}.card`}>
+              <div className="profile-card" key={guest.id} data-testid={`guestLookup.profile.${index + 1}.card`}>
                 <img
                   className="avatar"
-                  src={guest.picture.large}
+                  src={guest.avatarUrl}
                   alt=""
                   data-testid={`guestLookup.profile.${index + 1}.avatar`}
                 />
                 <div>
                   <p className="pname" data-testid={`guestLookup.profile.${index + 1}.name`}>
-                    {guest.name.title} {guest.name.first} {guest.name.last}
+                    {guest.title} {guest.firstName} {guest.lastName}
                   </p>
                   <p className="pmeta" data-testid={`guestLookup.profile.${index + 1}.email`}>
                     {guest.email}
                   </p>
                   <p className="pmeta" data-testid={`guestLookup.profile.${index + 1}.location`}>
-                    {guest.location.city}, {guest.location.country}
+                    {guest.city}, {guest.country}
                   </p>
                   <p className="pmeta" data-testid={`guestLookup.profile.${index + 1}.phone`}>
                     Phone: {guest.phone} | Cell: {guest.cell}

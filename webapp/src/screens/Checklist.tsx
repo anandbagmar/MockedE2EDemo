@@ -1,13 +1,29 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FlowState, fallbackFlow } from '../lib';
+import { updateChecklist } from '../api';
 import { SectionTitle } from '../components';
 
 export default function Checklist() {
   const navigate = useNavigate();
   const location = useLocation();
-  const flow: FlowState = fallbackFlow(location.state as Partial<FlowState>);
+  const flow = fallbackFlow(location.state as Partial<FlowState>);
   const [completed, setCompleted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const confirmChecklist = async () => {
+    setIsSaving(true);
+    setError(null);
+    try {
+      const meeting = await updateChecklist(flow.uniqueId, true);
+      setCompleted(meeting.checklist.venueReviewed);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <main data-testid="webChecklist.screen">
@@ -33,12 +49,17 @@ export default function Checklist() {
         <button
           type="button"
           className="btn btn-success"
-          onClick={() => setCompleted(true)}
-          disabled={completed}
+          onClick={confirmChecklist}
+          disabled={completed || isSaving}
           data-testid="webChecklist.button.confirm"
         >
-          {completed ? 'Checklist marked as ready' : 'Mark checklist as ready'}
+          {completed ? 'Checklist marked as ready' : isSaving ? 'Saving…' : 'Mark checklist as ready'}
         </button>
+        {error ? (
+          <p className="error-text" data-testid="webChecklist.error">
+            Unable to update the checklist: {error}
+          </p>
+        ) : null}
       </div>
 
       <div className="top-actions">

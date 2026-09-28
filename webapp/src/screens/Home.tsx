@@ -4,7 +4,6 @@ import {
   APP_VERSION,
   FEATURE_HIGHLIGHTS,
   FlowVariant,
-  generateUniqueId,
   normalizeName,
 } from '../lib';
 import { BrandBar, PoweredByEssence, SectionTitle, eotLogo } from '../components';
@@ -18,7 +17,6 @@ export default function Home() {
       state: {
         variant,
         name: normalizeName(name),
-        uniqueId: generateUniqueId(),
       },
     });
   };
